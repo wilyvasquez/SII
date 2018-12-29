@@ -52,3 +52,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['inventario'] = 'CtrAdmin/inventario';
+$route['sucursal']   = 'CtrAdmin/sucursal';
+$route['cliente']    = 'CtrAdmin/cliente';
+$route['usuario']    = 'CtrAdmin/usuarios';
+$route['folios']     = 'CtrAdmin/folios';
+
+$route['pcliente/(:num)']   = 'CtrAdmin/perfil_cliente/$1';
+
+/**
+ * 
+ */
+$route['prefactura']      = 'CtrAdmin/pre_factura';
+$route['factura/(:num)']  = 'CtrAdmin/factura/$1';
+$route['descarga/(:any)'] = 'CtrAdmin/descarga/$1';
+$route['xml/(:any)']      = 'CtrAdmin/descargas_xml/$1';

@@ -34,6 +34,9 @@ class Facturapi {
         $this->CI->api_usuario  = "demo33"; # usuario de la API (registrado en app.facturadigital.com.mx/registro)
         $this->CI->api_password = "demo"; # contraseña
 
+        // $this->CI->api_usuario  = "AMM1406102C2"; # usuario de la API (registrado en app.facturadigital.com.mx/registro)
+        // $this->CI->api_password = "11620157"; # contraseña
+
         # crea el cliente
         $this->CI->client = new GuzzleHttp\Client([
         	'base_uri' => $endpoint
