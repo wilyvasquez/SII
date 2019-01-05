@@ -10,7 +10,7 @@ class Modelo_articulos extends CI_Model
 	function insert_venta($datos)
 	{
 		$this->db->trans_begin();
-		$this->db->insert('producto_facturado', $datos);
+		$this->db->insert('factura', $datos);
 		$id = $this->db->insert_id();
 		if ($this->db->trans_status() === FALSE)
  		{

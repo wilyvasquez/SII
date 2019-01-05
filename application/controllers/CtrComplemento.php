@@ -7,13 +7,13 @@ class CtrComplemento extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('Facturapi');
-        $this->facturas = 'assets/pdf/facturas/';
-        $this->load->model('Modelo_cliente');
-        $this->load->model('Modelo_sucursal');
-        $this->load->model('Modelo_articulos');
-        $this->load->model('Modelo_inventario');
-        $this->load->model('Modelo_timbrado');
-        $this->load->model('Modelo_sat');
+        $this->facturas = 'assets/pdf/complementos/';
+        // $this->load->model('Modelo_cliente');
+        // $this->load->model('Modelo_sucursal');
+        // $this->load->model('Modelo_articulos');
+        // $this->load->model('Modelo_inventario');
+        // $this->load->model('Modelo_timbrado');
+        // $this->load->model('Modelo_sat');
     }
 
     public function complemento()
@@ -129,30 +129,20 @@ class CtrComplemento extends CI_Controller {
         print_r( json_encode($d) );
         echo "</pre>";
 
-        # preparamos los datos
-        $headers = array('Accept'       => 'application/json', 
-                        'api-usuario'   => 'demo33', 
-                        'api-password'  => 'demo', 
-                        'jsoncfdi'      =>  json_encode($d) );
+        # llamamos al método de timbrado
+        $timbrar = $this->facturapi->generar_cfdi( $d );
 
-        # hacemos la petición y enviamos los parametros
-        $response = Unirest\Request::post('http://app.facturadigital.com.mx/api/cfdi/generar', $headers);
+        # guardamos los datos del nuevo cfdi recién timbrado en nuestra base de datos
+        $uuid    = $timbrar->UUID;
+        $url_PDF = $timbrar->PDF;
+        $url_XML = $timbrar->XML;
 
-        $response->code;        // HTTP Status code
-        $response->headers;     // Headers
-        $response->body;        // Parsed body
-        $response->raw_body;    // Unparsed body
+        $ruta_destino = $this->facturas;
 
-        # si el timbrado es exitoso (200):
-        if ( $response->code == 200 ) {
-            # imprimimos los datos del CFDI
-            echo "<pre>";
-            var_dump( $response->body );
-            echo "</pre>";
-        } else {
-            # imprimimos la respuesta (JSON)
-            echo $response->raw_body;
-        }
+        # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:
+        copy($url_PDF,$ruta_destino . $uuid . ".pdf");
+        copy($url_XML,$ruta_destino . $uuid . ".xml");
+
     }
 
     function resultado($peticion,$uuid)

@@ -13,7 +13,7 @@
               <option value="">Selecciona</option>
             <?php if (!empty($articulos)) {
             foreach ($articulos ->result() as $articulo) { ?>
-              <option value="<?= $articulo->id_articulo ?>"><?= $articulo->articulo ?></option>
+              <option value="<?= $articulo->id_articulo ?>"><?= $articulo->codigo_interno ?></option>
             <?php } } ?>
           </select>
         </div>

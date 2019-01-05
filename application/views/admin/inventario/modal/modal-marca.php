@@ -11,18 +11,19 @@
           <div class="box-body">
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="fabricante">Marca</label>
-                <input type="text" class="form-control" id="fabricante" placeholder="Marca" required>
+                <label for="marca">Marca</label>
+                <input type="text" class="form-control" name="marca" placeholder="Marca" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="direccion">Nombre</label>
-                <input type="text" class="form-control" id="direccion" placeholder="Nombre" required="">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
               </div>
             </div>
             <div class="form-group">
-              <label for="marca">Observaciones</label>
-              <textarea class="form-control" rows="3" placeholder="Observaciones ..."></textarea>
+              <label for="observaciones">Observaciones</label>
+              <textarea class="form-control" rows="3" name="observaciones" placeholder="Observaciones ..."></textarea>
             </div>
+            <div id="ntf-marca"></div>
           </div>
         </div>
         <div class="modal-footer">

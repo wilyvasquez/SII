@@ -57,7 +57,7 @@ $(function(){
       "id_cliente"  : id_cliente,
     };
     $.ajax({
-      url: "../CtrFactura/factura",
+      url: "../CtrFactura/timbrado",
       type: "post",
       dataType: "html",
       data: par,
@@ -71,6 +71,7 @@ $(function(){
         var json = $.parseJSON(response);
         $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);
+        // console.log(response);
       }
     })
   });
@@ -156,6 +157,15 @@ $(document).on("click", ".open-Editar", function () {
   var costo = $(this).data('costo');
   $(".modal-body #costo").val( costo );
 });
+
+/**
+ * INICIO DE LOS MODALES ELIMINAR Y EDITAR
+ */
+$(document).on("click", ".open-uuid", function () {
+  var uuid = $(this).data('uuid');
+  $(".modal-body #uuid").val( uuid );
+});
+
 
 /**
  * FUNCIONA QUE ELIMINA UN ARTICULO DE LA TABLA QUE SE AGREGARON AL CLIENTE

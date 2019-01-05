@@ -171,10 +171,11 @@ class CtrAdmin extends CI_Controller {
 
 	public function pre_factura()
 	{
+		$this->eliminar_uuid();
 		$data["timbrado"]    = "active";
 		$data["factura"]     = "active";
 		$data["title"]       = "Pre - Factura";
-		$data["subtitle"]    = "Crear Relacion";
+		$data["subtitle"]    = "Crear Factura";
 		$data["contenido"]   = "admin/factura/factura";
 		$data["menu"]        = "admin/menu_admin";
 		$data['clientes']    = $this->Modelo_cliente->get_clientes();
@@ -211,22 +212,31 @@ class CtrAdmin extends CI_Controller {
 		}else{
 			$relacionar      = $this->input->post("relacionar");
 			if ($relacionar == "SI") {
-
-				$data['factura'] = $this->Modelo_cliente->get_facturas();
-				$result          = $data['factura']->result();
-
-				if (!empty($result)) {
-
-					$data['trelaciones'] = $this->Modelo_sat->get_tipoRelacion();
-					$this->load->view('admin/factura/ajax/referencia_uuid',$data);
-
-				}else{
-
-					echo "<p>Este cliente no tiene facturas realizadas</p>";	
-
-				}
+				$data['factura']  = $this->Modelo_cliente->get_facturas();
+				$data['relacion'] = $this->Modelo_sat->get_tipoRelacion();				
+				$this->load->view('admin/factura/ajax/referencia_uuid',$data);
 			}
 		}
+	}
+
+	function ajax_agregar_relacion()
+	{
+		$data = array(
+			'uuid'         => $this->input->post("cfdi"), 
+			't_relacion'   => $this->input->post("trelacion"), 
+			'ref_preventa' => 1
+		);
+		$this->Modelo_timbrado->put_relacion($data);
+		$data["uuids"] = $this->Modelo_timbrado->get_relacion();
+		$this->load->view('admin/factura/tabla-relacion',$data);
+	}
+
+	function delete_uuid()
+	{
+		$id = $this->input->post("uuid");
+		$this->Modelo_timbrado->delete_relacion($id);
+		$data["uuids"] = $this->Modelo_timbrado->get_relacion();
+		$this->load->view('admin/factura/tabla-relacion',$data);
 	}
 
 	function generar_prefactura()
@@ -241,6 +251,7 @@ class CtrAdmin extends CI_Controller {
 
 	public function push_prefactura()
 	{
+		// $relacion = $this->input->post("relacionar");
 		$preventa  = 1;
 		$condicion = "CREDITO";
 		$codigo    = $this->Modelo_timbrado->get_codigo();
@@ -260,7 +271,8 @@ class CtrAdmin extends CI_Controller {
 			'ref_cliente'      => $this->input->post("cliente"),
 			'ref_formapago'    => $this->input->post("forma"),
 			'ref_metodopago'   => $this->input->post("metodo"),
-			'ref_usocfdi'      => $this->input->post("cfdi")
+			'ref_usocfdi'      => $this->input->post("cfdi"),
+			// 'relacion_uuid'    => $relacion
 		);
 		$id = $this->Modelo_timbrado->put_preventa($data);
 		echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>';
@@ -276,7 +288,7 @@ class CtrAdmin extends CI_Controller {
 	 */
 	public function factura($id)
 	{
-		$this->validacion_timbrado($id);
+		$this->validacion_timbrado($id);		
 		$data["timbrado"]    = "active";
 		$data["factura"]     = "active";
 		$data["title"]       = "Factura";
@@ -299,6 +311,11 @@ class CtrAdmin extends CI_Controller {
 		$this->load->view('universal/plantilla',$data);
 	}
 
+	function eliminar_uuid()
+	{
+		$id = 1;
+		$this->Modelo_timbrado->delete_uuid($id);
+	}
 
 	public function timbrar_articulos()
 	{
@@ -318,6 +335,7 @@ class CtrAdmin extends CI_Controller {
 			'alta_apreventa' => date("Y-m-d H:i:s"),
 			'importe'        => $cantidad * $costo,
 			'descuento'      => 0,
+			'descripcion_preventa'    => $this->input->post("descripcion"),
 			'ref_articulo'   => $this->input->post("codigo"),
 			'ref_pre_venta'  => $this->input->post("ids")
 		);
@@ -363,12 +381,16 @@ class CtrAdmin extends CI_Controller {
 	 */
 	public function put_inventario()
 	{
+		$id_clave = $this->input->post("unidad");
+		$clave    = $this->Modelo_sat->get_clave($id_clave);
+
 		$data = array(
 			'articulo'         => $this->input->post("articulo"),
+			'codigo_sat'       => $this->input->post("clave"),
 			'descripcion'      => $this->input->post("descripcion"),
 			'costo'            => $this->input->post("costo"),
-			'unidad'           => $this->input->post("unidad"),
-			'clave_sat'        => $this->input->post("clave"),
+			'unidad'           => $clave->clave,
+			'clave_sat'        => $clave->c_ClaveUnidad,
 			'codigo_interno'   => $this->input->post("codigoi"),
 			'cantidad'         => $this->input->post("cantidad"),
 			'estatus_articulo' => "Activo",
@@ -390,6 +412,9 @@ class CtrAdmin extends CI_Controller {
 		$data["menu"]       = "admin/menu_admin";
 		$data['clave']      = $this->Modelo_sat->get_claveSat();
 		$data['articulos']  = $this->Modelo_articulos->get_articulos();
+		$data['marcas']     = $this->Modelo_inventario->get_marca();
+		$data['lineas']     = $this->Modelo_inventario->get_linea();
+		$data['fabricantes']= $this->Modelo_inventario->get_fabricante();
 		$data["modal_f"]    = $this->load->view('admin/inventario/modal/modal-fabricante',null,true);
 		$data["modal_l"]    = $this->load->view('admin/inventario/modal/modal-linea',null,true);
 		$data["modal_m"]    = $this->load->view('admin/inventario/modal/modal-marca',null,true);

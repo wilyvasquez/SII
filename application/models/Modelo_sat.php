@@ -27,6 +27,16 @@ class Modelo_sat extends CI_Model
 		}
 	}
 
+	function get_clave($id)
+	{
+		$query = $this->db->query("SELECT * from clave_sat where id_clave = $id ");
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
 	function get_metodoPagos()
 	{
 		$query = $this->db->get('metodo_pago');

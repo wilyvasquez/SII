@@ -2,7 +2,7 @@
   <tr style="background: #4C9DBD">
     <th>Cantidad</th>
     <th>Codigo</th>
-    <th>Descripcion</th>
+    <th>Articulo</th>
     <th>Valor</th>
     <th>Importe</th>
     <th>Desc</th>
@@ -13,7 +13,7 @@
   <tr>
     <td><?= $articulo->cantidad_venta ?></td>
     <td><?= $articulo->codigo_interno ?></td>
-    <td><?= $articulo->descripcion ?></td>
+    <td><?= $articulo->articulo ?></td>
     <td>$<?= $articulo->costo ?></td>
     <td>$<?= $articulo->importe ?></td>
     <td><?= $articulo->descuento ?></td>

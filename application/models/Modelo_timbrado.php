@@ -89,9 +89,44 @@ class Modelo_timbrado extends CI_Model
 		$this->db->delete('pre_venta'); 
 	}
 
-	function borrar_apreventa($id){
+	function borrar_apreventa($id)
+	{
 		$this->db->where('ref_pre_venta', $id);
 		$this->db->delete('articulo_preventa'); 
+	}
+
+	function put_relacion($datos)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('relacion_uuid', $datos);
+		if ($this->db->trans_status() === FALSE)
+ 		{
+        	$msg = $this->db->trans_rollback();
+        	return false;
+ 		}else{
+ 			$msg = $this->db->trans_commit();
+ 			return true;
+ 		}
+	}
+
+	function get_relacion($id)
+	{
+		$query = $this->db->query("SELECT *  FROM relacion_uuid where ref_preventa = $id"); 
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function delete_relacion($id){
+		$this->db->where('id_relacion', $id);
+		$this->db->delete('relacion_uuid'); 
+	}
+
+	function delete_uuid($id){
+		$this->db->where('ref_preventa', $id);
+		$this->db->delete('relacion_uuid'); 
 	}
 
 }

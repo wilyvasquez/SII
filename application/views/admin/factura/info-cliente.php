@@ -67,7 +67,7 @@
     </div>
     <div class="box-footer" id="ntf-cliente">
 
-      <button type="submit" class="btn btn-primary btn-sm pull-right">Generar Relacion</button>
+      <button type="submit" class="btn btn-primary btn-sm pull-right">Generar <?= $title ?></button>
     </div>
   </div>
   <!-- <dir style="height: 10px"></dir> -->

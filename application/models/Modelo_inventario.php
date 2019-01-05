@@ -31,6 +31,76 @@ class Modelo_inventario extends CI_Model
 		}
 	}
 
+	function put_marca($datos)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('marca', $datos);
+		if ($this->db->trans_status() === FALSE)
+ 		{
+        	$msg = $this->db->trans_rollback();
+        	return false;
+ 		}else{
+ 			$msg = $this->db->trans_commit();
+ 			return true;
+ 		}
+	}
 
+	function get_marca()
+	{
+		$query = $this->db->query("SELECT * from marca");
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function put_linea($datos)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('linea', $datos);
+		if ($this->db->trans_status() === FALSE)
+ 		{
+        	$msg = $this->db->trans_rollback();
+        	return false;
+ 		}else{
+ 			$msg = $this->db->trans_commit();
+ 			return true;
+ 		}
+	}
+
+	function get_linea()
+	{
+		$query = $this->db->query("SELECT * from linea");
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function put_fabricante($datos)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('fabricante', $datos);
+		if ($this->db->trans_status() === FALSE)
+ 		{
+        	$msg = $this->db->trans_rollback();
+        	return false;
+ 		}else{
+ 			$msg = $this->db->trans_commit();
+ 			return true;
+ 		}
+	}
+
+	function get_fabricante()
+	{
+		$query = $this->db->query("SELECT * from fabricante");
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
 }
 ?>

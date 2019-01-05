@@ -5,7 +5,7 @@
       <?php if (!empty($info)) { echo $info; }?>
     </div>
     <div class="col-md-6">
-      <?php if (!empty($relacion)) { echo $relacion; }?>
+      
     </div>
   </form>
 </div>

@@ -10,7 +10,7 @@
     </a>
     <ul class="treeview-menu">
       <li class="<?php if(!empty($factura)){ echo $factura; } ?>"><a href="<?= base_url() ?>prefactura"><i class="fa fa-circle-o"></i> Factura</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Nota de credito</a></li>
+      <li class="<?php if(!empty($ncredito)){ echo $ncredito; } ?>"><a href="<?= base_url() ?>prencredito"><i class="fa fa-circle-o"></i> Nota de credito</a></li>
       <li><a href="#"><i class="fa fa-circle-o"></i> Recibo de pago</a></li>
     </ul>
   </li>

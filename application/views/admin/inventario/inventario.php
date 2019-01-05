@@ -26,7 +26,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Clave</label>
-              <input type="number" class="form-control" name="clave" placeholder="Nombre Articulo" minlength="8" required>
+              <input type="text" class="form-control" name="clave" placeholder="Nombre Articulo" minlength="8" maxlength="8" required>
               <!-- <select class="form-control select2" style="width: 100%;" name="cve_pro" data-placeholder="Selecciona" required>
                 <?php if (!empty($clave)) {
                 foreach ($clave ->result() as $claves) { ?>
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="cantidad">Cantidad</label>
-              <input type="text" class="form-control" name="cantidad" placeholder="Cantidad" required>
+              <input type="number" class="form-control" name="cantidad" placeholder="Cantidad" required>
             </div>
           </div>
           <div class="form-group">
@@ -44,7 +44,7 @@
             <select class="form-control select2" style="width: 100%;" name="unidad" data-placeholder="Selecciona" required>
               <?php if (!empty($clave)) {
               foreach ($clave ->result() as $claves) { ?>
-                <option value="<?= $claves->clave ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
+                <option value="<?= $claves->id_clave ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
               <?php } } ?>
             </select>
           </div>
@@ -59,15 +59,15 @@
           </div>     -->      
           <div class="form-group">
             <label>Marca</label>
-            <select class="form-control select2" style="width: 100%;" name="marca" data-placeholder="Selecciona" required>
-              <option value="">Selecciona</option>
-              <option>Alaska</option>
-              <option>California</option>
-              <option>Delaware</option>
-              <option>Tennessee</option>
-              <option>Texas</option>
-              <option>Washington</option>
-            </select>
+            <div id="ajax-marca">
+              <select class="form-control select2" style="width: 100%;" name="marca" data-placeholder="Selecciona" required>
+                <option value="">Selecciona</option>
+                  <?php if (!empty($marcas)) {
+                    foreach ($marcas ->result() as $marca) { ?>
+                    <option value="<?= $marca->id_marca ?>"><?= $marca->marca ?> - <?= $marca->nombre ?></option>
+                  <?php } } ?>
+              </select>
+            </div>
             <!-- <a href="#" class="selecciona test" data-toggle="modal" data-target=".addmarca">
               <i class="fa fa-plus"></i> Registrar nueva Marca
             </a> -->
@@ -75,34 +75,28 @@
           </div>
           <div class="form-group">
             <label>Linea</label>
-            <select class="form-control select2" style="width: 100%;" name="linea" data-placeholder="Selecciona" required>
-              <option value="">Selecciona</option>
-              <option>Alaska</option>
-              <option>California</option>
-              <option>Delaware</option>
-              <option>Tennessee</option>
-              <option>Texas</option>
-              <option>Washington</option>
-            </select>
-            <!-- <a href="#" class="selecciona test" data-toggle="modal" data-target=".addlinea">
-              <i class="fa fa-plus"></i> Registrar nueva linea
-            </a> -->
+            <div id="ajax-linea">
+              <select class="form-control select2" style="width: 100%;" name="linea" data-placeholder="Selecciona" required>
+                <option value="">Selecciona</option>
+                  <?php if (!empty($lineas)) {
+                    foreach ($lineas ->result() as $linea) { ?>
+                    <option value="<?= $linea->id_linea ?>"><?= $linea->linea ?> - <?= $linea->nombre ?></option>
+                  <?php } } ?>
+              </select>
+            </div>
              <button style="margin-top: 2px" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".addlinea"><i class="fa fa-plus"></i> Registrar nueva linea</button>
           </div>
           <div class="form-group">
             <label>Fabricante</label>
-            <select class="form-control select2" style="width: 100%;" name="fabricante" data-placeholder="Selecciona" required>
-              <option value="">Selecciona</option>
-              <option>Alaska</option>
-              <option>California</option>
-              <option>Delaware</option>
-              <option>Tennessee</option>
-              <option>Texas</option>
-              <option>Washington</option>
-            </select>
-            <!-- <a href="#" class="selecciona test" data-toggle="modal" data-target=".addfabricante">
-              <i class="fa fa-plus"></i> Registrar nuevo Fabricante
-            </a> -->
+            <div id="ajax-fabricante">
+              <select class="form-control select2" style="width: 100%;" name="linea" data-placeholder="Selecciona" required>
+                <option value="">Selecciona</option>
+                  <?php if (!empty($fabricantes)) {
+                    foreach ($fabricantes ->result() as $fabricante) { ?>
+                    <option value="<?= $fabricante->id_fabricante ?>"><?= $fabricante->fabricante ?> - <?= $fabricante->rfc ?></option>
+                  <?php } } ?>
+              </select>
+            </div>
             <button style="margin-top: 2px" type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".addfabricante"><i class="fa fa-plus"></i> Registrar nuevo Fabricante</button>
           </div>
           <div class="form-group">

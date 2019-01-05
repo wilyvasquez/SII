@@ -6,39 +6,39 @@
           <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Agregar Fabricante</h4>
       </div>
-      <div class="modal-body">
-        <form role="form">
+      <form role="form" id="addfabricante">
+        <div class="modal-body">
           <div class="box-body">
             <div class="form-group">
               <label for="fabricante">Fabricante</label>
-              <input type="text" class="form-control" id="fabricante" placeholder="Nombre del fabricante">
+              <input type="text" class="form-control" name="fabricante" placeholder="Nombre del fabricante" required>
             </div>
             <div class="form-group">
               <label for="direccion">Direccion</label>
-              <input type="text" class="form-control" id="direccion" placeholder="Direccion">
+              <input type="text" class="form-control" name="direccion" placeholder="Direccion" required>
             </div>
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="marca">Telefono</label>
-                <input type="text" class="form-control" id="descripcion" placeholder="Telefono">
+                <label for="telefono">Telefono</label>
+                <input type="text" class="form-control" name="telefono" placeholder="Telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
               </div>
               <div class="form-group col-md-6">
-                <label for="marca">RFC</label>
-                <input type="text" class="form-control" id="descripcion" placeholder="RFC">
+                <label for="rfc">RFC</label>
+                <input type="text" class="form-control" name="rfc" placeholder="RFC" required>
               </div>
             </div>
             <div class="form-group">
-              <label for="marca">Observaciones</label>
-              <textarea class="form-control" rows="3" placeholder="Observaciones ..."></textarea>
+              <label for="observaciones">Observaciones</label>
+              <textarea class="form-control" rows="3" name="observaciones" placeholder="Observaciones ..."></textarea>
             </div>
+            <div id="ntf-fabricante"></div>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Actualizar</button>
-      </div>
-
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Actualizar</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

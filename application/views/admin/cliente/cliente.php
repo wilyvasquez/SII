@@ -13,28 +13,28 @@
             <label for="cliente">Nombre Cliente</label>
             <input type="text" class="form-control" name="cliente" placeholder="Nombre Cliente" required>
           </div>
+          <div class="form-group">
+            <label for="rfc">RFC</label>
+            <input type="text" class="form-control" name="rfc" placeholder="RFC" required>
+          </div>
+          <div class="form-group">
+            <label for="ucfdi">Uso CFDI</label>
+            <select class="form-control select2" style="width: 100%;" name="ucfdi">
+              <?php if (!empty($ucfdis)) {
+                foreach ($ucfdis ->result() as $ucfdi) { ?>
+                  <option value="<?= $ucfdi->c_usoCFDI ?>"><?= $ucfdi->c_usoCFDI ?> - <?= $ucfdi->uso_cfdi ?> </option>
+              <?php } } ?>
+            </select>
+          </div>
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="rfc">RFC</label>
-              <input type="text" class="form-control" name="rfc" placeholder="RFC" required>
+              <label for="telefono">Telefono</label>
+              <input type="text" class="form-control" name="telefono" placeholder="Telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
             </div>
             <div class="form-group col-md-6">
-              <label for="ucfdi">Uso CFDI</label>
-              <select class="form-control select2" style="width: 100%;" name="ucfdi">
-                <<?php if (!empty($ucfdis)) {
-                  foreach ($ucfdis ->result() as $ucfdi) { ?>
-                    <option value="<?= $ucfdi->c_usoCFDI ?>"><?= $ucfdi->c_usoCFDI ?> - <?= $ucfdi->uso_cfdi ?> </option>
-                <?php } } ?>
-              </select>
+              <label for="correo">Correo</label>
+              <input type="email" class="form-control" name="correo" placeholder="Correo" required>
             </div>            
-          </div>
-          <div class="form-group">
-            <label for="telefono">Telefono</label>
-            <input type="text" class="form-control" name="telefono" placeholder="Telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
-          </div>
-          <div class="form-group">
-            <label for="correo">Correo</label>
-            <input type="email" class="form-control" name="correo" placeholder="Correo" required>
           </div>
           <!-- <div class="row">
             <div class="form-group col-md-6">

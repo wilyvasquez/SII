@@ -68,3 +68,6 @@ $route['prefactura']      = 'CtrAdmin/pre_factura';
 $route['factura/(:num)']  = 'CtrAdmin/factura/$1';
 $route['descarga/(:any)'] = 'CtrAdmin/descarga/$1';
 $route['xml/(:any)']      = 'CtrAdmin/descargas_xml/$1';
+
+$route['prencredito']     = 'CtrNotaCredito/pre_factura';
+$route['ncredito/(:num)'] = 'CtrNotaCredito/nota_credito/$1';

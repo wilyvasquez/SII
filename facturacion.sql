@@ -2428,6 +2428,15 @@ CREATE TABLE clave_sat
     PRIMARY KEY (id_clave)
 );
 
+CREATE TABLE relacion_uuid
+(
+    id_relacion int not null AUTO_INCREMENT,
+    uuid varchar (100),
+    t_relacion varchar (100),
+    ref_preventa int,
+    PRIMARY KEY (id_relacion)
+);
+
 CREATE TABLE sucursal
 (
     id_sucursal int not null AUTO_INCREMENT,
@@ -2573,4 +2582,31 @@ CREATE TABLE articulo
     ref_linea int,
     ref_sucursal int,
     PRIMARY KEY (id_articulo)
+);
+
+CREATE TABLE marca
+(
+    id_marca serial not null AUTO_INCREMENT,
+    marca varchar(100),
+    nombre varchar(100),
+    descripcion text,
+    PRIMARY KEY (id_marca)
+);
+
+CREATE TABLE linea
+(
+    id_linea serial not null AUTO_INCREMENT,
+    linea varchar(100),
+    nombre varchar(100),
+    descripcion text,
+    PRIMARY KEY (id_linea)
+);
+
+CREATE TABLE fabricante
+(
+    id_fabricante serial not null AUTO_INCREMENT,
+    fabricante varchar(100),
+    nombre varchar(100),
+    descripcion text,
+    PRIMARY KEY (id_fabricante)
 );
