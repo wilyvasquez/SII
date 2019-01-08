@@ -171,7 +171,6 @@ class CtrAdmin extends CI_Controller {
 
 	public function pre_factura()
 	{
-		$this->eliminar_uuid();
 		$data["timbrado"]    = "active";
 		$data["factura"]     = "active";
 		$data["title"]       = "Pre - Factura";
@@ -185,13 +184,16 @@ class CtrAdmin extends CI_Controller {
 
 		$data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true);
 		$data["relacion"]    = $this->load->view('admin/factura/relacion-factura',null,true);
-		// $data["trelacion"]   = $this->load->view('admin/factura/tabla-relacion',null,true);
-		// $data["btncrear"]    = $this->load->view('admin/factura/crear',null,true);
 		$data["mcliente"]    = $this->load->view('admin/factura/modal/modal-cliente',null,true);
-		$data["meliminar"]   = $this->load->view('admin/factura/modal/modal-eliminar-uuid',null,true);
-		$data["mcrelacion"]  = $this->load->view('admin/factura/modal/modal-crear-relacion',null,true);
 		$this->load->view('universal/plantilla',$data);
 	}
+
+
+	// function eliminar_uuid()
+	// {
+	// 	$id = 1;
+	// 	$this->Modelo_timbrado->delete_uuid($id);
+	// }
 
 	function ajax_scliente()
 	{
@@ -221,61 +223,65 @@ class CtrAdmin extends CI_Controller {
 
 	function ajax_agregar_relacion()
 	{
-		$data = array(
-			'uuid'         => $this->input->post("cfdi"), 
-			't_relacion'   => $this->input->post("trelacion"), 
-			'ref_preventa' => 1
-		);
-		$this->Modelo_timbrado->put_relacion($data);
-		$data["uuids"] = $this->Modelo_timbrado->get_relacion();
-		$this->load->view('admin/factura/tabla-relacion',$data);
+		if(!$this->input->is_ajax_request())
+		{
+		 show_404();
+		}else{
+			$data = array(
+				'uuid'         => $this->input->post("cfdi"), 
+				't_relacion'   => $this->input->post("trelacion"), 
+				'ref_preventa' => 1
+			);
+			$this->Modelo_timbrado->put_relacion($data);
+			$data["uuids"] = $this->Modelo_timbrado->get_relacion();
+			$this->load->view('admin/factura/tabla-relacion',$data);
+		}
 	}
 
 	function delete_uuid()
-	{
-		$id = $this->input->post("uuid");
-		$this->Modelo_timbrado->delete_relacion($id);
-		$data["uuids"] = $this->Modelo_timbrado->get_relacion();
-		$this->load->view('admin/factura/tabla-relacion',$data);
-	}
-
-	function generar_prefactura()
 	{
 		if(!$this->input->is_ajax_request())
 		{
 		 show_404();
 		}else{
-			// redirect(base_url().'factura');	
+			$id = $this->input->post("uuid");
+			$this->Modelo_timbrado->delete_relacion($id);
+			$data["tuuid"] = $this->Modelo_timbrado->get_relacion($id);
+			$this->load->view('admin/tncredito/ajax/ajax_tuuid',$data);
 		}
 	}
 
 	public function push_prefactura()
 	{
-		// $relacion = $this->input->post("relacionar");
-		$preventa  = 1;
-		$condicion = "CREDITO";
-		$codigo    = $this->Modelo_timbrado->get_codigo();
+		if(!$this->input->is_ajax_request())
+		{
+		 show_404();
+		}else{
+			$preventa  = 1;
+			$condicion = "CREDITO";
+			$codigo    = $this->Modelo_timbrado->get_codigo();
 
-		if (!empty($codigo)) {
-			$preventa = $codigo->codigo_preventa + 1;
-		}
-		if ($this->input->post("metodo") == "PUE") {
-			$condicion = "CONTADO";
-		}
+			if (!empty($codigo)) {
+				$preventa = $codigo->codigo_preventa + 1;
+			}
+			if ($this->input->post("metodo") == "PUE") {
+				$condicion = "CONTADO";
+			}
 
-		$data = array(
-			'alta_preventa'    => date("Y-m-d H:i:s"),
-			'estatus_preventa' => "activo",
-			'codigo_preventa'  => "001-A".$preventa,
-			'condicion_pago'   => $condicion,
-			'ref_cliente'      => $this->input->post("cliente"),
-			'ref_formapago'    => $this->input->post("forma"),
-			'ref_metodopago'   => $this->input->post("metodo"),
-			'ref_usocfdi'      => $this->input->post("cfdi"),
-			// 'relacion_uuid'    => $relacion
-		);
-		$id = $this->Modelo_timbrado->put_preventa($data);
-		echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>';
+			$data = array(
+				'alta_preventa'    => date("Y-m-d H:i:s"),
+				'estatus_preventa' => "activo",
+				'codigo_preventa'  => "001-A".$preventa,
+				'condicion_pago'   => $condicion,
+				'ref_cliente'      => $this->input->post("cliente"),
+				'ref_formapago'    => $this->input->post("forma"),
+				'ref_metodopago'   => $this->input->post("metodo"),
+				'ref_usocfdi'      => $this->input->post("cfdi"),
+				// 'relacion_uuid'    => $relacion
+			);
+			$id = $this->Modelo_timbrado->put_preventa($data);
+			echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>';
+		}
 	}
 
 	/**
@@ -304,27 +310,20 @@ class CtrAdmin extends CI_Controller {
 		$data["articulo"]    = $this->load->view('admin/tfactura/agregar-articulo',$data,true);
 		$data["tarticulos"]  = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
 		$data["precios"]     = $this->load->view('admin/tfactura/precios',$data,true);
-		$data["timbrar"]     = $this->load->view('admin/tfactura/timbrar',null,true);
+		// $data["timbrar"]     = $this->load->view('admin/tfactura/timbrar',null,true);
 		$data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
 		$data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
-		$data["mtimbrar"]    = $this->load->view('admin/tfactura/modal/modal-timbrar',null,true);
 		$this->load->view('universal/plantilla',$data);
 	}
 
-	function eliminar_uuid()
-	{
-		$id = 1;
-		$this->Modelo_timbrado->delete_uuid($id);
-	}
-
-	public function timbrar_articulos()
-	{
-		$inicial = microtime(true);
-		$preventa = $this->input->post("venta");
-		sleep(5);
-		$final = microtime(true);
-		echo $final - $inicial;
-	}
+	// public function timbrar_articulos()
+	// {
+	// 	$inicial = microtime(true);
+	// 	$preventa = $this->input->post("venta");
+	// 	sleep(5);
+	// 	$final = microtime(true);
+	// 	echo $final - $inicial;
+	// }
 
 	public function push_articulo()
 	{
@@ -346,9 +345,14 @@ class CtrAdmin extends CI_Controller {
 
 	public function ajax_tarticulos()
 	{
-		$id   = $this->input->post("ids");
-		$data["tarticulos"] = $this->Modelo_articulos->get_articulo($id);
-		$this->load->view('admin/tfactura/ajax/ajax_tarticulos',$data);
+		if(!$this->input->is_ajax_request())
+		{
+		 show_404();
+		}else{
+			$id   = $this->input->post("ids");
+			$data["tarticulos"] = $this->Modelo_articulos->get_articulo($id);
+			$this->load->view('admin/tfactura/ajax/ajax_tarticulos',$data);
+		}
 	}
 
 	public function get_valorUnitario()
@@ -381,26 +385,31 @@ class CtrAdmin extends CI_Controller {
 	 */
 	public function put_inventario()
 	{
-		$id_clave = $this->input->post("unidad");
-		$clave    = $this->Modelo_sat->get_clave($id_clave);
+		if(!$this->input->is_ajax_request())
+		{
+		 show_404();
+		}else{
+			$id_clave = $this->input->post("unidad");
+			$clave    = $this->Modelo_sat->get_clave($id_clave);
 
-		$data = array(
-			'articulo'         => $this->input->post("articulo"),
-			'codigo_sat'       => $this->input->post("clave"),
-			'descripcion'      => $this->input->post("descripcion"),
-			'costo'            => $this->input->post("costo"),
-			'unidad'           => $clave->clave,
-			'clave_sat'        => $clave->c_ClaveUnidad,
-			'codigo_interno'   => $this->input->post("codigoi"),
-			'cantidad'         => $this->input->post("cantidad"),
-			'estatus_articulo' => "Activo",
-			'ref_marca'        => $this->input->post("marca"),
-			'ref_linea'        => $this->input->post("linea"),
-			'ref_fabricante'   => $this->input->post("fabricante"),
-			);
-		$url = "";
-		$peticion = $this->Modelo_inventario->put_inventario($data);
-		echo json_encode($this->resultado($peticion,$url));
+			$data = array(
+				'articulo'         => $this->input->post("articulo"),
+				'codigo_sat'       => $this->input->post("clave"),
+				'descripcion'      => $this->input->post("descripcion"),
+				'costo'            => $this->input->post("costo"),
+				'unidad'           => $clave->clave,
+				'clave_sat'        => $clave->c_ClaveUnidad,
+				'codigo_interno'   => $this->input->post("codigoi"),
+				'cantidad'         => $this->input->post("cantidad"),
+				'estatus_articulo' => "Activo",
+				'ref_marca'        => $this->input->post("marca"),
+				'ref_linea'        => $this->input->post("linea"),
+				'ref_fabricante'   => $this->input->post("fabricante"),
+				);
+			$url = "";
+			$peticion = $this->Modelo_inventario->put_inventario($data);
+			echo json_encode($this->resultado($peticion,$url));
+		}
 	}
 
 	public function inventario()
@@ -426,11 +435,16 @@ class CtrAdmin extends CI_Controller {
 
 	public function eliminar_articulo()
 	{
-		$id = $this->input->post("articulo");
-		$this->Modelo_articulos->delete_articulo($id);
-		$peticion = true;
-		$url      = "ajax_tarticulos";
-		echo json_encode($this->resultado($peticion,$url));
+		if(!$this->input->is_ajax_request())
+		{
+		 show_404();
+		}else{
+			$id = $this->input->post("articulo");
+			$this->Modelo_articulos->delete_articulo($id);
+			$peticion = true;
+			$url      = "ajax_tarticulos";
+			echo json_encode($this->resultado($peticion,$url));
+		}
 	}
 
 	public function editar_articulo()
@@ -459,10 +473,14 @@ class CtrAdmin extends CI_Controller {
 
 	public function ajax_precios()
 	{
-		$id      = $this->input->post("ids");
-
-		$data["precios"] = $this->precios($id);
-	    $this->load->view('admin/tfactura/ajax/ajax_precio',$data);
+		if(!$this->input->is_ajax_request())
+		{
+		 show_404();
+		}else{
+			$id      = $this->input->post("ids");
+			$data["precios"] = $this->precios($id);
+		    $this->load->view('admin/tfactura/ajax/ajax_precio',$data);
+		}	
 	}
 
 	function precios($id)

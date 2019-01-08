@@ -8,13 +8,7 @@
     <?= $tarticulos ?>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-6">
-    
-  </div>
-</div>
 <div>
   <?= $marticulo ?>
   <?= $mearticulo ?>
-  <?= $mtimbrar ?>
 </div>

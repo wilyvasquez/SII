@@ -87,11 +87,10 @@ $(function(){
 $(function(){
   $("#deleteuuid").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
     var formData = new FormData(document.getElementById("deleteuuid"));
     // formData.append("dato", "valor");
     $.ajax({
-      url: "CtrAdmin/delete_uuid",
+      url: "../CtrAdmin/delete_uuid",
       type: "post",
       dataType: "html",
       data: formData,
@@ -100,7 +99,7 @@ $(function(){
       processData: false
     })
     .done(function(res){
-      $("#tblrelacion").html(res);
+      $("#tbl-uuid").html(res);
       setTimeout(function(){ 
         $('#modaldelete').modal('hide');
       },500);

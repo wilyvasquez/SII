@@ -29,7 +29,7 @@
               <span class="caret"></span>
             </button>
             <ul class="dropdown-menu pull-right" aria-labelledby="btn-accion">
-              <li><a href="#" data-toggle="modal" class="open-Editar" data-target=".deletearticulo">Eliminar</a></li>
+              <li><a href="#" data-toggle="modal" class="open-uuid" data-target=".deleteuuid" data-uuid="<?= $articulo->id_relacion ?>">Eliminar</a></li>
             </ul>
           </div>
         </td>

@@ -36,31 +36,34 @@ class CtrNotaCredito extends CI_Controller {
 
     public function push_prencredito()
     {
-        // $relacion = $this->input->post("relacionar");
-        $preventa  = 1;
-        $condicion = "CREDITO";
-        $codigo    = $this->Modelo_timbrado->get_codigo();
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $preventa  = 1;
+            $condicion = "CREDITO";
+            $codigo    = $this->Modelo_timbrado->get_codigo();
 
-        if (!empty($codigo)) {
-            $preventa = $codigo->codigo_preventa + 1;
-        }
-        if ($this->input->post("metodo") == "PUE") {
-            $condicion = "CONTADO";
-        }
+            if (!empty($codigo)) {
+                $preventa = $codigo->codigo_preventa + 1;
+            }
+            if ($this->input->post("metodo") == "PUE") {
+                $condicion = "CONTADO";
+            }
 
-        $data = array(
-            'alta_preventa'    => date("Y-m-d H:i:s"),
-            'estatus_preventa' => "activo",
-            'codigo_preventa'  => "001-A".$preventa,
-            'condicion_pago'   => $condicion,
-            'ref_cliente'      => $this->input->post("cliente"),
-            'ref_formapago'    => $this->input->post("forma"),
-            'ref_metodopago'   => $this->input->post("metodo"),
-            'ref_usocfdi'      => $this->input->post("cfdi"),
-            // 'relacion_uuid'    => $relacion
-        );
-        $id = $this->Modelo_timbrado->put_preventa($data);
-        echo '<a href="'.base_url().'ncredito/'.$id.'" class="btn btn-primary btn-sm pull-left">Vincular Factura</a>';
+            $data = array(
+                'alta_preventa'    => date("Y-m-d H:i:s"),
+                'estatus_preventa' => "activo",
+                'codigo_preventa'  => "001-A".$preventa,
+                'condicion_pago'   => $condicion,
+                'ref_cliente'      => $this->input->post("cliente"),
+                'ref_formapago'    => $this->input->post("forma"),
+                'ref_metodopago'   => $this->input->post("metodo"),
+                'ref_usocfdi'      => $this->input->post("cfdi"),
+            );
+            $id = $this->Modelo_timbrado->put_preventa($data);
+            echo '<a href="'.base_url().'ncredito/'.$id.'" class="btn btn-primary btn-sm pull-left">Vincular Factura</a>';
+        }
     }
 
     public function nota_credito($id)
@@ -87,20 +90,16 @@ class CtrNotaCredito extends CI_Controller {
         $data["tarticulos"]  = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
         $data["tuuid"]       = $this->load->view('admin/tncredito/tabla_uuid',$data,true);
         $data["precios"]     = $this->load->view('admin/tncredito/timbrar_ncredito',$data,true);
-        $data["timbrar"]     = $this->load->view('admin/tfactura/timbrar',null,true);
         $data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
         $data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
+        $data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',null,true);
         $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
         $this->load->view('universal/plantilla',$data);
     }
 
     public function agregar_uuid()
     {
-        // $id_cliente  = $this->input->post("id_cliente");
-        $id          = $this->input->post("ids");
-        // $descripcion = $this->input->post("descripcion");
-        // $unitario    = $this->input->post("unitario");
-
+        $id   = $this->input->post("ids");
         $data = array(
             'uuid'            => $this->input->post("uuid"),
             't_relacion'      => $this->input->post("relacion"),
@@ -113,9 +112,14 @@ class CtrNotaCredito extends CI_Controller {
 
     public function ajax_tuuid()
     {
-        $id            = $this->input->post("ids");
-        $data["tuuid"] = $this->Modelo_timbrado->get_relacion($id);
-        $this->load->view('admin/tncredito/ajax/ajax_tuuid',$data);
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $id            = $this->input->post("ids");
+            $data["tuuid"] = $this->Modelo_timbrado->get_relacion($id);
+            $this->load->view('admin/tncredito/ajax/ajax_tuuid',$data);
+        }
     }
 
     /**

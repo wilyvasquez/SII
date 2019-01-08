@@ -33,7 +33,7 @@ class CtrTimbrarCredito extends CI_Controller {
          * comprobamos si tiene relaciones con otras facturas
          */
         // $referencia = $cliente->relacion_uuid;
-        if ($datos != false) 
+        if ($datos != false && $uuid != false) 
         {  
             $this->nota_credito($preventa,$id_cliente,$datos,$cliente,$uuid);
         }else{

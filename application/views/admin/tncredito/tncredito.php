@@ -23,4 +23,5 @@
   <?= $marticulo ?>
   <?= $mearticulo ?>
   <?= $mtimbrar ?>
+  <?= $meuuid ?>
 </div>

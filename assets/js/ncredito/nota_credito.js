@@ -5,9 +5,7 @@
 $(function(){
   $("#agregar_ncredito").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
     var formData = new FormData(document.getElementById("agregar_ncredito"));
-    // formData.append("dato", "valor");
     $.ajax({
       url: "CtrNotaCredito/push_prencredito",
       type: "post",
