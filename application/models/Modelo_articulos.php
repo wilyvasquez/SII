@@ -92,5 +92,15 @@ class Modelo_articulos extends CI_Model
  			return $id;
  		}
 	}
+
+	function obtener_articulo($id)
+	{
+		$query=$this->db->query("SELECT *  FROM articulo where id_articulo = $id"); 
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
 }
 ?>

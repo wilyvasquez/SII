@@ -31,7 +31,7 @@ $(function(){
 $(function(){
   $("#agregar_uuid").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    $('#btn-articulo').attr("disabled", true);
     var formData = new FormData(document.getElementById("agregar_uuid"));
     ids = document.getElementById('ids').value;
     par =
@@ -49,7 +49,7 @@ $(function(){
     })
     .done(function(res){
       var json = $.parseJSON(res);
-      $("#ntf-cliente").html(json.msg).delay(2000).hide(0);
+      $("#ntf-uuid").html(json.msg).delay(2000).hide(0);
       ajax_tuuid(json,par);
       // ajax_precios(par);
     });
@@ -69,7 +69,7 @@ function ajax_tuuid(json,par)
     data: par,
   })
   .done(function(response){
-    $("#tbl-articulo").html(response);
+    $("#tbl-uuid").html(response);
     setTimeout(function(){ 
       $('#deleteModal').modal('hide');
       $("#editado").html("").delay(0).show(0);
@@ -77,3 +77,40 @@ function ajax_tuuid(json,par)
     },2000); 
   });
 }
+
+/**
+ * Funcion que agrega un nuevo articulo en el apartado de articulos
+ * @return {HTML}     regresando el ajax de la tabla y la notificacion
+ */
+$(function(){
+  $("#timbrarncredito").on("submit", function(e){
+    console.log("TIMBRAR NOTA CREDITO");
+    e.preventDefault();
+    var ids        = document.getElementById('ids').value;
+    var id_cliente = document.getElementById('id_cliente').value;
+    console.log(id_cliente);
+    var par = 
+    {
+      "ids"  : ids,
+      "id_cliente"  : id_cliente,
+    };
+    $.ajax({
+      url: "../CtrTimbrarCredito/timbrado",
+      type: "post",
+      dataType: "html",
+      data: par,
+      beforeSend: function(){
+        $("#resultado").html("Generando factura, espere por favor");
+      },
+      success: function(response){
+        // $('#btn-timbrar').attr("disabled", true);
+        // $('#btn-limpiar').attr("disabled", true);
+        // $('#btn-articulo').attr("disabled", true);
+        var json = $.parseJSON(response);
+        $("#resultado").html(json.btn);
+        $("#tbl-articulo").html(json.msg);
+        // $("#resultado").html(response);
+      }
+    })
+  });
+});

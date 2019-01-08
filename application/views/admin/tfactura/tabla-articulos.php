@@ -19,15 +19,17 @@
   <!-- /.box-header -->
   <div class="box-body no-padding" id="tbl-articulo">
     <table class="table table-hover">
-      <tr style="background: #4C9DBD">
-        <th>Cantidad</th>
-        <th>Codigo</th>
-        <th>Articulo</th>
-        <th>Valor</th>
-        <th>Importe</th>
-        <th>Desc</th>
-        <th>Acciones</th>
-      </tr>
+      <thead>
+        <tr style="background: #4C9DBD">
+          <th>Cantidad</th>
+          <th>Codigo</th>
+          <th>Articulo</th>
+          <th>Valor</th>
+          <th>Importe</th>
+          <th>Desc</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
       <?php if (!empty($tarticulos)) {
       foreach ($tarticulos ->result() as $articulo) { ?>
       <tr>

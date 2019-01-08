@@ -1,10 +1,10 @@
 <div class="box box-primary">
   <div class="box-header with-border">
-    <h3 class="box-title">Precios</h3>
+    <h3 class="box-title">Totales</h3>
   </div>
   <!-- /.box-header -->
   <!-- form start -->
-  <form role="form" id="timbrar">
+  <form role="form" id="timbrarncredito">
     <div id="ajaxprecio">
       <div class="box-body" id="suma">
         <p><strong>SUBTOTAL:</strong> $ <?= $precios[0] ?></p>

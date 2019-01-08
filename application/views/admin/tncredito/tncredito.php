@@ -2,10 +2,16 @@
 <div class="row">
   <div class="col-md-4">
     <?= $articulo ?>
-    <?= $precios ?>   
   </div>
   <div class="col-md-8">
     <?= $tarticulos ?>
+  </div>
+  <div class="row"></div>
+  <div class="col-md-4">
+    <?= $precios ?>   
+  </div>
+  <div class="col-md-8">
+    <?= $tuuid ?>
   </div>
 </div>
 <div class="row">

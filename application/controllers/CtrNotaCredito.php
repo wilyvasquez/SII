@@ -65,36 +65,41 @@ class CtrNotaCredito extends CI_Controller {
 
     public function nota_credito($id)
     {
-        // $this->validacion_timbrado($id);        
-        $data["timbrado"]   = "active";
-        $data["ncredito"]   = "active";
-        $data["title"]      = "Nota de Credito";
-        $data["subtitle"]   = "Timbrar Nota Credito";
-        $data["contenido"]  = "admin/tncredito/tncredito";
-        $data["menu"]       = "admin/menu_admin";
-        
-        $data['facturas']   = $this->Modelo_cliente->get_facturas();
-        $data['relacion']   = $this->Modelo_sat->get_tipoRelacion();
-        $data["id"]         = $id;
-        $data['icliente']   = $this->Modelo_cliente->datos_cliente($id);
-        $data["precios"]    = $this->precios($id);
-        $data["tuuid"]      = $this->Modelo_timbrado->get_relacion($id);
-        $data["articulo"]   = $this->load->view('admin/tncredito/agregar_uuid',$data,true);
-        $data["tarticulos"] = $this->load->view('admin/tncredito/tabla_uuid',$data,true);
-        $data["precios"]    = $this->load->view('admin/tfactura/precios',$data,true);
-        $data["timbrar"]    = $this->load->view('admin/tfactura/timbrar',null,true);
-        $data["marticulo"]  = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
-        $data["mearticulo"] = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
-        $data["mtimbrar"]   = $this->load->view('admin/tfactura/modal/modal-timbrar',null,true);
+        $this->validacion_timbrado($id);        
+        $data["timbrado"]    = "active";
+        $data["ncredito"]    = "active";
+        $data["title"]       = "Nota Credito";
+        $data["subtitle"]    = "Timbrar Nota Credito";
+        $data["contenido"]   = "admin/tncredito/tncredito";
+        $data["menu"]        = "admin/menu_admin";
+
+        $data['articulos']   = $this->Modelo_articulos->get_articulos();
+        $data['tarticulos']  = $this->Modelo_articulos->get_articulo($id);
+
+        $data['facturas']    = $this->Modelo_cliente->get_facturas();
+        $data['trelacion']   = $this->Modelo_sat->get_tipoRelacion();
+        $data['tuuid']       = $this->Modelo_timbrado->get_relacion($id);
+
+        $data["id"]          = $id;
+        $data['icliente']    = $this->Modelo_cliente->datos_cliente($id);
+        $data["precios"]     = $this->precios($id);
+        $data["articulo"]    = $this->load->view('admin/tfactura/agregar-articulo',$data,true);
+        $data["tarticulos"]  = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
+        $data["tuuid"]       = $this->load->view('admin/tncredito/tabla_uuid',$data,true);
+        $data["precios"]     = $this->load->view('admin/tncredito/timbrar_ncredito',$data,true);
+        $data["timbrar"]     = $this->load->view('admin/tfactura/timbrar',null,true);
+        $data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
+        $data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
+        $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
         $this->load->view('universal/plantilla',$data);
     }
 
     public function agregar_uuid()
     {
-        $id_cliente  = $this->input->post("id_cliente");
+        // $id_cliente  = $this->input->post("id_cliente");
         $id          = $this->input->post("ids");
-        $descripcion = $this->input->post("descripcion");
-        $unitario    = $this->input->post("unitario");
+        // $descripcion = $this->input->post("descripcion");
+        // $unitario    = $this->input->post("unitario");
 
         $data = array(
             'uuid'            => $this->input->post("uuid"),
@@ -156,5 +161,22 @@ class CtrNotaCredito extends CI_Controller {
             $descuento = number_format($descuento,2);
         }
          return array($subtotal,$iva,$descuento,$total);
+    }
+
+    function validacion_timbrado($id)
+    {
+        $timbrado = $this->Modelo_timbrado->validacion($id);
+        if (!empty($timbrado)) 
+        {
+            $result   = $timbrado->estatus_preventa;
+            $cliente  = $timbrado->ref_cliente;
+            if ($result == "timbrado") {
+                redirect(base_url().'pcliente/'.$cliente);
+            }else if($result == "activo"){
+
+            }           
+        }else{
+            redirect(base_url().'prefactura');
+        }
     }
 }

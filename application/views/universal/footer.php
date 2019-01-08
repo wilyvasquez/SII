@@ -71,7 +71,7 @@
       'ordering'    : false,
       'info'        : false,
       'autoWidth'   : false,
-      "scrollY"     : "200px",
+      "scrollY"     : "300px",
       "scrollCollapse": true,
       "language": {
           "zeroRecords": "No se encontraron datos",

@@ -1,30 +1,20 @@
 <div class="box box-primary">
   <div class="box-header">
-    <h3 class="box-title">UUID a Vincular  - <strong><?= $icliente->cliente ?></strong></h3>
-    <div class="dropdown pull-right" style="margin-right: 10px">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="text-decoration:none;color:black; font-size: 14px;">
-        Menu <span class="caret"></span>
-      </a>
-      <ul class="dropdown-menu" style="border-color: #67A6E5">
-        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="../icredito/1">Informacion del Credito</a></li> -->
-        <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Generar Reporte</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Ver Graficas</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Editar Pre-Factura</a></li>
-        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Actualizar fecha</a></li> -->
-        <li role="presentation" class="divider"></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Informacion del Cliente</a></li>
-      </ul>
-    </div>
+    <h3 class="box-title">UUID a Vincular </h3>
+    <button class="btn btn-xs pull-right btn-primary" data-toggle="modal" data-target=".timbrar">Agregar UUID</button>
   </div>
   <!-- /.box-header -->
-  <div class="box-body no-padding" id="tbl-articulo">
+  <div class="box-body no-padding" id="tbl-uuid">
     <table class="table table-hover">
-      <tr style="background: #4C9DBD">
-        <th>#</th>
-        <th>UUID</th>
-        <th>Relacion</th>
-        <th>Acciones</th>
-      </tr>
+      <thead>
+        <tr style="background: #4C9DBD">
+          <th>#</th>
+          <th>UUID</th>
+          <th>Relacion</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
       <?php if (!empty($tuuid)) {
       	$i = 1;
       foreach ($tuuid ->result() as $articulo) { ?>
@@ -45,6 +35,7 @@
         </td>
       </tr>
       <?php $i++; } } ?>
+      </tbody>
     </table>
   </div>
 </div>
