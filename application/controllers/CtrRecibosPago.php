@@ -20,7 +20,7 @@ class CtrRecibosPago extends CI_Controller {
     {
         $data["timbrado"]    = "active";
         $data["rpagos"]      = "active";
-        $data["title"]       = "Pre - Recibo de pagos";
+        $data["title"]       = "Recibo de pagos";
         $data["subtitle"]    = "Crear Recibo pago";
         $data["contenido"]   = "admin/rpagos/recibo_pagos";
         $data["menu"]        = "admin/menu_admin";
@@ -79,6 +79,7 @@ class CtrRecibosPago extends CI_Controller {
         $data["id"]            = $id;
         $data['icliente']      = $this->Modelo_cliente->datos_cliente($id);
         $id_cliente            = $data['icliente']->id_cliente;
+        $data["nombre"]        = $data['icliente']->cliente;
         $data['facturas']      = $this->Modelo_cliente->get_factura($id_cliente);
         $data['rdocto']        = $this->Modelo_timbrado->get_relacionDocto($id);
 
@@ -89,24 +90,33 @@ class CtrRecibosPago extends CI_Controller {
         $data["precios"]     = $this->load->view('admin/trpagos/timbrar_rpagos',$data,true);
         // $data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
         // $data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
-        // $data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',null,true);
+        $data["meuuid"]      = $this->load->view('admin/trpagos/modal/eliminar_uuidRpagos',$data,true);
         // $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
         $this->load->view('universal/plantilla',$data);
     }
 
     public function agregar_docto()
     {
-        $data = array(
-            'uuid'         => $this->input->post("uuid"), 
-            'parcialidad'  => $this->input->post("parcialidad"), 
-            'monto'        => $this->input->post("monto"),
-            'ref_preventa' => $this->input->post("ids")
-        );
-        $this->Modelo_timbrado->put_documento($data);
+        $uuid    = $this->input->post("uuid");
+        $monto   = $this->input->post("monto");
+        
+        $factura  = $this->Modelo_timbrado->get_factura($uuid);
+        $cantidad = $factura->total_factura;
 
+        if ($monto <= $cantidad ) {
+            $data = array(
+                'uuid'         => $uuid, 
+                'parcialidad'  => $this->input->post("parcialidad"), 
+                'monto'        => $monto,
+                'ref_preventa' => $this->input->post("ids")
+            );
+            $this->Modelo_timbrado->put_documento($data);
+
+        }
         $id_preventa    = $this->input->post("ids");
         $data['rdocto'] = $this->Modelo_timbrado->get_relacionDocto($id_preventa);
         $this->load->view('admin/trpagos/ajax/ajax_trpagos',$data);
+
     }
 
     function get_parcialidad()
@@ -117,6 +127,20 @@ class CtrRecibosPago extends CI_Controller {
             # code...
         }else{
             echo 1;
+        }
+    }
+
+    function deleteUuidRecibosPago()
+    {
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $id_uuid = $this->input->post("uuid");
+            $id      = $this->input->post("ids");
+            $this->Modelo_timbrado->delete_relacionDocto($id_uuid);
+            $data['rdocto'] = $this->Modelo_timbrado->get_relacionDocto($id);
+            $this->load->view('admin/trpagos/ajax/ajax_trpagos',$data);
         }
     }
 

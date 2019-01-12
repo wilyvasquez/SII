@@ -23,10 +23,10 @@ class CtrComplemento extends CI_Controller {
          */
         $preventa   = $this->input->post("ids");
         $id_cliente = $this->input->post("id_cliente");
-        $fecha      = $this->input->post("fecha");
+        $fecha      = $this->input->post("fecha")."".date('\TH:i:s');
 
-        $preventa   = 48;
-        $id_cliente  = 110;
+        // $preventa   = 48;
+        // $id_cliente  = 110;
         /**
          * Consultas productos y datos clientes
          */

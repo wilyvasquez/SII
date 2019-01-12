@@ -112,3 +112,30 @@ $(function(){
      $("#parcialidad").val(response);
   });
  }
+
+ /**
+ * Funcion que elimina un uuid de la tabla de relaciones
+ * @return {HTML}     regresando el ajax de la tabla y la notificacion
+ */
+$(function(){
+  $("#deleteuuidrpagos").on("submit", function(e){
+    e.preventDefault();
+    var formData = new FormData(document.getElementById("deleteuuidrpagos"));
+    // formData.append("dato", "valor");
+    $.ajax({
+      url: "../CtrRecibosPago/deleteUuidRecibosPago",
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function(res){
+      $("#tbl-uuid").html(res);
+      setTimeout(function(){ 
+        $('#modaldelete').modal('hide');
+      },500);
+    });
+  });
+});

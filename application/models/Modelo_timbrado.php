@@ -129,6 +129,11 @@ class Modelo_timbrado extends CI_Model
 		$this->db->delete('relacion_uuid'); 
 	}
 
+	function delete_relacionDocto($id){
+		$this->db->where('id_rdocto', $id);
+		$this->db->delete('relacion_docto'); 
+	}
+
 	function put_documento($datos)
 	{
 		$this->db->trans_begin();
@@ -149,6 +154,16 @@ class Modelo_timbrado extends CI_Model
 		$query = $this->db->query("SELECT *  FROM relacion_docto inner join factura on factura.uuid = relacion_docto.uuid where relacion_docto.ref_preventa = $id"); 
 		if ($query->num_rows() > 0) {
 			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_factura($id)
+	{
+		$query = $this->db->query("SELECT *  FROM factura where uuid = '$id' "); 
+		if ($query->num_rows() > 0) {
+			return $query->row();
 		}else{ 
 			return false;
 		}

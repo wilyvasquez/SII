@@ -14,7 +14,7 @@
         <hr>
         <div class="form-group">
           <label for="fecha" style="font-weight: normal;">Fecha</label>
-          <input type="text" class="form-control" id="fecha" name="fecha" value="<?= date('Y-m-d\TH:i:s') ?>" required>
+          <input type="text" class="form-control" id="fecha" name="fecha" value="<?= date('Y-m-d') ?>" required>
         </div> 
       </div>
       <!-- /.box-body -->

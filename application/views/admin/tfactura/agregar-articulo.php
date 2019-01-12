@@ -1,7 +1,7 @@
 <div class="box box-primary">
   <div class="box-header with-border">
     <h3 class="box-title">Agregar Articulo</h3>
-    <button class="btn btn-xs pull-right btn-primary" data-toggle="modal" data-target=".timbrar">Vincular UUID</button>
+   <!--  <button class="btn btn-xs pull-right btn-primary" data-toggle="modal" data-target=".timbrar">Vincular UUID</button> -->
   </div>
   <!-- /.box-header -->
   <!-- form start -->
@@ -39,9 +39,9 @@
         <label for="descripcion" style="font-weight: normal;">Descripción del producto o servicio</label>
         <textarea class="form-control" rows="3" placeholder="Descripcion ..." id="descripcion" name="descripcion" required disabled></textarea>
       </div> 
-      <div id="ntf-cliente">
+      <!-- <div id="ntf-cliente">
         
-      </div>
+      </div> -->
     </div>
     <!-- /.box-body -->
 

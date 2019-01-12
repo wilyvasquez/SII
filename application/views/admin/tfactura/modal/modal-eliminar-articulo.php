@@ -1,5 +1,5 @@
 <div class="modal fade deletearticulo" id="deleteModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
     <div class="modal-content">
       <form id="deletearticulo">
         <div class="modal-body">
@@ -14,7 +14,7 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 </button>
                 <!-- <div id="codigos"></div> -->
-                <strong style="font-weight: bold;color: #DC1D0D"><center><i class="fa fa-warning" style="width: 30px"></i> Esta accion eliminara este articulo con codigo <font id="codigos"></font> de esta relacion.</center></strong> 
+                <strong style="font-weight: bold;color: #DC1D0D"><center><i class="fa fa-warning" style="width: 30px"></i> Esta accion eliminara el articulo con codigo <font id="codigos" style="color: #3C8DBC"></font> de esta relacion.</center></strong> 
               </div>
               <input type="hidden" name="codigo" id="codigo" required>
               <input type="hidden" id="articulo" name="articulo" required>

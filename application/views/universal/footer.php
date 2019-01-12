@@ -18,17 +18,19 @@
 <script src="<?= base_url() ?>bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?= base_url() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="<?= base_url() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url() ?>bower_components/select2/dist/js/select2.full.min.js"></script>
 <!-- InputMask -->
 <script src="<?= base_url() ?>bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
+<!-- bootstrap datepicker -->
+<script src="<?= base_url() ?>bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- FastClick -->
 <script src="<?= base_url() ?>bower_components/fastclick/lib/fastclick.js"></script>
 <!-- DataTables -->
 <script src="<?= base_url() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="<?= base_url() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>bower_components/admin-lte/dist/js/adminlte.min.js"></script>
 <!-- funciones -->
@@ -90,6 +92,12 @@
     $('.select2').select2()
 
     $('[data-mask]').inputmask()
+
+    //Date picker
+    $('#fecha').datepicker({
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+    })
 
   })
 </script>

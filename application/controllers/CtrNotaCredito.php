@@ -20,7 +20,7 @@ class CtrNotaCredito extends CI_Controller {
     {
         $data["timbrado"]    = "active";
         $data["ncredito"]    = "active";
-        $data["title"]       = "Pre - Nota Credito";
+        $data["title"]       = "Nota Credito";
         $data["subtitle"]    = "Crear Nota Credito";
         $data["contenido"]   = "admin/ncredito/nota_credito";
         $data["menu"]        = "admin/menu_admin";

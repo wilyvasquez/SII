@@ -7,10 +7,12 @@
       </a>
       <ul class="dropdown-menu" style="border-color: #67A6E5">
         <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Editar Pre-Factura</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-toggle="modal" data-target=".timbrar">Vincular Facturas <strong>(UUID)</strong></a></li>
+
         <li role="presentation" class="divider"></li>
         <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Informacion del Cliente</a></li>
       </ul>
-    </div>
+    </div>     
   </div>
   <!-- /.box-header -->
   <div class="box-body no-padding" id="tbl-articulo">

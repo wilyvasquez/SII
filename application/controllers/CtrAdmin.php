@@ -173,7 +173,7 @@ class CtrAdmin extends CI_Controller {
 	{
 		$data["timbrado"]    = "active";
 		$data["factura"]     = "active";
-		$data["title"]       = "Pre - Factura";
+		$data["title"]       = "Factura";
 		$data["subtitle"]    = "Crear Factura";
 		$data["contenido"]   = "admin/factura/factura";
 		$data["menu"]        = "admin/menu_admin";
@@ -244,8 +244,10 @@ class CtrAdmin extends CI_Controller {
 		{
 		 show_404();
 		}else{
-			$id = $this->input->post("uuid");
-			$this->Modelo_timbrado->delete_relacion($id);
+			$id_uuid = $this->input->post("uuid");
+			$id      = $this->input->post("ids");
+
+			$this->Modelo_timbrado->delete_relacion($id_uuid);
 			$data["tuuid"] = $this->Modelo_timbrado->get_relacion($id);
 			$this->load->view('admin/tncredito/ajax/ajax_tuuid',$data);
 		}
@@ -330,7 +332,7 @@ class CtrAdmin extends CI_Controller {
 		# MODALES
 		$data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
 		$data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
-		$data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',null,true);
+		$data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',$data,true);
         $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
 		$this->load->view('universal/plantilla',$data);
 	}

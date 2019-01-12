@@ -21,13 +21,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="logo" style="width: 500px">
-        <!-- <?= date("F j, Y") ?> - <b id="liveclock"></b> -->
+      <span class="logo" style="width: auto">
         <?php 
-	        $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
-			$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-			echo $meses[date('n')-1]." ".date('d').", ". " ".date('Y')." "."<b id='liveclock'></b>";
+          if (!empty($nombre)) {
+           echo $nombre." - "."<b id='liveclock'></b>";
+          }else{
+  	        $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+  			    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  			    echo $meses[date('n')-1]." ".date('d').", ". " ".date('Y')." "."<b id='liveclock'></b>";
+          }
         ?>
-      </a>
+      </span>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">

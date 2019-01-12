@@ -10,4 +10,7 @@
   <div class="col-md-4">
     <?= $precios ?>   
   </div>
+  <div>
+    <?= $meuuid ?>   
+  </div>
 </div>
