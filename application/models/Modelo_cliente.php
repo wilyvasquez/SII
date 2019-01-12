@@ -71,6 +71,16 @@ class Modelo_cliente extends CI_Model
 		}
 	}
 
+	function get_factura($id)
+	{
+		$query = $this->db->query("SELECT *  FROM factura where ref_cliente = $id"); 
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
 	// function get_articulo($id)
 	// {
 	// 	$this->db->trans_begin();

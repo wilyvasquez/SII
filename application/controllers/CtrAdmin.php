@@ -302,17 +302,36 @@ class CtrAdmin extends CI_Controller {
 		$data["contenido"]   = "admin/tfactura/tfactura";
 		$data["menu"]        = "admin/menu_admin";
 
+		# CONSULTA OBTENER ARTICULAR A FACTURAR
 		$data['articulos']   = $this->Modelo_articulos->get_articulos();
 		$data['tarticulos']  = $this->Modelo_articulos->get_articulo($id);
+
+		# CONSULTA FACTURAS Y TIPOS DE RELACION PARA VINCULAR
+        $data['facturas']    = $this->Modelo_cliente->get_facturas();
+        $data['trelacion']   = $this->Modelo_sat->get_tipoRelacion();
+
+        # CONSULTA PRA OBTENER LOS UUID VINCULADOS
+        $data['tuuid']       = $this->Modelo_timbrado->get_relacion($id);
+
+        # CONSULTA OBTENER DATOS DEL CLIENTE
 		$data["id"]          = $id;
 		$data['icliente']    = $this->Modelo_cliente->datos_cliente($id);
 		$data["precios"]     = $this->precios($id);
+
+		# VISTAS FACTURAS
 		$data["articulo"]    = $this->load->view('admin/tfactura/agregar-articulo',$data,true);
 		$data["tarticulos"]  = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
 		$data["precios"]     = $this->load->view('admin/tfactura/precios',$data,true);
-		// $data["timbrar"]     = $this->load->view('admin/tfactura/timbrar',null,true);
+
+		# VISTAS NOTAS DE CREDITO
+        $data["tuuid"]       = $this->load->view('admin/tncredito/tabla_uuid',$data,true);
+        // $data["precios"]     = $this->load->view('admin/tncredito/timbrar_ncredito',$data,true);
+		
+		# MODALES
 		$data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
 		$data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
+		$data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',null,true);
+        $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
 		$this->load->view('universal/plantilla',$data);
 	}
 

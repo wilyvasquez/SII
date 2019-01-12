@@ -71,3 +71,9 @@ $route['xml/(:any)']      = 'CtrAdmin/descargas_xml/$1';
 
 $route['prencredito']     = 'CtrNotaCredito/pre_factura';
 $route['ncredito/(:num)'] = 'CtrNotaCredito/nota_credito/$1';
+
+/**
+ * recibos de pago
+ */
+$route['prepagos']      = 'CtrRecibosPago/pre_pagos';
+$route['rpagos/(:num)'] = 'CtrRecibosPago/recibo_pagos/$1';

@@ -2437,6 +2437,16 @@ CREATE TABLE relacion_uuid
     PRIMARY KEY (id_relacion)
 );
 
+CREATE TABLE relacion_docto
+(
+    id_rdocto int not null AUTO_INCREMENT,
+    uuid varchar (100),
+    parcialidad int,
+    monto double,
+    ref_preventa int,
+    PRIMARY KEY (id_rdocto)
+);
+
 CREATE TABLE sucursal
 (
     id_sucursal int not null AUTO_INCREMENT,
@@ -2610,3 +2620,31 @@ CREATE TABLE fabricante
     descripcion text,
     PRIMARY KEY (id_fabricante)
 );
+
+CREATE TABLE documento
+(
+    id_docto serial not null AUTO_INCREMENT,
+    uuid varchar (100),
+    pdf varchar (200),
+    xml varchar (200),
+    fecha_timbrado datetime,
+    certificado varchar (200),
+    serie_folio varchar (20),
+    tipo_comprobante varchar (20),
+    metodo_pago varchar (20),
+    forma_pago varchar (20),
+    tipo_docto varchar (200),
+    ref_cliente int,
+    PRIMARY KEY (id_docto)
+);
+
+
+CREATE TABLE factura_docto
+(
+	id_factura_docto serial not null AUTO_INCREMENT,
+	alta_referencia datetime,
+	tipo_relacion varchar(20),
+	ref_docto int,
+	ref_factura int,
+	PRIMARY KEY (id_factura_docto)
+)

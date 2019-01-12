@@ -129,5 +129,40 @@ class Modelo_timbrado extends CI_Model
 		$this->db->delete('relacion_uuid'); 
 	}
 
+	function put_documento($datos)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('relacion_docto', $datos);
+		$id = $this->db->insert_id();
+		if ($this->db->trans_status() === FALSE)
+ 		{
+        	$msg = $this->db->trans_rollback();
+        	return false;
+ 		}else{
+ 			$msg = $this->db->trans_commit();
+ 			return $id;
+ 		}
+	}
+
+	function get_relacionDocto($id)
+	{
+		$query = $this->db->query("SELECT *  FROM relacion_docto inner join factura on factura.uuid = relacion_docto.uuid where relacion_docto.ref_preventa = $id"); 
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_recibosPagos($id)
+	{
+		$query = $this->db->query("SELECT * FROM factura inner join factura_docto on factura_docto.ref_factura = factura.id_factura inner join documento on documento.id_docto = factura_docto.ref_docto ORDER BY documento.id_docto desc limit 1"); 
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
 }
 ?>

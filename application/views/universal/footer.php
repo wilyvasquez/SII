@@ -38,6 +38,7 @@
 <script src="<?= base_url() ?>assets/js/inventario/funcion_inventario.js"></script>
 <script src="<?= base_url() ?>assets/js/sucursales/sucursales.js"></script>
 <script src="<?= base_url() ?>assets/js/ncredito/nota_credito.js"></script>
+<script src="<?= base_url() ?>assets/js/pre_pagos/recibos_pagos.js"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="<?= base_url() ?>dist/js/demo.js"></script> -->
 <!-- page script -->

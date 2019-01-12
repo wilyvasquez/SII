@@ -1,22 +1,13 @@
 <!-- VISTA DE FACTURA -->
 <div class="row">
   <div class="col-md-4">
-    <?= $articulo ?>   
+    <?= $articulo ?>
   </div>
   <div class="col-md-8">
-    <?= $tarticulos ?>
+    <?= $tdoctos ?>
   </div>
   <div class="row"></div>
   <div class="col-md-4">
     <?= $precios ?>   
   </div>
-  <div class="col-md-8">
-    <?= $tuuid ?>
-  </div>
-</div>
-<div>
-  <?= $marticulo ?>
-  <?= $mearticulo ?>
-  <?= $mtimbrar ?>
-  <?= $meuuid ?>
 </div>

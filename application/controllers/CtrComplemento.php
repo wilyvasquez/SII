@@ -7,16 +7,47 @@ class CtrComplemento extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('Facturapi');
-        $this->facturas = 'assets/pdf/complementos/';
-        // $this->load->model('Modelo_cliente');
-        // $this->load->model('Modelo_sucursal');
-        // $this->load->model('Modelo_articulos');
-        // $this->load->model('Modelo_inventario');
-        // $this->load->model('Modelo_timbrado');
-        // $this->load->model('Modelo_sat');
+        $this->facturas = 'assets/pdf/facturas/';
+        $this->load->model('Modelo_cliente');
+        $this->load->model('Modelo_sucursal');
+        $this->load->model('Modelo_articulos');
+        $this->load->model('Modelo_inventario');
+        $this->load->model('Modelo_timbrado');
+        $this->load->model('Modelo_sat');
     }
 
-    public function complemento()
+    public function timbrado()
+    {
+        /*
+        Datos POST
+         */
+        $preventa   = $this->input->post("ids");
+        $id_cliente = $this->input->post("id_cliente");
+        $fecha      = $this->input->post("fecha");
+
+        $preventa   = 48;
+        $id_cliente  = 110;
+        /**
+         * Consultas productos y datos clientes
+         */
+        $datos   = $this->Modelo_timbrado->get_relacionDocto($preventa);
+        $cliente = $this->Modelo_cliente->get_cliente($id_cliente);
+        // $uuid    = $this->Modelo_timbrado->get_relacion($preventa);
+        /**
+         * comprobamos si tiene relaciones con otras facturas
+         */
+        // $referencia = $cliente->relacion_uuid;
+            $this->complemento($cliente,$datos,$fecha);
+        // if ($datos != false) 
+        // {  
+        // }else{
+        //     $peticion = false;
+        //     $uuid = "";
+        //     echo json_encode($this->resultado($peticion,$uuid));
+        // }
+    }
+
+    public function complemento($cliente,$datos,$fecha)
     {
         # llenamos los datos de nuestro CFDI
         # crearemos un xml de prueba
@@ -30,10 +61,10 @@ class CtrComplemento extends CI_Controller {
         $d['Moneda']            = 'XXX';
         $d['Total']             = '0';
         $d['TipoDeComprobante'] = 'P';
-        $d['LugarExpedicion']   = '67150';
+        $d['LugarExpedicion']   = '68130';
 
         # opciones de personalización (opcionales)
-        $d['LeyendaFolio']      = "NOTA DE CREDITO"; # leyenda opcional para poner a lado del folio: FACTURA, RECIBO, NOTA DE CREDITO, ETC.
+        $d['LeyendaFolio']      = "RECIBO DE PAGO"; # leyenda opcional para poner a lado del folio: FACTURA, RECIBO, NOTA DE CREDITO, ETC.
 
         # Regimen fiscal del emisor ligado al tipo de operaciones que representa este CFDI
         $d['Emisor']['RegimenFiscal'] = '612'; # ver catálogo del SAT
@@ -43,7 +74,7 @@ class CtrComplemento extends CI_Controller {
         $d['Receptor']['Nombre']           = $cliente->cliente;
         $d['Receptor']['ResidenciaFiscal'] = null; # solo se usa cuando el receptor no esté dado de alta en el SAT
         $d['Receptor']['NumRegIdTrib']     = null; # para extranjeros
-        $d['Receptor']['UsoCFDI']          = $cliente->uso_cfdi; # uso que le dará el cliente al cfdi
+        $d['Receptor']['UsoCFDI']          = "P01"; # uso que le dará el cliente al cfdi
 
 
         # Receptor -> Domicilio (OPCIONAL)
@@ -58,9 +89,9 @@ class CtrComplemento extends CI_Controller {
 
         # Inicia definición de conceptos
         # Conceptos --> concepto #1
-        $d['Conceptos'][0]['ClaveProdServ'] = $articulo->codigo_sat;
+        $d['Conceptos'][0]['ClaveProdServ'] = "84111506";
         $d['Conceptos'][0]['Cantidad']      = "1";
-        $d['Conceptos'][0]['ClaveUnidad']   = $articulo->clave_sat; # Clave SAT
+        $d['Conceptos'][0]['ClaveUnidad']   = "ACT"; # Clave SAT
         $d['Conceptos'][0]['Descripcion']   = 'Pago'; #maximo 1000 caracteres
         $d['Conceptos'][0]['ValorUnitario'] = '0';
         $d['Conceptos'][0]['Importe']       = '0';
@@ -69,46 +100,43 @@ class CtrComplemento extends CI_Controller {
 
         # Inicia Complemento de Recepcion de Pagos
         # PAGO 1:
-        $d['Complemento']['Pagos'][0]['FechaPago'] = "2017-11-09T12:00:00"; # ver Fecha Pago
-        $d['Complemento']['Pagos'][0]['FormaDePagoP'] = $cliente->ref_formapago;  # ver catálogo  c_FormaPago
-        $d['Complemento']['Pagos'][0]['MonedaP'] = 'MXN';
-        // $d['Complemento']['Pagos'][0]['TipoCambioP'] = ''; # opcional
-        $d['Complemento']['Pagos'][0]['Monto'] = '9500.00';
-        // $d['Complemento']['Pagos'][0]['NumOperacion'] = ''; # opcional
+        $d['Complemento']['Pagos'][0]['FechaPago']          = $fecha; # ver Fecha Pago
+        $d['Complemento']['Pagos'][0]['FormaDePagoP']       = $cliente->ref_formapago;  # ver catálogo  c_FormaPago
+        $d['Complemento']['Pagos'][0]['MonedaP']            = 'MXN';
+        // $d['Complemento']['Pagos'][0]['TipoCambioP']     = ''; # opcional
+        // $d['Complemento']['Pagos'][0]['Monto']              = number_format($total,2);
+        // $d['Complemento']['Pagos'][0]['NumOperacion']    = ''; # opcional
         // $d['Complemento']['Pagos'][0]['RfcEmisorCtaOrd'] = ''; # opcional
-        // $d['Complemento']['Pagos'][0]['NomBancoOrdExt'] = ''; # opcional
-        // $d['Complemento']['Pagos'][0]['CtaOrdenante'] = ''; # opcional
+        // $d['Complemento']['Pagos'][0]['NomBancoOrdExt']  = ''; # opcional
+        // $d['Complemento']['Pagos'][0]['CtaOrdenante']    = ''; # opcional
         // $d['Complemento']['Pagos'][0]['RfcEmisorCtaBen'] = ''; # opcional
         // $d['Complemento']['Pagos'][0]['CtaBeneficiario'] = ''; # opcional
-        // $d['Complemento']['Pagos'][0]['TipoCadPago'] = ''; # opcional
-        // $d['Complemento']['Pagos'][0]['CertPago'] = ''; # opcional
-        // $d['Complemento']['Pagos'][0]['CadPago'] = ''; # opcional
-        // $d['Complemento']['Pagos'][0]['SelloPago'] = ''; # opcional
+        // $d['Complemento']['Pagos'][0]['TipoCadPago']     = ''; # opcional
+        // $d['Complemento']['Pagos'][0]['CertPago']        = ''; # opcional
+        // $d['Complemento']['Pagos'][0]['CadPago']         = ''; # opcional
+        // $d['Complemento']['Pagos'][0]['SelloPago']       = ''; # opcional
 
         # complemento pagos --> documentos relacionados
         # PAGO 1 --> DOCUMENTO RELACIONADO 1
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['IdDocumento'] = "31FBF471-DCFD-46A5-B235-CADD520A9CC0"; # UUID documento 
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['Serie'] = "A";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['Folio'] = "23205";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['MonedaDR'] = "MXN"; 
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['TipoCambioDR'] = "";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['MetodoDePagoDR'] = "PUE";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['NumParcialidad'] = "1";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['ImpSaldoAnt'] = "2499.80"; # ultimo saldo (antes de recibir este pago)
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['ImpPagado'] = "100.00"; # importe pagado
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][0]['ImpSaldoInsoluto'] = "2399.80"; # saldo restante despues de haber recibido este pago
-
-        # PAGO 1 --> DOCUMENTO RELACIONADO 2
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['IdDocumento'] = "31FBF471-DCFD-46A5-B235-CADD520A9CC0"; # UUID documento
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['Serie'] = "A";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['Folio'] = "23225";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['MonedaDR'] = "MXN"; 
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['TipoCambioDR'] = "";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['MetodoDePagoDR'] = "PUE";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['NumParcialidad'] = "2";
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['ImpSaldoAnt'] = "2499.80"; # ultimo saldo (antes de recibir este pago)
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['ImpPagado'] = "100.00"; # importe pagado
-        $d['Complemento']['Pagos'][0]['DoctoRelacionado'][1]['ImpSaldoInsoluto'] = "2399.80"; # saldo restante despues de haber recibido este pago
+        if (!empty($datos)) {
+        $i = 0;
+        $total = 0;
+        foreach ($datos ->result() as $articulo) {
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['IdDocumento']      = $articulo->uuid; # UUID documento 
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['Serie']            = "RO";
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['Folio']            = $articulo->folio;
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['MonedaDR']         = "MXN"; 
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['TipoCambioDR']     = "";
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['MetodoDePagoDR']   = $articulo->metodo_pago;
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['NumParcialidad']   = $articulo->parcialidad;
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpSaldoAnt']      = $articulo->total_factura; # ultimo saldo (antes de recibir este pago)
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpPagado']        = $articulo->monto; # importe pagado
+            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpSaldoInsoluto'] = $articulo->total_factura - $articulo->monto; # saldo restante despues de haber recibido este pago
+            $i++;
+            $total = $total + $articulo->monto;
+            }
+            $d['Complemento']['Pagos'][0]['Monto'] = number_format($total,2);
+        }
 
         # PAGO 1 --> IMPUESTOS
         #$d['Complemento']['Pagos'][0]['Impuestos']['TotalImpuestosRetenidos'] = "50.00";

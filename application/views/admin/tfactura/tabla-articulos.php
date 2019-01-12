@@ -6,11 +6,7 @@
         Menu <span class="caret"></span>
       </a>
       <ul class="dropdown-menu" style="border-color: #67A6E5">
-        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="../icredito/1">Informacion del Credito</a></li> -->
-        <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Generar Reporte</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Ver Graficas</a></li>
         <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Editar Pre-Factura</a></li>
-        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Actualizar fecha</a></li> -->
         <li role="presentation" class="divider"></li>
         <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Informacion del Cliente</a></li>
       </ul>
@@ -55,9 +51,4 @@
       <?php } } ?>
     </table>
   </div>
-  <!-- <div class="box-footer">
-    <button type="submit" class="btn btn-danger btn-sm pull-left">Cancelar Timbrado</button>
-    <button type="submit" class="btn btn-primary btn-sm pull-right">Timbrar</button>
-  </div> -->
-  <!-- /.box-body -->
 </div>

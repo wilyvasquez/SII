@@ -67,7 +67,7 @@ class CtrTimbrarCredito extends CI_Controller {
         $d['LugarExpedicion'] 	= '68130';
 
         # opciones de personalización (opcionales)
-        $d['LeyendaFolio'] 		= "FACTURA"; # leyenda opcional para poner a lado del folio: FACTURA, RECIBO, NOTA DE CREDITO, ETC.
+        $d['LeyendaFolio'] 		= "NOTA DE CREDITO"; # leyenda opcional para poner a lado del folio: FACTURA, RECIBO, NOTA DE CREDITO, ETC.
 
         # codigo de confirmación PAC para cfdis mayores a $20 millones
 		$d['Confirmacion'] = null;
@@ -75,7 +75,7 @@ class CtrTimbrarCredito extends CI_Controller {
 		# CFDIs relacionados
 		$d['CfdiRelacionadosTipoRelacion'] 		= '01'; # c_TipoRelacion (Catálogo SAT)
 		if (!empty($uuid)) {
-			$j = 0;
+		$j = 0;
         foreach ($uuid ->result() as $uuids) {
 			$d['CfdiRelacionados'][$j]['UUID'] 		= $uuids->uuid;
 			$j++;

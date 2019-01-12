@@ -1,6 +1,7 @@
 <div class="box box-primary">
   <div class="box-header with-border">
     <h3 class="box-title">Agregar Articulo</h3>
+    <button class="btn btn-xs pull-right btn-primary" data-toggle="modal" data-target=".timbrar">Vincular UUID</button>
   </div>
   <!-- /.box-header -->
   <!-- form start -->
@@ -19,7 +20,7 @@
         </div>
         <div class="form-group col-md-6">
           <label for="costo" style="font-weight: normal;">Costo</label>
-          <input type="text" class="form-control" id="costo" name="costo" placeholder="0.00" min="1" required step="any" onfocus = "this.blur()">
+          <input type="text" class="form-control" id="costo" name="costo" placeholder="0.00" min="1" required step="any">
           <input type="hidden" class="form-control" id="ids" name="ids" value="<?= $id ?>" required>
           <input type="hidden" class="form-control" id="id_cliente" name="id_cliente" value="<?= $icliente->id_cliente ?>" required>
         </div>                      

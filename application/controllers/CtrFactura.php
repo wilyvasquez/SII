@@ -26,15 +26,16 @@ class CtrFactura extends CI_Controller {
         /**
          * Consultas productos y datos clientes
          */
-        $datos      = $this->Modelo_timbrado->productos_timbrar($preventa);
-        $cliente    = $this->Modelo_cliente->get_cliente($id_cliente);
+        $datos   = $this->Modelo_timbrado->productos_timbrar($preventa);
+        $cliente = $this->Modelo_cliente->get_cliente($id_cliente);
+        $uuid    = $this->Modelo_timbrado->get_relacion($preventa);
         /**
          * comprobamos si tiene relaciones con otras facturas
          */
         // $referencia = $cliente->relacion_uuid;
         if ($datos != false) 
         {  
-            $this->factura($preventa,$id_cliente,$datos,$cliente);
+            $this->factura($preventa,$id_cliente,$datos,$cliente,$uuid);
         }else{
             $peticion = false;
             $uuid = "";
@@ -42,7 +43,7 @@ class CtrFactura extends CI_Controller {
         }
     }
 
-    function factura($preventa,$id_cliente,$datos,$cliente)
+    function factura($preventa,$id_cliente,$datos,$cliente,$uuid)
     {
         $d = array();
         # datos basicos SAT
@@ -58,6 +59,19 @@ class CtrFactura extends CI_Controller {
 
         # opciones de personalización (opcionales)
         $d['LeyendaFolio'] 		= "FACTURA"; # leyenda opcional para poner a lado del folio: FACTURA, RECIBO, NOTA DE CREDITO, ETC.
+
+        # codigo de confirmación PAC para cfdis mayores a $20 millones
+        $d['Confirmacion'] = null;
+
+        # CFDIs relacionados
+        if (!empty($uuid)) {
+        $d['CfdiRelacionadosTipoRelacion']      = '01'; # c_TipoRelacion (Catálogo SAT)
+        $j = 0;
+        foreach ($uuid ->result() as $uuids) {
+            $d['CfdiRelacionados'][$j]['UUID']      = $uuids->uuid;
+            $j++;
+            } 
+        }
 
         # Regimen fiscal del emisor ligado al tipo de operaciones que representa este CFDI
         $d['Emisor']['RegimenFiscal'] = '612'; # ver catálogo del SAT
@@ -153,7 +167,9 @@ class CtrFactura extends CI_Controller {
 
         if (!empty($uuid)) 
         {
-            echo $msg = $this->agregar_articulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML);
+            $peticion = true;
+            echo json_encode($this->resultado($peticion,$uuid));
+            // echo $msg = $this->agregar_articulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML);
         }
 
         # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:
@@ -177,7 +193,7 @@ class CtrFactura extends CI_Controller {
         return $result;
     }
 
-    function agregar_articulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML)
+    function agregar_articulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML,$total)
     {
         $data = array(
             'estatus_preventa' => 'timbrado', 
@@ -188,13 +204,15 @@ class CtrFactura extends CI_Controller {
 
         $datos = array(                 
             'uuid'             => $uuid,
+            'total_factura'    => $total,
             'pdf'              => $url_PDF,
             'xml    '          => $url_XML,
             'fecha_timbrado'   => date("Y-m-d H:i:s"), 
             'uso_cfdi'         => $factura->ref_usocfdi,
             'certificado'      => $certificado, 
             'certificado_sat'  => $certificado_sat, 
-            'serie_folio'      => 1,
+            'serie'            => 'F',
+            'folio'            => 1,
             'tipo_comprobante' => "I",
             'condicion_pago'   => $factura->condicion_pago,
             'metodo_pago'      => $factura->ref_metodopago,
