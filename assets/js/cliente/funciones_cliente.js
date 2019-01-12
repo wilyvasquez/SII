@@ -9,7 +9,7 @@ $(function(){
     var formData = new FormData(document.getElementById("addcliente"));
     formData.append("dato", "valor");
     $.ajax({
-        url: "CtrAdmin/agregar_cliente",
+        url: "CtrClientes/agregar_cliente",
         type: "post",
         dataType: "html",
         data: formData,
@@ -21,7 +21,7 @@ $(function(){
         var json = $.parseJSON(res);
         $("#add-cliente").html(json.msg).delay(2000).hide(0);
         $.ajax({
-          url: "CtrAdmin/"+json.url,
+          url: "CtrClientes/"+json.url,
           type: "post",
           dataType: "html",
           data: null,

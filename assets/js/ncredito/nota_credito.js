@@ -93,7 +93,7 @@ $(function(){
       "id_cliente"  : id_cliente,
     };
     $.ajax({
-      url: "../CtrTimbrarCredito/timbrado",
+      url: "../CtrTimbrarNotaCredito/timbrado",
       type: "post",
       dataType: "html",
       data: par,

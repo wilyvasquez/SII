@@ -16,6 +16,53 @@ class CtrInventario extends CI_Controller {
         $this->load->model('Modelo_sat');
     }
 
+    public function inventario()
+    {
+        $data["inventario"] = "active";
+        $data["title"]      = "Articulos";
+        $data["subtitle"]   = "Alta de inventario";
+        $data["contenido"]  = "admin/inventario/inventario";
+        $data["menu"]       = "admin/menu_admin";
+        $data['clave']      = $this->Modelo_sat->get_claveSat();
+        $data['articulos']  = $this->Modelo_articulos->get_articulos();
+        $data['marcas']     = $this->Modelo_inventario->get_marca();
+        $data['lineas']     = $this->Modelo_inventario->get_linea();
+        $data['fabricantes']= $this->Modelo_inventario->get_fabricante();
+        $data["modal_f"]    = $this->load->view('admin/inventario/modal/modal-fabricante',null,true);
+        $data["modal_l"]    = $this->load->view('admin/inventario/modal/modal-linea',null,true);
+        $data["modal_m"]    = $this->load->view('admin/inventario/modal/modal-marca',null,true);
+        $this->load->view('universal/plantilla',$data);
+    }
+
+    public function put_inventario()
+    {
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $id_clave = $this->input->post("unidad");
+            $clave    = $this->Modelo_sat->get_clave($id_clave);
+
+            $data = array(
+                'articulo'         => $this->input->post("articulo"),
+                'codigo_sat'       => $this->input->post("clave"),
+                'descripcion'      => $this->input->post("descripcion"),
+                'costo'            => $this->input->post("costo"),
+                'unidad'           => $clave->clave,
+                'clave_sat'        => $clave->c_ClaveUnidad,
+                'codigo_interno'   => $this->input->post("codigoi"),
+                'cantidad'         => $this->input->post("cantidad"),
+                'estatus_articulo' => "Activo",
+                'ref_marca'        => $this->input->post("marca"),
+                'ref_linea'        => $this->input->post("linea"),
+                'ref_fabricante'   => $this->input->post("fabricante"),
+                );
+            $url = "";
+            $peticion = $this->Modelo_inventario->put_inventario($data);
+            echo json_encode($this->resultado($peticion,$url));
+        }
+    }
+
     public function agregar_marca()
     {
         $data = array(

@@ -1,6 +1,6 @@
 <!-- VISTA DE FACTURA -->
 <div class="row">
-  <form id="addpreventa">
+  <form id="generarPreFactura">
     <div class="col-md-6">
       <?php if (!empty($info)) { echo $info; }?>
     </div>

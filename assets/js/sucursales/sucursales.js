@@ -9,7 +9,7 @@ $(function(){
     var formData = new FormData(document.getElementById("addsucursales"));
     formData.append("dato", "valor");
     $.ajax({
-        url: "CtrAdmin/agregar_sucursal",
+        url: "CtrSucursal/agregar_sucursal",
         type: "post",
         dataType: "html",
         data: formData,
@@ -21,7 +21,7 @@ $(function(){
         var json = $.parseJSON(res);
         $("#ntf-sucursal").html(json.msg).delay(2000).hide(0);
         $.ajax({
-          url: "CtrAdmin/"+json.url,
+          url: "CtrSucursal/"+json.url,
           type: "post",
           dataType: "html",
           data: null,

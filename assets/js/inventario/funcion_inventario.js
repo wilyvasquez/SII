@@ -9,7 +9,7 @@ $(function(){
     var formData = new FormData(document.getElementById("addinventario"));
     formData.append("dato", "valor");
     $.ajax({
-        url: "CtrAdmin/put_inventario",
+        url: "CtrInventario/put_inventario",
         type: "post",
         dataType: "html",
         data: formData,
@@ -22,7 +22,7 @@ $(function(){
         var json = $.parseJSON(res);
         $("#ntf-cliente").html(json.msg).delay(2000).hide(0);
         // $.ajax({
-        //   url: "CtrAdmin/"+json.url,
+        //   url: "CtrFactura/"+json.url,
         //   type: "post",
         //   dataType: "html",
         //   data: null,

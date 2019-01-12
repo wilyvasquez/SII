@@ -1,8 +1,7 @@
 /**
- * Funcion que seleccionamos si queremos relacionar uuid con otros
- * @return {HTML}     mostramos uuid disponibles del cliente
+ * ESTA FUNCION ESTA PENDIENTE DE SI SE ESTA UTILIZANDO O SE QUITARA
  */
-function uuid_relacion()
+/*function uuid_relacion()
 {
   var relacionar = document.getElementById('relacionar').value;
   $('#btn-relacion').attr("disabled", true);
@@ -16,20 +15,21 @@ function uuid_relacion()
   };
   $.ajax({
     data: par,
-    url: "CtrAdmin/ajax_cliente_uuid",
+    url: "CtrFactura/ajax_cliente_uuid",
     type: "post",
   })
   .done(function(response){
     $("#uuid_relacion").html(response);        
   });  
-}
+}*/
 /**
- * 
+ * ESTA FUNCION ESTA PENDIENTE DE SI SE ESTA UTILIZANDO O SE QUITARA
  */
-function agregar_relacion()
+/*function agregar_relacion()
 {
   var cfdi      = document.getElementById('cfdi_r').value;
   var trelacion = document.getElementById('trelacion').value;
+  console.log("FUNCION AGREGAR RELACION");
   if (cfdi.length > 0 && trelacion.length > 0) 
   {
     console.log(cfdi);
@@ -40,7 +40,7 @@ function agregar_relacion()
     };
     $.ajax({
       data: par,
-      url: "CtrAdmin/ajax_agregar_relacion",
+      url: "CtrFactura/ajax_agregar_relacion",
       type: "post",
     })
     .done(function(response){
@@ -53,19 +53,17 @@ function agregar_relacion()
       $("#ntf-error").html("").delay(0).show(0);
     },1000);
   }
-}
-/**
- * Funcion que agrega un nuevo articulo en el apartado de articulos
- * @return {HTML}     regresando el ajax de la tabla y la notificacion
- */
+}*/
+
+// FUNCION QUE DA DE ALTA LA PRE FACTURA (MENU FACTURA)
 $(function(){
-  $("#addpreventa").on("submit", function(e){
+  $("#generarPreFactura").on("submit", function(e){
     e.preventDefault();
     var f = $(this);
-    var formData = new FormData(document.getElementById("addpreventa"));
+    var formData = new FormData(document.getElementById("generarPreFactura"));
     // formData.append("dato", "valor");
     $.ajax({
-      url: "CtrAdmin/push_prefactura",
+      url: "CtrFactura/push_prefactura",
       type: "post",
       dataType: "html",
       data: formData,
@@ -80,17 +78,15 @@ $(function(){
   });
 });
 
-/**
- * Funcion que elimina un uuid de la tabla de relaciones
- * @return {HTML}     regresando el ajax de la tabla y la notificacion
- */
+// FUNCION EN FUNCIONAMIENTO PARA ELIMINAR RELACCION UUID (POSIBLE MOVERLO)
 $(function(){
   $("#deleteuuid").on("submit", function(e){
     e.preventDefault();
+    console.log("ELIMINAR UUIDD");
     var formData = new FormData(document.getElementById("deleteuuid"));
     // formData.append("dato", "valor");
     $.ajax({
-      url: "../CtrAdmin/delete_uuid",
+      url: "../CtrUniversal/delete_uuid",
       type: "post",
       dataType: "html",
       data: formData,

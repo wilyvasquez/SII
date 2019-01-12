@@ -1,21 +1,17 @@
-/**
- * Funcion que agrega un nuevo articulo en el apartado de articulos para timbrado
- * @return {HTML}     regresando el ajax de la tabla y la notificacion
- */
+// Funcion que agrega un nuevo articulo en el apartado de articulos para timbrado Factura y nota de credito
 $(function(){
-  $("#addarticulo").on("submit", function(e){
+  $("#agregar_articulo").on("submit", function(e){
     e.preventDefault();
     $('#btn-articulo').attr("disabled", true);
-    console.log("AGREGAR ARTICULO");
-    var f = $(this);
-    var formData = new FormData(document.getElementById("addarticulo"));
+    console.log("AGREGAR ARTICULO FACTURA, NOTA DE CREDITO");
+    var formData = new FormData(document.getElementById("agregar_articulo"));
     ids = document.getElementById('ids').value;
     par =
     {
       "ids" : ids
     }
     $.ajax({
-      url: "../CtrAdmin/push_articulo",
+      url: "../CtrUniversal/push_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -31,9 +27,7 @@ $(function(){
     });
   });
 });
-/**
- * FIN
- */
+////////////////////////////////////////////////////////////////////////////////
 
 $(document).on("click", ".open-Modal", function () {
   var venta = $(this).data('venta');
@@ -42,7 +36,6 @@ $(document).on("click", ".open-Modal", function () {
 
 /**
  * Funcion que valida el timbrado para generar la factura 
- * @return {HTML}     regresando el link para la factura y el success
  */
 $(function(){
   $("#timbrar").on("submit", function(e){
@@ -57,7 +50,7 @@ $(function(){
       "id_cliente"  : id_cliente,
     };
     $.ajax({
-      url: "../CtrFactura/timbrado",
+      url: "../CtrTimbrarFactura/timbrado",
       type: "post",
       dataType: "html",
       data: par,
@@ -92,7 +85,7 @@ function valorUnitario()
     "codigo"  : codigo,
   };
   $.ajax({
-    url: "../CtrAdmin/get_valorUnitario",
+    url: "../CtrFactura/get_valorUnitario",
     type: "post",
     dataType: "html",
     data: par,
@@ -119,7 +112,7 @@ function importe()
     "costo"   : costo,
   };
   $.ajax({
-      url: "../CtrAdmin/get_importe",
+      url: "../CtrFactura/get_importe",
       type: "post",
       dataType: "html",
       data: par,
@@ -184,7 +177,7 @@ $(function(){
       "ids" : ids
     }
     $.ajax({
-      url: "../CtrAdmin/eliminar_articulo",
+      url: "../CtrFactura/eliminar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -217,7 +210,7 @@ $(function(){
       "ids" : ids
     }
     $.ajax({
-      url: "../CtrAdmin/editar_articulo",
+      url: "../CtrFactura/editar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -242,7 +235,7 @@ function ajax_precios(par)
 {
   console.log("AJAX PRECIOS");
   $.ajax({
-    url: "../CtrAdmin/ajax_precios",
+    url: "../CtrFactura/ajax_precios",
     type: "post",
     dataType: "html",
     data: par,
@@ -256,7 +249,7 @@ function ajax_tarticulos(json,par)
 {
   console.log("AJAX TABLA ARTICULOS");
   $.ajax({
-    url: "../CtrAdmin/"+json.url,
+    url: "../CtrUniversal/"+json.url,
     type: "post",
     dataType: "html",
     data: par,

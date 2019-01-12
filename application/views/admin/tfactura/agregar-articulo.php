@@ -5,7 +5,7 @@
   </div>
   <!-- /.box-header -->
   <!-- form start -->
-  <form role="form" id="addarticulo">
+  <form role="form" id="agregar_articulo">
     <div class="box-body">
       <div class="row">
         <div class="form-group col-md-6">

@@ -70,7 +70,7 @@ $(function(){
       "fecha"  : fecha,
     };
     $.ajax({
-      url: "../CtrComplemento/timbrado",
+      url: "../CtrTimbrarReciboPago/timbrado",
       type: "post",
       dataType: "html",
       data: par,

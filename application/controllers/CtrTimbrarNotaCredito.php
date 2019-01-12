@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CtrTimbrarCredito extends CI_Controller {
+class CtrTimbrarNotaCredito extends CI_Controller {
 
     public function __construct()
     {
