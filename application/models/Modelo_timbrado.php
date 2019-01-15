@@ -9,22 +9,18 @@ class Modelo_timbrado extends CI_Model
 
 	function put_preventa($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('pre_venta', $datos);
-		$id = $this->db->insert_id();
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return $id;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }else {
+            return false;
+        }
 	}
 
-	function get_timbrar($preventa)
+	function get_timbrar($id)
 	{
-		$query = $this->db->query("SELECT * from pre_venta where id_preventa = $preventa");
+		$query = $this->db->get_where('pre_venta', array('id_preventa' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -32,9 +28,13 @@ class Modelo_timbrado extends CI_Model
 		}
 	}
 
-	function productos_timbrar($preventa)
+	function get_productosTimbrar($num)
 	{
-		$query = $this->db->query("SELECT * from pre_venta inner join articulo_preventa on articulo_preventa.ref_pre_venta = pre_venta.id_preventa inner join articulo on articulo.id_articulo = articulo_preventa.ref_articulo where pre_venta.id_preventa = $preventa");
+		$this->db->select("*")->from("pre_venta");
+		$this->db->join('articulo_preventa', 'articulo_preventa.ref_preventa = pre_venta.id_preventa', 'inner');
+		$this->db->join('articulo', 'articulo.id_articulo = articulo_preventa.ref_articulo', 'inner');
+		$this->db->where('pre_venta.id_preventa', $num);
+		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 
@@ -44,7 +44,9 @@ class Modelo_timbrado extends CI_Model
 
 	function get_codigo()
 	{
-		$query = $this->db->query("SELECT * from pre_venta ORDER BY id_preventa desc limit 1");
+		$this->db->order_by("id_preventa", "desc");
+		$this->db->limit(1);
+		$query = $this->db->get('pre_venta');
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -54,7 +56,7 @@ class Modelo_timbrado extends CI_Model
 
 	function get_importe($id)
 	{
-		$query = $this->db->query("SELECT * from articulo where id_articulo = $id");
+		$query = $this->db->get_where('articulo', array('id_articulo' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -62,21 +64,31 @@ class Modelo_timbrado extends CI_Model
 		}
 	}
 
-	function update_preventa($id,$data)
+	function up_articuloTimbrado($id,$data)
 	{
-		$this->db->where('id_apreventa', $id);
-		$this->db->update('articulo_preventa',$data); 
+		// $this->db->where('id_apreventa', $id);
+		// $this->db->update('articulo_preventa',$data); 
+		$this->db->set($data)->where("id_apreventa", $id)->update("articulo_preventa");
+		if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
 	}
 
-	function update_pre_venta($id,$data)
+	/*function update_pre_venta($id,$data)
 	{
-		$this->db->where('id_preventa', $id);
-		$this->db->update('pre_venta',$data); 
-	}
+		$this->db->set($data)->where("id_preventa", $id)->update("pre_venta");
+		if ($this->db->trans_status() === true) {
+            return true;
+        } else {
+            return null;
+        }
+	}*/
 
 	function validacion($id)
 	{
-		$query = $this->db->query("SELECT *  FROM pre_venta where id_preventa = $id"); 
+		$query = $this->db->get_where('pre_venta', array('id_preventa' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -84,34 +96,40 @@ class Modelo_timbrado extends CI_Model
 		}
 	}
 
-	function borrar_preventa($id){
-		$this->db->where('id_preventa', $id);
-		$this->db->delete('pre_venta'); 
+	function borrar_preventa($id)
+	{
+		$this->db->where("id_preventa", $id)->delete("pre_venta");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
 	}
 
-	function borrar_apreventa($id)
+	function borrar_articulosPreventa($id)
 	{
-		$this->db->where('ref_pre_venta', $id);
-		$this->db->delete('articulo_preventa'); 
+		$this->db->where("ref_pre_venta", $id)->delete("articulo_preventa");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
+ 
 	}
 
 	function put_relacion($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('relacion_uuid', $datos);
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return true;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            return true;
+        }else{
+            return false;
+        }
 	}
 
 	function get_relacion($id)
 	{
-		$query = $this->db->query("SELECT *  FROM relacion_uuid where ref_preventa = $id"); 
+		$query = $this->db->get_where('relacion_uuid', array('ref_preventa' => $id));
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 
@@ -119,39 +137,53 @@ class Modelo_timbrado extends CI_Model
 		}
 	}
 
-	function delete_relacion($id){
-		$this->db->where('id_relacion', $id);
-		$this->db->delete('relacion_uuid'); 
+	function delete_relacion($id)
+	{
+		$this->db->where("id_relacion", $id)->delete("relacion_uuid");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
 	}
 
-	function delete_uuid($id){
-		$this->db->where('ref_preventa', $id);
-		$this->db->delete('relacion_uuid'); 
+	function delete_uuid($id)
+	{
+		$this->db->where("ref_preventa", $id)->delete("relacion_uuid");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
 	}
 
-	function delete_relacionDocto($id){
-		$this->db->where('id_rdocto', $id);
-		$this->db->delete('relacion_docto'); 
+	function delete_relacionDocto($id)
+	{
+		$this->db->where("id_rdocto", $id)->delete("relacion_docto");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
 	}
 
 	function put_documento($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('relacion_docto', $datos);
-		$id = $this->db->insert_id();
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return $id;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }else{
+            return false;
+        }
 	}
 
 	function get_relacionDocto($id)
 	{
-		$query = $this->db->query("SELECT *  FROM relacion_docto inner join factura on factura.uuid = relacion_docto.uuid where relacion_docto.ref_preventa = $id"); 
+	    $this->db->select("*")->from("relacion_docto");
+		$this->db->join('factura', 'factura.uuid = relacion_docto.uuid', 'inner');
+		$this->db->where('relacion_docto.ref_preventa', $id);
+		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 
@@ -161,7 +193,7 @@ class Modelo_timbrado extends CI_Model
 
 	function get_factura($id)
 	{
-		$query = $this->db->query("SELECT *  FROM factura where uuid = '$id' "); 
+		$query = $this->db->get_where('factura', array('uuid' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -171,7 +203,12 @@ class Modelo_timbrado extends CI_Model
 
 	function get_recibosPagos($id)
 	{
-		$query = $this->db->query("SELECT * FROM factura inner join factura_docto on factura_docto.ref_factura = factura.id_factura inner join documento on documento.id_docto = factura_docto.ref_docto ORDER BY documento.id_docto desc limit 1"); 
+		$this->db->select("*")->from("factura");
+		$this->db->join('factura_docto', 'factura_docto.ref_factura = factura.id_factura', 'inner');
+		$this->db->join('documento', 'documento.id_docto = factura_docto.ref_docto', 'inner');
+		$this->db->order_by("documento.id_docto", "desc");
+		$this->db->limit(1);
+		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 

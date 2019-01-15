@@ -6,8 +6,7 @@ class CtrClientes extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('Facturapi');
-        $this->facturas = 'assets/pdf/facturas/';
+        $this->load->library('Funciones');
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');
         $this->load->model('Modelo_articulos');
@@ -65,7 +64,8 @@ class CtrClientes extends CI_Controller {
 				$url = 'ajax_scliente'; 
 			}
 			$peticion = $this->Modelo_cliente->put_cliente($datos);
-			echo json_encode($this->resultado($peticion,$url));
+			// echo json_encode($this->resultado($peticion,$url));
+			echo json_encode($this->funciones->resultado($peticion,$url));
 		}
 	}
 

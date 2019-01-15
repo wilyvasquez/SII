@@ -24,7 +24,16 @@
         </div>
     	  <div class="form-group">
   	      <label for="monto" style="font-weight: normal;">Monto</label>
-  	      <input type="number" class="form-control" id="monto" name="monto" placeholder="0.00" min="1" step="any" required>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-dollar"></i>
+                </div>
+                <input type="number" class="form-control" id="monto" name="monto" placeholder="0.00" min="1" step="any" required>
+              </div>
+            </div>          
+          </div>  	      
     	  </div> 
       <div id="ntf-cliente">
         

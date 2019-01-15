@@ -7,38 +7,35 @@ class Modelo_articulos extends CI_Model
 		$this->load->database();
 	}
 
-	function insert_venta($datos)
+	function insertarDatosTimbrado($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('factura', $datos);
-		$id = $this->db->insert_id();
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return $id;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }
+        else {
+            return false;
+        }
 	}
 
-	function insert_producto($datos)
+	function insertarProductoFacturado($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('articulo_facturado', $datos);
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return true;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
 	}
 
 	function get_articulo($id)
 	{
-		$query = $this->db->query("SELECT * from articulo_preventa inner join articulo on articulo.id_articulo = articulo_preventa.ref_articulo where ref_pre_venta = $id");
+		$this->db->select("*")->from("articulo_preventa");
+		$this->db->join('articulo', 'articulo.id_articulo = articulo_preventa.ref_articulo', 'inner');
+		$this->db->where('articulo_preventa.ref_preventa', $id);
+		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 
@@ -48,13 +45,19 @@ class Modelo_articulos extends CI_Model
 
 	function update_articulo($id,$data)
 	{
-		$this->db->where('id_articulo', $id);
-		$this->db->update('articulo',$data); 
+		/*$this->db->where('id_articulo', $id);
+		$this->db->update('articulo',$data); */
+		$this->db->set($data)->where("id_articulo", $id)->update("articulo");
+		if ($this->db->trans_status() === true) {
+            return true;
+        } else {
+            return null;
+        }
 	}
 
 	function get_articulosVenta($id)
 	{
-		$query=$this->db->query("SELECT *  FROM articulo_preventa where ref_pre_venta = $id"); 
+		$query = $this->db->get_where('articulo_preventa', array('ref_preventa' => $id));
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 
@@ -64,8 +67,12 @@ class Modelo_articulos extends CI_Model
 
 	function delete_articulo($id)
 	{
-		$this->db->where('id_apreventa', $id);
-		$this->db->delete('articulo_preventa'); 
+		$this->db->where("id_apreventa", $id)->delete("articulo_preventa");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
 	}
 
 	function get_articulos()
@@ -80,22 +87,19 @@ class Modelo_articulos extends CI_Model
 
 	function put_articulo($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('articulo_preventa', $datos);
-		$id = $this->db->insert_id();
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return $id;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }
+        else {
+            return false;
+        }
 	}
 
 	function obtener_articulo($id)
 	{
-		$query=$this->db->query("SELECT *  FROM articulo where id_articulo = $id"); 
+		$query = $this->db->get_where('articulo', array('id_articulo' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 

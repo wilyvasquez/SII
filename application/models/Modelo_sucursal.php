@@ -9,16 +9,13 @@ class Modelo_sucursal extends CI_Model
 
 	function put_sucursal($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('sucursal', $datos);
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return true;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
 	}
 
 	function get_sucursal()

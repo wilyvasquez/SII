@@ -7,6 +7,7 @@ class CtrTimbrarNotaCredito extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('Facturapi');
+        $this->load->library('Funciones');
         $this->facturas = 'assets/pdf/facturas/';
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');
@@ -26,7 +27,7 @@ class CtrTimbrarNotaCredito extends CI_Controller {
         /**
          * Consultas productos y datos clientes
          */
-		$datos   = $this->Modelo_timbrado->productos_timbrar($preventa);
+		$datos   = $this->Modelo_timbrado->get_productosTimbrar($preventa);
 		$cliente = $this->Modelo_cliente->get_cliente($id_cliente);
 		$uuid    = $this->Modelo_timbrado->get_relacion($preventa);
         /**
@@ -39,7 +40,9 @@ class CtrTimbrarNotaCredito extends CI_Controller {
         }else{
             $peticion = false;
             $uuid = "";
-            echo json_encode($this->resultado($peticion,$uuid));
+            $msg = "Error, elementos vacios";
+            // echo json_encode($this->resultado($peticion,$uuid));
+            echo json_encode($this->funciones->resultado_timbrado($peticion,$uuid,$msg));
         }
     }
 
@@ -49,7 +52,7 @@ class CtrTimbrarNotaCredito extends CI_Controller {
     	// $preventa   = 25;
      //    $id_cliente = 107;
 
-  //   	$datos   = $this->Modelo_timbrado->productos_timbrar($preventa);
+  //   	$datos   = $this->Modelo_timbrado->get_productosTimbrar($preventa);
 		// $cliente = $this->Modelo_cliente->get_cliente($id_cliente);
 		// $uuid    = $this->Modelo_timbrado->get_relacion($preventa);
         # llenamos los datos de nuestro CFDI
@@ -59,11 +62,11 @@ class CtrTimbrarNotaCredito extends CI_Controller {
         $d['Serie'] 			= 'F';
         $d['Folio'] 			= '987750';
         $d['Fecha'] 			= 'AUTO';
-        $d['FormaPago'] 		= $cliente->ref_formapago;
+        $d['FormaPago'] 		= $cliente->forma_pago;
         $d['CondicionesDePago'] = $cliente->condicion_pago;
 
         $d['TipoDeComprobante'] = 'E';
-        $d['MetodoPago'] 		= $cliente->ref_metodopago;
+        $d['MetodoPago'] 		= $cliente->metodo_pago;
         $d['LugarExpedicion'] 	= '68130';
 
         # opciones de personalización (opcionales)
@@ -106,7 +109,8 @@ class CtrTimbrarNotaCredito extends CI_Controller {
         $timporte  = 0;
         $i = 0;
         if (!empty($datos)) {
-        foreach ($datos ->result() as $articulo) {
+        foreach ($datos ->result() as $articulo) 
+        {
             # >> conceptos <<
             $cantidad = $articulo->cantidad_venta;
             $d['Conceptos'][$i]['ClaveProdServ']    = $articulo->codigo_sat;
@@ -179,7 +183,9 @@ class CtrTimbrarNotaCredito extends CI_Controller {
         //     echo $msg = $this->agregar_articulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML);
         // }
         $peticion = true;
-        echo json_encode($this->resultado($peticion,$uuid));
+        $msg = "";
+        // echo json_encode($this->resultado($peticion,$uuid));
+        echo json_encode($this->funciones->resultado_timbrado($peticion,$uuid,$msg));
 
         # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:
         copy($url_PDF,$ruta_destino . $uuid . ".pdf");

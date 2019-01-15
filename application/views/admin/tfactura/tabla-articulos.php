@@ -1,9 +1,9 @@
 <div class="box box-primary">
   <div class="box-header">
-    <h3 class="box-title">Articulos a facturar  - <strong><?= $icliente->cliente ?></strong></h3>
+    <h3 class="box-title">Articulos agregados</h3>
     <div class="dropdown pull-right" style="margin-right: 10px">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="text-decoration:none;color:black; font-size: 14px;">
-        Menu <span class="caret"></span>
+        Opciones <span class="caret"></span>
       </a>
       <ul class="dropdown-menu" style="border-color: #67A6E5">
         <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Editar Pre-Factura</a></li>

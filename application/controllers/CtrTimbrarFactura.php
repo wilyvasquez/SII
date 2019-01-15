@@ -7,6 +7,7 @@ class CtrTimbrarFactura extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('Facturapi');
+        $this->load->library('Funciones');
         $this->facturas = 'assets/pdf/facturas/';
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');
@@ -18,28 +19,26 @@ class CtrTimbrarFactura extends CI_Controller {
 
     public function timbrado()
     {
-        /*
-        Datos POST
-         */
+        # DATOS ENVIADOS POR POST
         $preventa   = $this->input->post("ids");
         $id_cliente = $this->input->post("id_cliente");
+
+        $preventa   = 89;
+        $id_cliente = 121;
         /**
          * Consultas productos y datos clientes
          */
-        $datos   = $this->Modelo_timbrado->productos_timbrar($preventa);
+        $datos   = $this->Modelo_timbrado->get_productosTimbrar($preventa);
         $cliente = $this->Modelo_cliente->get_cliente($id_cliente);
         $uuid    = $this->Modelo_timbrado->get_relacion($preventa);
-        /**
-         * comprobamos si tiene relaciones con otras facturas
-         */
-        // $referencia = $cliente->relacion_uuid;
         if ($datos != false) 
         {  
             $this->factura($preventa,$id_cliente,$datos,$cliente,$uuid);
         }else{
             $peticion = false;
             $uuid = "";
-            echo json_encode($this->resultado($peticion,$uuid));
+            $msg_datos = "Error, Sin Articulos a timbrar";
+            echo json_encode($this->funciones->resultado_timbrado($peticion,$uuid,$msg_datos));
         }
     }
 
@@ -50,11 +49,11 @@ class CtrTimbrarFactura extends CI_Controller {
         $d['Serie'] 			= 'F';
         $d['Folio'] 			= '987750';
         $d['Fecha'] 			= 'AUTO';
-        $d['FormaPago'] 		= $cliente->ref_formapago;
+        $d['FormaPago'] 		= $cliente->forma_pago;
         $d['CondicionesDePago'] = $cliente->condicion_pago;
 
         $d['TipoDeComprobante'] = 'I';
-        $d['MetodoPago'] 		= $cliente->ref_metodopago;
+        $d['MetodoPago'] 		= $cliente->metodo_pago;
         $d['LugarExpedicion'] 	= '68130';
 
         # opciones de personalización (opcionales)
@@ -168,7 +167,8 @@ class CtrTimbrarFactura extends CI_Controller {
         if (!empty($uuid)) 
         {
             $peticion = true;
-            echo json_encode($this->resultado($peticion,$uuid));
+            $msg      = "";
+            echo json_encode($this->funciones->resultado_timbrado($peticion,$uuid,$msg));
             // echo $msg = $this->agregar_articulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML);
         }
 
@@ -177,28 +177,12 @@ class CtrTimbrarFactura extends CI_Controller {
         copy($url_XML,$ruta_destino . $uuid . ".xml");
     }
 
-    function resultado($peticion,$uuid)
-    {
-        if($peticion)
-        {
-            $result = array(
-                'msg'   => "<center><img src='".base_url()."assets/img/correcto.jpg' width='400px'></center>",
-                'btn'   => "<a href='".base_url()."descarga/".$uuid.".pdf' target='_blank'>Descargar Factura</a>",
-            );
-        }else{ 
-            $result = array(
-                'btn'  => '<div class="alert alert-danger" role="alert">Error en la accion</div>',
-            );
-        }
-        return $result;
-    }
-
     function agregar_articulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML,$total)
     {
-        $data = array(
+        /*$data = array(
             'estatus_preventa' => 'timbrado', 
         );
-        $this->Modelo_timbrado->update_pre_venta($preventa,$data);
+        $this->Modelo_timbrado->update_pre_venta($preventa,$data);*/
         ///////////////////////////////////////////////////////////////////////
         $factura    = $this->Modelo_timbrado->get_timbrar($preventa);
 
@@ -215,13 +199,13 @@ class CtrTimbrarFactura extends CI_Controller {
             'folio'            => 1,
             'tipo_comprobante' => "I",
             'condicion_pago'   => $factura->condicion_pago,
-            'metodo_pago'      => $factura->ref_metodopago,
-            'forma_pago'       => $factura->ref_formapago,
+            'metodo_pago'      => $factura->metodo_pago,
+            'forma_pago'       => $factura->forma_pago,
             'ref_cliente'      => $factura->ref_cliente
         );
-        $id = $this->Modelo_articulos->insert_venta($datos);
+        $id = $this->Modelo_articulos->insertarDatosTimbrado($datos);
         ///////////////////////////////////////////////////////////////////////
-        $articulos    = $this->Modelo_timbrado->productos_timbrar($preventa);
+        $articulos    = $this->Modelo_timbrado->get_productosTimbrar($preventa);
         foreach ($articulos ->result() as $articulo) 
         {
            $data = array(
@@ -233,9 +217,9 @@ class CtrTimbrarFactura extends CI_Controller {
             'valor_unitario'   => $articulo->costo, 
             'importe'          => $articulo->importe, 
             'descuento'        => $articulo->descuento,
-            'ref_pfacturado'   => $id
+            'ref_factura'   => $id
             );
-            $this->Modelo_articulos->insert_producto($data);
+            $this->Modelo_articulos->insertarProductoFacturado($data);
         }
         $this->borrar_datos($factura->id_preventa);
         
@@ -246,7 +230,7 @@ class CtrTimbrarFactura extends CI_Controller {
     function borrar_datos($id)
     {
         $this->Modelo_timbrado->borrar_preventa($id);
-        $this->Modelo_timbrado->borrar_apreventa($id);
+        $this->Modelo_timbrado->borrar_articulosPreventa($id);
     }
 
 

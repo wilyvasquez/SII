@@ -6,7 +6,7 @@ class CtrUsuarios extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('Facturapi');
+        $this->load->library('Funciones');
         $this->facturas = 'assets/pdf/facturas/';
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');

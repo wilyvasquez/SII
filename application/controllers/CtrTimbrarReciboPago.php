@@ -7,6 +7,7 @@ class CtrTimbrarReciboPago extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('Facturapi');
+        $this->load->library('Funciones');
         $this->facturas = 'assets/pdf/facturas/';
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');
@@ -25,8 +26,9 @@ class CtrTimbrarReciboPago extends CI_Controller {
         $id_cliente = $this->input->post("id_cliente");
         $fecha      = $this->input->post("fecha")."".date('\TH:i:s');
 
-        // $preventa   = 48;
+        // $preventa   = 88;
         // $id_cliente  = 110;
+        // $fecha      = date("Y-m-d")."".date('\TH:i:s');
         /**
          * Consultas productos y datos clientes
          */
@@ -37,14 +39,16 @@ class CtrTimbrarReciboPago extends CI_Controller {
          * comprobamos si tiene relaciones con otras facturas
          */
         // $referencia = $cliente->relacion_uuid;
+        if ($datos != false) 
+        {  
             $this->complemento($cliente,$datos,$fecha);
-        // if ($datos != false) 
-        // {  
-        // }else{
-        //     $peticion = false;
-        //     $uuid = "";
-        //     echo json_encode($this->resultado($peticion,$uuid));
-        // }
+        }else{
+            $peticion = false;
+            $uuid     = "";
+            $msg      = "Error, elementos vacios";
+            // echo json_encode($this->resultado($peticion,$uuid));
+            echo json_encode($this->funciones->resultado_timbrado($peticion,$uuid,$msg));
+        }
     }
 
     public function complemento($cliente,$datos,$fecha)
@@ -101,7 +105,7 @@ class CtrTimbrarReciboPago extends CI_Controller {
         # Inicia Complemento de Recepcion de Pagos
         # PAGO 1:
         $d['Complemento']['Pagos'][0]['FechaPago']          = $fecha; # ver Fecha Pago
-        $d['Complemento']['Pagos'][0]['FormaDePagoP']       = $cliente->ref_formapago;  # ver catálogo  c_FormaPago
+        $d['Complemento']['Pagos'][0]['FormaDePagoP']       = $cliente->forma_pago;  # ver catálogo  c_FormaPago
         $d['Complemento']['Pagos'][0]['MonedaP']            = 'MXN';
         // $d['Complemento']['Pagos'][0]['TipoCambioP']     = ''; # opcional
         // $d['Complemento']['Pagos'][0]['Monto']              = number_format($total,2);

@@ -9,20 +9,18 @@ class Modelo_cliente extends CI_Model
 
 	function put_cliente($datos)
 	{
-		$this->db->trans_begin();
 		$this->db->insert('cliente', $datos);
-		if ($this->db->trans_status() === FALSE)
- 		{
-        	$msg = $this->db->trans_rollback();
-        	return false;
- 		}else{
- 			$msg = $this->db->trans_commit();
- 			return true;
- 		}
+		if ($this->db->affected_rows() === 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
 	}
 
 	function get_clientes()
 	{
+		$this->db->order_by("id_cliente", "desc");
 		$query = $this->db->get('cliente');
 		if ($query->num_rows() > 0) {
 			return $query;
@@ -33,7 +31,10 @@ class Modelo_cliente extends CI_Model
 
 	function get_cliente($id)
 	{
-		$query = $this->db->query("SELECT * from cliente left join pre_venta on pre_venta.ref_cliente = cliente.id_cliente where cliente.id_cliente = $id");
+		$this->db->select("*")->from("cliente");
+		$this->db->join('pre_venta', 'pre_venta.ref_cliente = cliente.id_cliente', 'left');
+		$this->db->where('cliente.id_cliente', $id);
+		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -43,7 +44,10 @@ class Modelo_cliente extends CI_Model
 
 	function datos_cliente($id)
 	{
-		$query = $this->db->query("SELECT * from cliente inner join pre_venta on pre_venta.ref_cliente = cliente.id_cliente where pre_venta.id_preventa = $id");
+		$this->db->select("*")->from("cliente");
+		$this->db->join('pre_venta', 'pre_venta.ref_cliente = cliente.id_cliente', 'inner');
+		$this->db->where('pre_venta.id_preventa', $id);
+		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -52,8 +56,8 @@ class Modelo_cliente extends CI_Model
 	}
 
 	function obtener_cliente($id)
-	{
-		$query = $this->db->query("SELECT *  FROM cliente where id_cliente = $id"); 
+	{ 
+		$query = $this->db->get_where('cliente', array('id_cliente' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 
@@ -73,7 +77,7 @@ class Modelo_cliente extends CI_Model
 
 	function get_factura($id)
 	{
-		$query = $this->db->query("SELECT *  FROM factura where ref_cliente = $id"); 
+		$query = $this->db->get_where('factura', array('ref_cliente' => $id)); 
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 
@@ -81,21 +85,9 @@ class Modelo_cliente extends CI_Model
 		}
 	}
 
-	// function get_articulo($id)
-	// {
-	// 	$this->db->trans_begin();
-	// 	$query = $this->db->query("SELECT * from articulo_preventa 
-	// 		inner join articulo on articulo.id_articulo = articulo_preventa.ref_articulo where ref_pre_venta = $id");
-	// 	if ($query->num_rows() > 0) {
-	// 		return $query;
-	// 	}else{ 
-	// 		return false;
-	// 	}
-	// }
-
 	function obtener_facturas($id)
 	{
-		$query = $this->db->query("SELECT *  FROM producto_facturado where ref_cliente = $id"); 
+		$query = $this->db->get_where('producto_facturado', array('ref_cliente' => $id));
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 

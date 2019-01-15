@@ -76,6 +76,7 @@ $(function(){
       data: par,
       beforeSend: function(){
         $("#resultado").html("Generando factura, espere por favor");
+        // $("#notificacion").html('<div class="box-body no-padding"><div class="row"><div class="col-md-12" style="text-align: center;"><div class="loader online"><div class="loader-inner"><div class="loading one"></div></div><div class="loader-inner"><div class="loading two"></div></div><div class="loader-inner"><div class="loading three"></div></div><div class="loader-inner"><div class="loading four"></div></div></div></div></div></div>');
       },
       success: function(response){
         // $('#btn-timbrar').attr("disabled", true);
@@ -83,9 +84,15 @@ $(function(){
         // $('#btn-articulo').attr("disabled", true);
         // 
         var json = $.parseJSON(response);
-        $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);
-        // 
+        if (json.status == "error") 
+        { 
+         $("#resultado").html(json.btn); 
+        }else{
+          $("#resultado").html(json.btn); 
+          $("#notificacion").html(json.msg);  
+          console.log(json.msg)        
+        }
         // $("#resultado").html(response);
       }
     })
@@ -94,8 +101,8 @@ $(function(){
 /**
  * obtener parcialidad
  */
- function valorParcialidad()
- {
+function valorParcialidad()
+{
   var uuid = document.getElementById('uuid').value;
   console.log("PARCIALIDAD");
   var par = 
@@ -111,7 +118,7 @@ $(function(){
   .done(function(response){
      $("#parcialidad").val(response);
   });
- }
+}
 
  /**
  * Funcion que elimina un uuid de la tabla de relaciones

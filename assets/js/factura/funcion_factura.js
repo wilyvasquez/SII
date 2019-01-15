@@ -85,7 +85,7 @@ function valorUnitario()
     "codigo"  : codigo,
   };
   $.ajax({
-    url: "../CtrFactura/get_valorUnitario",
+    url: "../CtrUniversal/get_valorUnitario",
     type: "post",
     dataType: "html",
     data: par,
@@ -112,7 +112,7 @@ function importe()
     "costo"   : costo,
   };
   $.ajax({
-      url: "../CtrFactura/get_importe",
+      url: "../CtrUniversal/get_importe",
       type: "post",
       dataType: "html",
       data: par,
@@ -177,7 +177,7 @@ $(function(){
       "ids" : ids
     }
     $.ajax({
-      url: "../CtrFactura/eliminar_articulo",
+      url: "../CtrUniversal/eliminar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -210,7 +210,7 @@ $(function(){
       "ids" : ids
     }
     $.ajax({
-      url: "../CtrFactura/editar_articulo",
+      url: "../CtrUniversal/editar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -235,7 +235,7 @@ function ajax_precios(par)
 {
   console.log("AJAX PRECIOS");
   $.ajax({
-    url: "../CtrFactura/ajax_precios",
+    url: "../CtrUniversal/ajax_precios",
     type: "post",
     dataType: "html",
     data: par,

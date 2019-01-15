@@ -37,7 +37,7 @@ $(function(){
       "ids" : ids
     }
     $.ajax({
-      url: "../CtrNotaCredito/agregar_uuid",
+      url: "../CtrUniversal/agregar_uuid",
       type: "post",
       dataType: "html",
       data: formData,
@@ -61,7 +61,7 @@ function ajax_tuuid(json,par)
 {
   console.log("AJAX TABLA UUID");
   $.ajax({
-    url: "../CtrNotaCredito/"+json.url,
+    url: "../CtrUniversal/"+json.url,
     type: "post",
     dataType: "html",
     data: par,

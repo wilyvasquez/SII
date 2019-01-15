@@ -5,6 +5,7 @@ class CtrFactura extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->load->library('Funciones');
 		$this->load->model('Modelo_cliente');
 		$this->load->model('Modelo_sucursal');
 		$this->load->model('Modelo_articulos');
@@ -15,30 +16,6 @@ class CtrFactura extends CI_Controller {
 		$this->factura 	= 'assets/pdf/facturas/';
 		$this->load->helper(array('download'));
 	}
-	/**
-	 * FUNCION DE IMPRIMIR RESULTADO
-	 */
-	function resultado($peticion,$url)
-	{
-		if($peticion)
-		{
-			$result = array(
-				'respuesta' => 'correcto',
-				'msg'       => '<div class="alert alert-success" role="alert">Accion realizada Correctamente</div>',
-				'url'		=> $url
-			);
-		}else{
-			$result = array(
-				'respuesta' => 'error',
-				'msg'       => '<div class="alert alert-danger" role="alert">Error en la accion</div>',
-				'url'		=> $url
-			);
-		}
-		return $result;
-	}
-	/**
-	 * FINFUNCION IMPRMIR RESULTADO
-	 */
 	
 	public function folios()
 	{
@@ -63,13 +40,17 @@ class CtrFactura extends CI_Controller {
 		$data["subtitle"]    = "Crear Factura";
 		$data["contenido"]   = "admin/factura/factura";
 		$data["menu"]        = "admin/menu_admin";
+		# OBTENER TODOS LOS CLIENTES REGISTRADOS
 		$data['clientes']    = $this->Modelo_cliente->get_clientes();
+		# OBTENEMOS LAS FORMAS DE PAGO SAT
 		$data['fpagos']      = $this->Modelo_sat->get_formaPagos();
+		# OBTENEMOS LOS METODOS DE PAGO SAT
 		$data['mpagos']      = $this->Modelo_sat->get_metodoPagos();
+		# OBTENEMOS EL USO DEL CFDI SAT
 		$data['ucfdis']      = $this->Modelo_sat->get_usoCfdi();
-
+		# VISTA DEL REGISTRO DE LOS CLIENTES PARA MOSTRAR EN LA PRE FACTURA
 		$data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true);
-		$data["relacion"]    = $this->load->view('admin/factura/relacion-factura',null,true);
+		# MODAL CLIENTE REGISTRO PRE FACTURA
 		$data["mcliente"]    = $this->load->view('admin/factura/modal/modal-cliente',null,true);
 		$this->load->view('universal/plantilla',$data);
 	}
@@ -137,7 +118,7 @@ class CtrFactura extends CI_Controller {
 			$codigo    = $this->Modelo_timbrado->get_codigo();
 
 			if (!empty($codigo)) {
-				$preventa = $codigo->codigo_preventa + 1;
+				$preventa = $codigo->id_preventa + 1;
 			}
 			if ($this->input->post("metodo") == "PUE") {
 				$condicion = "CONTADO";
@@ -145,23 +126,17 @@ class CtrFactura extends CI_Controller {
 
 			$data = array(
 				'alta_preventa'    => date("Y-m-d H:i:s"),
-				'estatus_preventa' => "activo",
-				'codigo_preventa'  => "001-A".$preventa,
+				'codigo_preventa'  => "001-A0000".$preventa,
 				'condicion_pago'   => $condicion,
+				'forma_pago'       => $this->input->post("forma"),
+				'metodo_pago'      => $this->input->post("metodo"),
+				'uso_cfdi'         => $this->input->post("cfdi"),
 				'ref_cliente'      => $this->input->post("cliente"),
-				'ref_formapago'    => $this->input->post("forma"),
-				'ref_metodopago'   => $this->input->post("metodo"),
-				'ref_usocfdi'      => $this->input->post("cfdi")
 			);
 			$id = $this->Modelo_timbrado->put_preventa($data);
 			echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>';
 		}
 	}
-
-	/**
-	 * FIN DE PRE FACTURA
-	 */
-	
 	/**
 	 * VISTA Y NOMBRE DE LOS DATOS PARA FACTURAR SE AGREGARAN LOS ARTICULOS A TIMBRAR
 	 */
@@ -189,7 +164,8 @@ class CtrFactura extends CI_Controller {
         # CONSULTA OBTENER DATOS DEL CLIENTE
 		$data["id"]          = $id;
 		$data['icliente']    = $this->Modelo_cliente->datos_cliente($id);
-		$data["precios"]     = $this->precios($id);
+		$data["nombre"]      = $data['icliente']->cliente;
+		$data["precios"]     = $this->funciones->precios($id);
 
 		# VISTAS FACTURAS
 		$data["articulo"]    = $this->load->view('admin/tfactura/agregar-articulo',$data,true);
@@ -238,7 +214,7 @@ class CtrFactura extends CI_Controller {
 		}
 	}*/
 
-	public function get_valorUnitario()
+	/*public function get_valorUnitario()
 	{
 		$codigo   = $this->input->post("codigo");
 		$articulo = $this->Modelo_timbrado->get_importe($codigo);
@@ -259,12 +235,12 @@ class CtrFactura extends CI_Controller {
 			'importe' => $importe,
 		);
 		echo json_encode($result);
-	}
+	}*/
 	/**
 	 * FIN DEL TIMBRADO 
 	 */
 
-	public function eliminar_articulo()
+	/*public function eliminar_articulo()
 	{
 		if(!$this->input->is_ajax_request())
 		{
@@ -276,9 +252,9 @@ class CtrFactura extends CI_Controller {
 			$url      = "ajax_tarticulos";
 			echo json_encode($this->resultado($peticion,$url));
 		}
-	}
+	}*/
 
-	public function editar_articulo()
+	/*public function editar_articulo()
 	{
 		$id       = $this->input->post("articulo");
 		$costo    = $this->input->post("costo");
@@ -300,9 +276,9 @@ class CtrFactura extends CI_Controller {
 		$peticion = true;
 		$url      = "ajax_tarticulos";
 		echo json_encode($this->resultado($peticion,$url));
-	}
+	}*/
 
-	public function ajax_precios()
+	/*public function ajax_precios()
 	{
 		if(!$this->input->is_ajax_request())
 		{
@@ -312,30 +288,8 @@ class CtrFactura extends CI_Controller {
 			$data["precios"] = $this->precios($id);
 		    $this->load->view('admin/tfactura/ajax/ajax_precio',$data);
 		}	
-	}
+	}*/
 
-	function precios($id)
-	{
-		$importe   = 0;
-		$subtotal  = 0;
-		$iva       = 0;
-		$total     = 0;
-		$descuento = 0;
-
-		$articulos = $this->Modelo_articulos->get_articulosVenta($id);
-		if (!empty($articulos)) {
-	      	foreach ($articulos ->result() as $articulo) 
-	      	{
-	      		$importe = $importe + $articulo->importe;
-	      		$descuento = $descuento + $articulo->descuento;
-	      	}
-			$subtotal  = number_format($importe,2);
-			$iva       = number_format($subtotal * 0.16,2);
-			$total     = number_format($importe + $iva,2);
-			$descuento = number_format($descuento,2);
-      	}
-      	 return array($subtotal,$iva,$descuento,$total);
-	}
 	/**
 	 * DESCARGAR ARCHIVO
 	 */

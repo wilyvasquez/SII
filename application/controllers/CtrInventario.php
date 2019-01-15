@@ -6,8 +6,7 @@ class CtrInventario extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('Facturapi');
-        $this->facturas = 'assets/pdf/facturas/';
+        $this->load->library('Funciones');
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');
         $this->load->model('Modelo_articulos');
@@ -59,7 +58,8 @@ class CtrInventario extends CI_Controller {
                 );
             $url = "";
             $peticion = $this->Modelo_inventario->put_inventario($data);
-            echo json_encode($this->resultado($peticion,$url));
+            // echo json_encode($this->resultado($peticion,$url));
+            echo json_encode($this->funciones->resultado($peticion,$url));
         }
     }
 
@@ -72,7 +72,8 @@ class CtrInventario extends CI_Controller {
         );
         $peticion = $this->Modelo_inventario->put_marca($data);
         $url      = "ajax_marca";
-        echo json_encode($this->resultado($peticion,$url));
+        // echo json_encode($this->resultado($peticion,$url));
+        echo json_encode($this->funciones->resultado($peticion,$url));
     }
 
     public function ajax_marca()
@@ -80,10 +81,7 @@ class CtrInventario extends CI_Controller {
         $data['marcas'] = $this->Modelo_inventario->get_marca();
         $this->load->view('admin/marca/ajax/ajax_marca',$data);
     }
-    /**
-     * agregar nueva linea
-     * @return [type] [description]
-     */
+
     public function agregar_linea()
     {
         $data = array(
@@ -93,7 +91,8 @@ class CtrInventario extends CI_Controller {
         );
         $peticion = $this->Modelo_inventario->put_linea($data);
         $url      = "ajax_linea";
-        echo json_encode($this->resultado($peticion,$url));
+        // echo json_encode($this->resultado($peticion,$url));
+        echo json_encode($this->funciones->resultado($peticion,$url));
     }
 
     public function ajax_linea()
@@ -102,10 +101,6 @@ class CtrInventario extends CI_Controller {
         $this->load->view('admin/linea/ajax/ajax_linea',$data);
     }
 
-    /**
-     * agregar nueva fabricante
-     * @return [type] [description]
-     */
     public function agregar_fabricante()
     {
         $data = array(
@@ -117,7 +112,8 @@ class CtrInventario extends CI_Controller {
         );
         $peticion = $this->Modelo_inventario->put_fabricante($data);
         $url      = "ajax_fabricante";
-        echo json_encode($this->resultado($peticion,$url));
+        // echo json_encode($this->resultado($peticion,$url));
+        echo json_encode($this->funciones->resultado($peticion,$url));
     }
 
     public function ajax_fabricante()
@@ -125,24 +121,4 @@ class CtrInventario extends CI_Controller {
         $data['fabricantes'] = $this->Modelo_inventario->get_fabricante();
         $this->load->view('admin/fabricante/ajax/ajax_fabricante',$data);
     }
-
-    function resultado($peticion,$url)
-    {
-        if($peticion)
-        {
-            $result = array(
-                'respuesta' => 'correcto',
-                'msg'       => '<div class="alert alert-success" role="alert">Accion realizada Correctamente</div>',
-                'url'       => $url
-            );
-        }else{
-            $result = array(
-                'respuesta' => 'error',
-                'msg'       => '<div class="alert alert-danger" role="alert">Error en la accion</div>',
-                'url'       => $url
-            );
-        }
-        return $result;
-    }
-
 }

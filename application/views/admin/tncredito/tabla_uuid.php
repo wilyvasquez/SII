@@ -1,6 +1,6 @@
 <div class="box box-primary">
   <div class="box-header">
-    <h3 class="box-title">Documentos Vinculados  <strong>(UUID)</strong></h3>    
+    <h3 class="box-title">Facturas Vinculadas  <strong>(UUID)</strong></h3>    
   </div>
   <!-- /.box-header -->
   <div class="box-body no-padding" id="tbl-uuid">

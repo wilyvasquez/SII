@@ -23,10 +23,16 @@
   <link rel="stylesheet" href="<?= base_url() ?>bower_components/admin-lte/dist/css/skins/_all-skins.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url() ?>bower_components/admin-lte/dist/css/AdminLTE.min.css">
+  <!-- alertify -->
+  <link href="<?= base_url()?>assets/css/alertify/alertify.core.css" rel="stylesheet"/>
+
+  <link href="<?= base_url()?>assets/css/alertify/alertify.default.css" rel="stylesheet" id="toggleCSS" />
   <!-- ESTILOS -->
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/css/conexion.css">
 
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/estilos.css">
+
 
 
   <!-- Google Font -->

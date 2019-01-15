@@ -6,8 +6,7 @@ class CtrRecibosPago extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('Facturapi');
-        $this->facturas = 'assets/pdf/facturas/';
+        $this->load->library('Funciones');
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');
         $this->load->model('Modelo_articulos');
@@ -54,13 +53,12 @@ class CtrRecibosPago extends CI_Controller {
 
             $data = array(
                 'alta_preventa'    => date("Y-m-d H:i:s"),
-                'estatus_preventa' => "activo",
                 'codigo_preventa'  => "001-A".$preventa,
                 'condicion_pago'   => $condicion,
-                'ref_cliente'      => $this->input->post("cliente"),
-                'ref_formapago'    => $this->input->post("forma"),
-                'ref_metodopago'   => $this->input->post("metodo"),
-                'ref_usocfdi'      => $this->input->post("cfdi"),
+                'forma_pago'       => $this->input->post("forma"),
+                'metodo_pago'      => $this->input->post("metodo"),
+                'uso_cfdi'         => $this->input->post("cfdi"),
+                'ref_cliente'      => $this->input->post("cliente")
             );
             $id = $this->Modelo_timbrado->put_preventa($data);
             echo '<a href="'.base_url().'rpagos/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Complemento</a>';
@@ -83,7 +81,7 @@ class CtrRecibosPago extends CI_Controller {
         $data['facturas']      = $this->Modelo_cliente->get_factura($id_cliente);
         $data['rdocto']        = $this->Modelo_timbrado->get_relacionDocto($id);
 
-        $data["precios"]     = $this->precios($id);
+        $data["precios"]     =  $this->funciones->precios($id);
         $data["articulo"]    = $this->load->view('admin/trpagos/agregar_docto',$data,true);
         $data["tarticulos"]  = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
         $data["tdoctos"]     = $this->load->view('admin/trpagos/tabla_doctos',$data,true);
@@ -139,31 +137,10 @@ class CtrRecibosPago extends CI_Controller {
             $id_uuid = $this->input->post("uuid");
             $id      = $this->input->post("ids");
             $this->Modelo_timbrado->delete_relacionDocto($id_uuid);
+            
             $data['rdocto'] = $this->Modelo_timbrado->get_relacionDocto($id);
             $this->load->view('admin/trpagos/ajax/ajax_trpagos',$data);
         }
     }
 
-    function precios($id)
-    {
-        $importe   = 0;
-        $subtotal  = 0;
-        $iva       = 0;
-        $total     = 0;
-        $descuento = 0;
-
-        $articulos = $this->Modelo_articulos->get_articulosVenta($id);
-        if (!empty($articulos)) {
-            foreach ($articulos ->result() as $articulo) 
-            {
-                $importe = $importe + $articulo->importe;
-                $descuento = $descuento + $articulo->descuento;
-            }
-            $subtotal  = number_format($importe,2);
-            $iva       = number_format($subtotal * 0.16,2);
-            $total     = number_format($importe + $iva,2);
-            $descuento = number_format($descuento,2);
-        }
-         return array($subtotal,$iva,$descuento,$total);
-    }
 }

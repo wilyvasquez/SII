@@ -29,7 +29,7 @@ class Modelo_sat extends CI_Model
 
 	function get_clave($id)
 	{
-		$query = $this->db->query("SELECT * from clave_sat where id_clave = $id ");
+		$query = $this->db->get_where('clave_sat', array('id_clave' => $id)); 
 		if ($query->num_rows() > 0) {
 			return $query->row();
 		}else{ 

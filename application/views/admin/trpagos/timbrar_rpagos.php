@@ -13,11 +13,21 @@
         <p><strong>TOTAL:</strong> $ <?= $precios[3] ?></p>
         <hr>
         <div class="form-group">
-          <label for="fecha" style="font-weight: normal;">Fecha</label>
-          <input type="text" class="form-control" id="fecha" name="fecha" value="<?= date('Y-m-d') ?>" required>
+          <label for="fecha" style="font-weight: normal;">Fecha de pago</label>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control" id="fecha" name="fecha" value="<?= date('Y-m-d') ?>" required>
+              </div>
+            </div>          
+          </div>          
         </div> 
       </div>
       <!-- /.box-body -->
+      <!-- <div id="resultado"></div> -->
       <div class="box-footer" id="resultado">
         <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-timbrar">Timbrar</button>
       </div>      
