@@ -58,10 +58,9 @@
 // FUNCION QUE DA DE ALTA LA PRE FACTURA (MENU FACTURA)
 $(function(){
   $("#generarPreFactura").on("submit", function(e){
+    console.log("GENERANDO PRE FACTURA");
     e.preventDefault();
-    var f = $(this);
     var formData = new FormData(document.getElementById("generarPreFactura"));
-    // formData.append("dato", "valor");
     $.ajax({
       url: "CtrFactura/push_prefactura",
       type: "post",
@@ -73,32 +72,7 @@ $(function(){
     })
     .done(function(res){
       $("#ntf-cliente").html(res);
-      $('#relacionar').attr("disabled", true);
-    });
-  });
-});
-
-// FUNCION EN FUNCIONAMIENTO PARA ELIMINAR RELACCION UUID (POSIBLE MOVERLO)
-$(function(){
-  $("#deleteuuid").on("submit", function(e){
-    e.preventDefault();
-    console.log("ELIMINAR UUIDD");
-    var formData = new FormData(document.getElementById("deleteuuid"));
-    // formData.append("dato", "valor");
-    $.ajax({
-      url: "../CtrUniversal/delete_uuid",
-      type: "post",
-      dataType: "html",
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false
-    })
-    .done(function(res){
-      $("#tbl-uuid").html(res);
-      setTimeout(function(){ 
-        $('#modaldelete').modal('hide');
-      },500);
+      $('#btn-generar').attr("disabled", true);
     });
   });
 });

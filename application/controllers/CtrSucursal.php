@@ -39,8 +39,8 @@ class CtrSucursal extends CI_Controller {
         );
         $peticion = $this->Modelo_sucursal->put_sucursal($datos);
         $url = "ajax_sucursal";
-        // echo json_encode($this->resultado($peticion,$url));
-        echo json_encode($this->funciones->resultado($peticion,$url));
+        $msg = "Exito, Sucursal agregado correctamente";
+        echo json_encode($this->funciones->resultado($peticion,$url,$msg));
     }
 
     public function ajax_sucursal()

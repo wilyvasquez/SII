@@ -12,6 +12,7 @@ class CtrFactura extends CI_Controller {
 		$this->load->model('Modelo_inventario');
 		$this->load->model('Modelo_timbrado');
 		$this->load->model('Modelo_sat');
+		$this->load->library('Parser');
 
 		$this->factura 	= 'assets/pdf/facturas/';
 		$this->load->helper(array('download'));
@@ -19,12 +20,14 @@ class CtrFactura extends CI_Controller {
 	
 	public function folios()
 	{
-		$data["folios"]    = "active";
-		$data["title"]     = "Folios y Series";
-		$data["subtitle"]  = "Alta de folios";
-		$data["contenido"] = "admin/folios/folios_series";
-		$data["menu"]      = "admin/menu_admin";
-		$data["tabla"]     = $this->load->view('admin/folios/tabla-folios',null,true);
+		$data = array(
+			"folios"    => "active",
+			"title"     => "Folios ,y Series",
+			"subtitle"  => "Alta de folios",
+			"contenido" => "admin/folios/folios_series",
+			"menu"      => "admin/menu_admin",
+			"tabla"     => $this->load->view('admin/folios/tabla-folios',null,true)
+		);
 		$this->load->view('universal/plantilla',$data);
 	}
 
@@ -34,78 +37,68 @@ class CtrFactura extends CI_Controller {
 
 	public function pre_factura()
 	{
-		$data["timbrado"]    = "active";
-		$data["factura"]     = "active";
-		$data["title"]       = "Factura";
-		$data["subtitle"]    = "Crear Factura";
-		$data["contenido"]   = "admin/factura/factura";
-		$data["menu"]        = "admin/menu_admin";
-		# OBTENER TODOS LOS CLIENTES REGISTRADOS
-		$data['clientes']    = $this->Modelo_cliente->get_clientes();
-		# OBTENEMOS LAS FORMAS DE PAGO SAT
-		$data['fpagos']      = $this->Modelo_sat->get_formaPagos();
-		# OBTENEMOS LOS METODOS DE PAGO SAT
-		$data['mpagos']      = $this->Modelo_sat->get_metodoPagos();
-		# OBTENEMOS EL USO DEL CFDI SAT
-		$data['ucfdis']      = $this->Modelo_sat->get_usoCfdi();
+		$data = array(
+			'title'      => 'Factura',
+			'timbrado'   => 'active',
+			'factura'    => 'active',
+			'subtitle'   => 'Crear Factura',
+			'contenido'  => 'admin/factura/factura', 
+			'menu'       => 'admin/menu_admin', # MENU DE AMDIN
+			'mcliente'   => $this->load->view('admin/factura/modal/modal-cliente',null,true), # MODAL CLIENTE REGISTRO PRE FACTURA
+			'archivosJS' => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
+		);
+		$datos = array(
+			'title'      => 'Factura',
+			'clientes'   => $this->Modelo_cliente->get_clientes(),# OBTENER TODOS LOS CLIENTES REGISTRADOS
+			'fpagos'     => $this->Modelo_sat->get_formaPagos(),  # OBTENEMOS LAS FORMAS DE PAGO SAT
+			'mpagos'     => $this->Modelo_sat->get_metodoPagos(), # OBTENEMOS LOS METODOS DE PAGO SAT
+			'ucfdis'     => $this->Modelo_sat->get_usoCfdi(),     # OBTENEMOS EL USO DEL CFDI SAT
+		);
 		# VISTA DEL REGISTRO DE LOS CLIENTES PARA MOSTRAR EN LA PRE FACTURA
-		$data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true);
-		# MODAL CLIENTE REGISTRO PRE FACTURA
-		$data["mcliente"]    = $this->load->view('admin/factura/modal/modal-cliente',null,true);
+		$data["info"] = $this->load->view('admin/factura/info-cliente',$datos,true);
+		# PLANTILLA DE LAS VISTAS
 		$this->load->view('universal/plantilla',$data);
 	}
 
-	/**
-	 * FUNCION EN COMPROBACION SI SE ESTA UTILIZANDO
-	 */
-	// function ajax_cliente_uuid()
-	// {
-	// 	if(!$this->input->is_ajax_request())
-	// 	{
-	// 	 show_404();
-	// 	}else{
-	// 		$relacionar      = $this->input->post("relacionar");
-	// 		if ($relacionar == "SI") {
-	// 			$data['factura']  = $this->Modelo_cliente->get_facturas();
-	// 			$data['relacion'] = $this->Modelo_sat->get_tipoRelacion();				
-	// 			$this->load->view('admin/factura/ajax/referencia_uuid',$data);
-	// 		}
-	// 	}
-	// }
-	/**
-	 * FUNCION EN COMPROBACION SI SE ESTA UTILIZANDO
-	 */
-	// function ajax_agregar_relacion()
-	// {
-	// 	if(!$this->input->is_ajax_request())
-	// 	{
-	// 	 show_404();
-	// 	}else{
-	// 		$data = array(
-	// 			'uuid'         => $this->input->post("cfdi"), 
-	// 			't_relacion'   => $this->input->post("trelacion"), 
-	// 			'ref_preventa' => 1
-	// 		);
-	// 		$this->Modelo_timbrado->put_relacion($data);
-	// 		$data["uuids"] = $this->Modelo_timbrado->get_relacion();
-	// 		$this->load->view('admin/factura/tabla-relacion',$data);
-	// 	}
-	// }
-
-	/*function delete_uuid()
+	public function facturas_proceso()
 	{
-		if(!$this->input->is_ajax_request())
-		{
-		 show_404();
-		}else{
-			$id_uuid = $this->input->post("uuid");
-			$id      = $this->input->post("ids");
+		$data = array(
+			'title'      => 'Factura',
+			'proceso'    => 'active',
+			'subtitle'   => 'Facturas en proceso',
+			'contenido'  => 'admin/factura/proceso/facturas_proceso', 
+			'menu'       => 'admin/menu_admin', # MENU DE AMDIN
+			'archivosJS' => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+			'prefactura' => $this->Modelo_timbrado->get_facturasProceso()
+		);
+		# PLANTILLA DE LAS VISTAS
+		$this->load->view('universal/plantilla',$data);
+	}
 
-			$this->Modelo_timbrado->delete_relacion($id_uuid);
-			$data["tuuid"] = $this->Modelo_timbrado->get_relacion($id);
-			$this->load->view('admin/tncredito/ajax/ajax_tuuid',$data);
-		}
-	}*/
+	public function info_procesoFacturas($id)
+	{
+		$data = array(
+			'title'      => 'Factura',
+			'proceso'    => 'active',
+			'subtitle'   => 'Factura en proceso',
+			'contenido'  => 'admin/factura/proceso/proceso', 
+			'menu'       => 'admin/menu_admin', # MENU DE AMDIN
+			'archivosJS' => $this->load->view('admin/tfactura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+			'prefactura' => $this->Modelo_timbrado->get_facturasProceso(),
+			'tarticulos' => $this->Modelo_articulos->get_articulo($id),
+			'marticulo'  => $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true) # MODALES
+		);
+		$datos = array(
+			'icliente' => $this->Modelo_cliente->datos_cliente($id),
+			'id'       => $id
+		);
+		# INFORMACION DEL CLIENTE
+		$data["info"]       = $this->load->view('admin/factura/proceso/datos_proceso',$datos,true);
+		# TABLA DE LOS ARTICULOS A TIMBRAR
+		$data["tarticulos"] = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
+		# PLANTILLA DE LAS VISTAS
+		$this->load->view('universal/plantilla',$data);
+	}
 
 	public function push_prefactura()
 	{
@@ -181,115 +174,10 @@ class CtrFactura extends CI_Controller {
 		$data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
 		$data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',$data,true);
         $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
+		# ARCHIVOS JS
+        $data["archivosJS"]  = $this->load->view('admin/tfactura/archivos/archivosJS',null,true);
 		$this->load->view('universal/plantilla',$data);
 	}
-
-	/*public function push_articulo()
-	{
-		$cantidad = $this->input->post("cantidad");
-		$costo    = $this->input->post("costo");
-		$data = array(
-			'cantidad_venta'       => $cantidad,
-			'alta_apreventa'       => date("Y-m-d H:i:s"),
-			'importe'              => $cantidad * $costo,
-			'descuento'            => 0,
-			'descripcion_preventa' => $this->input->post("descripcion"),
-			'ref_articulo'         => $this->input->post("codigo"),
-			'ref_pre_venta'        => $this->input->post("ids")
-		);
-		$url      = "ajax_tarticulos";
-		$peticion = $this->Modelo_articulos->put_articulo($data);
-		echo json_encode($this->resultado($peticion,$url));
-	}*/
-
-	/*public function ajax_tarticulos()
-	{
-		if(!$this->input->is_ajax_request())
-		{
-		 show_404();
-		}else{
-			$id   = $this->input->post("ids");
-			$data["tarticulos"] = $this->Modelo_articulos->get_articulo($id);
-			$this->load->view('admin/tfactura/ajax/ajax_tarticulos',$data);
-		}
-	}*/
-
-	/*public function get_valorUnitario()
-	{
-		$codigo   = $this->input->post("codigo");
-		$articulo = $this->Modelo_timbrado->get_importe($codigo);
-		$result = array(
-			'importe' => $articulo->costo,
-			'msg'     => $articulo->descripcion,
-		);
-		echo json_encode($result);
-	}
-
-	public function get_importe()
-	{
-		$cantidad = $this->input->post("cantidad");
-		$costo    = $this->input->post("costo");
-
-		$importe = $cantidad * $costo;
-		$result = array(
-			'importe' => $importe,
-		);
-		echo json_encode($result);
-	}*/
-	/**
-	 * FIN DEL TIMBRADO 
-	 */
-
-	/*public function eliminar_articulo()
-	{
-		if(!$this->input->is_ajax_request())
-		{
-		 show_404();
-		}else{
-			$id = $this->input->post("articulo");
-			$this->Modelo_articulos->delete_articulo($id);
-			$peticion = true;
-			$url      = "ajax_tarticulos";
-			echo json_encode($this->resultado($peticion,$url));
-		}
-	}*/
-
-	/*public function editar_articulo()
-	{
-		$id       = $this->input->post("articulo");
-		$costo    = $this->input->post("costo");
-		$cantidad = $this->input->post("cantidad");
-
-		$importe  = $costo * $cantidad;
-		$data = array(
-			'cantidad_venta' => $cantidad,
-			'importe'        => $importe,
-		);
-		$this->Modelo_timbrado->update_preventa($id,$data);
-
-		$articulo = $this->input->post("idArticulo");
-		$datos = array(
-			'descripcion' => $this->input->post("descripcion")
-		);
-		$this->Modelo_articulos->update_articulo($articulo,$datos);
-
-		$peticion = true;
-		$url      = "ajax_tarticulos";
-		echo json_encode($this->resultado($peticion,$url));
-	}*/
-
-	/*public function ajax_precios()
-	{
-		if(!$this->input->is_ajax_request())
-		{
-		 show_404();
-		}else{
-			$id      = $this->input->post("ids");
-			$data["precios"] = $this->precios($id);
-		    $this->load->view('admin/tfactura/ajax/ajax_precio',$data);
-		}	
-	}*/
-
 	/**
 	 * DESCARGAR ARCHIVO
 	 */

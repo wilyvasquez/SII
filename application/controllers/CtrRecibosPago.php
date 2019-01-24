@@ -31,6 +31,8 @@ class CtrRecibosPago extends CI_Controller {
 
         $data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true);
         $data["mcliente"]    = $this->load->view('admin/factura/modal/modal-cliente',null,true);
+        # ARCHIVOS JS
+        $data["archivosJS"]  = $this->load->view('admin/rpagos/archivos/archivosJS',null,true);
         $this->load->view('universal/plantilla',$data);   
     }
 
@@ -90,6 +92,8 @@ class CtrRecibosPago extends CI_Controller {
         // $data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
         $data["meuuid"]      = $this->load->view('admin/trpagos/modal/eliminar_uuidRpagos',$data,true);
         // $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
+        # ARCHIVOS JS
+        $data["archivosJS"]  = $this->load->view('admin/trpagos/archivos/archivosJS',null,true);
         $this->load->view('universal/plantilla',$data);
     }
 

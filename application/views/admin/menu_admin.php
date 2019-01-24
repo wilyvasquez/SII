@@ -14,6 +14,11 @@
       <li class="<?php if(!empty($rpagos)){ echo $rpagos; } ?>"><a href="<?= base_url() ?>prepagos"><i class="fa fa-circle-o"></i> Recibo de pago</a></li>
     </ul>
   </li>
+  <li class="<?php if(!empty($proceso)){ echo $proceso; } ?>">
+    <a href="<?= base_url() ?>proceso">
+      <i class="fa fa-retweet"></i> <span>Facturas en Proceso</span>
+    </a>
+  </li>
   <li class="<?php if(!empty($cliente)){ echo $cliente; } ?>">
     <a href="<?= base_url() ?>cliente">
       <i class="fa fa-users"></i> <span>Clientes</span>
@@ -39,7 +44,7 @@
       <i class="fa fa-sort-alpha-asc"></i> <span>Folios y series</span>
     </a>
   </li>
-  <li class="treeview <?php if(!empty($sat)){ echo $sat; } ?>">
+  <!-- <li class="treeview <?php if(!empty($sat)){ echo $sat; } ?>">
     <a href="#">
       <i class="icon-sat"></i><span style="margin-left: 8px"> Altas SAT</span>
       <span class="pull-right-container">
@@ -58,7 +63,7 @@
       <li><a href="#"><i class="fa fa-circle-o"></i> Condiciones de pagos</a></li>
       <li><a href="#"><i class="fa fa-circle-o"></i> Claves de unidad</a></li>
     </ul>
-  </li>
+  </li> -->
   <li class="<?php if(!empty($reporte)){ echo $reporte; } ?>">
     <a href="#" target="_black">
       <i class="fa fa-clipboard"></i> <span>Reportes</span>
@@ -70,11 +75,11 @@
       <i class="fa fa-file-text"></i> <span>Historial</span>
     </a>
   </li>
-  <li class="<?php if(!empty($config)){ echo $config; } ?>">
+  <!-- <li class="<?php if(!empty($config)){ echo $config; } ?>">
     <a href="#" target="_black">
       <i class="fa fa-share-alt"></i> <span>Extras</span>
     </a>
-  </li>
+  </li> -->
   <li class="<?php if(!empty($config)){ echo $config; } ?>">
     <a href="#" target="_black">
       <i class="fa fa-gears"></i> <span>Configuraciones</span>

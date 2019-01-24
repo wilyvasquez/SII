@@ -3,7 +3,7 @@
     <h3 class="box-title">Facturas Vinculadas  <strong>(UUID)</strong></h3>    
   </div>
   <!-- /.box-header -->
-  <div class="box-body no-padding" id="tbl-uuid">
+  <div class="box-body table-responsive no-padding" id="tbl-uuid">
     <table class="table table-hover">
       <thead>
         <tr style="background: #4C9DBD">
@@ -22,6 +22,9 @@
         <td><?= $articulo->uuid ?></td>
         <td><?= $articulo->t_relacion ?></td>
         <td>
+          <button type="button" data-toggle="modal" class="btn btn-danger open-uuid btn-xs" data-target=".deleteuuid" data-uuid="<?= $articulo->id_relacion ?>">Eliminar</button>
+        </td>
+        <!-- <td>
           <div class="dropdown">
             <button class="btn btn-warning btn-xs dropdown-toggle" type="button" id="btn-accion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               Accion
@@ -31,7 +34,7 @@
               <li><a href="#" data-toggle="modal" class="open-uuid" data-target=".deleteuuid" data-uuid="<?= $articulo->id_relacion ?>">Eliminar</a></li>
             </ul>
           </div>
-        </td>
+        </td> -->
       </tr>
       <?php $i++; } } ?>
       </tbody>

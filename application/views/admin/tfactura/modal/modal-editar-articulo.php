@@ -11,19 +11,32 @@
           <div class="box-body">
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="cantidad">Cantidad</label>
+                <label for="cantidad" style="font-weight: normal;">Cantidad</label>
                 <input type="number" class="form-control" id="cantidad" name="cantidad" min="1">
                 <input type="hidden" id="articulo" name="articulo" required>
                 <input type="hidden" id="costo" name="costo" required>
                 <input type="hidden" id="idArticulo" name="idArticulo" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="codigo">Codigo</label>
-                <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Codigo" disabled>
+                <label for="codigo" style="font-weight: normal;">Codigo</label>
+                <input type="text" class="form-control" id="codigo" name="codigo" disabled>
               </div>
             </div>
             <div class="form-group">
-              <label for="descripcion">Descripcion</label>
+              <label for="descuento" style="font-weight: normal;">Descuento <strong>(Cantidad en pesos)</strong></label>                
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-dollar"></i>
+                    </div>
+                    <input type="number" class="form-control" id="descuento" name="descuento">
+                  </div>
+                </div>          
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="descripcion" style="font-weight: normal;">Descripcion</label>
               <textarea class="form-control" rows="3" name="descripcion" id="descripcion" placeholder="Descripcion ..."></textarea>
             </div>
             <div id="editado">

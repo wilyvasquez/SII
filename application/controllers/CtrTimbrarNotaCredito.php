@@ -115,40 +115,40 @@ class CtrTimbrarNotaCredito extends CI_Controller {
             $cantidad = $articulo->cantidad_venta;
             $d['Conceptos'][$i]['ClaveProdServ']    = $articulo->codigo_sat;
             $d['Conceptos'][$i]['NoIdentificacion'] = $articulo->codigo_interno; #codigo interno o SKU, GTIN, codigo de barras, etc.
-            $d['Conceptos'][$i]['Cantidad']         = number_format($cantidad,2); # numero de articulos
+            $d['Conceptos'][$i]['Cantidad']         = $cantidad; # numero de articulos
             $d['Conceptos'][$i]['ClaveUnidad']      = $articulo->clave_sat; # Clave SAT
             $d['Conceptos'][$i]['Unidad']           = $articulo->unidad; # Unidad de Medida
             $d['Conceptos'][$i]['Descripcion']      = $articulo->articulo; #maximo 1000 caracteres
-            $d['Conceptos'][$i]['ValorUnitario']    = number_format($articulo->costo,2); #costo de 1 articulo
-            $d['Conceptos'][$i]['Importe']          = number_format($articulo->importe,2); # costo del total de todos los articulos
-            $d['Conceptos'][$i]['Descuento']        = number_format($articulo->descuento,2); # no se permiten valores negativos
+            $d['Conceptos'][$i]['ValorUnitario']    = round($articulo->costo,2); #costo de 1 articulo
+            $d['Conceptos'][$i]['Importe']          = round($articulo->importe + $articulo->descuento,2); # costo del total de todos los articulos# costo del total de todos los articulos
+            $d['Conceptos'][$i]['Descuento']        = round($articulo->descuento,2); # no se permiten valores negativos
 
-            $base      = number_format(($articulo->costo * $cantidad) - $articulo->descuento,2); #precio del articulo sin IVA menos descuento
-            $importe   = number_format($base * 0.16,2); # IVA de un articulo 
-            $subtotal  = number_format($subtotal + $base,2); # suma de todos los articulos sin IVA, menos su descuento
-            $descuento = number_format($descuento + $articulo->descuento,2); # suma total del descuento
-            $timporte  = number_format($timporte + $importe,2); # suma total de los IVA de los articulos
+            $base      = round(($articulo->costo * $cantidad) - $articulo->descuento,2); #precio del articulo sin IVA menos descuento
+            $importe   = round($base * 0.16,2); # IVA de un articulo 
+            $subtotal  = round($subtotal + $base,2); # suma de todos los articulos sin IVA, menos su descuento
+            $descuento = round($descuento + $articulo->descuento,2); # suma total del descuento
+            $timporte  = round($timporte + $importe,2); # suma total de los IVA de los articulos
 
             # concepto 1 -> impuestos
-            $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Base']        = number_format($base,2);
+            $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Base']        = round($base,2);
             $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Impuesto']    = '002'; # 001=ISR, 002=IVA, 003=IEPS
             $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['TipoFactor']  = 'Tasa';
             $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['TasaOCuota']  = '0.160000'; # IVA
-            $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Importe']     = number_format($importe,2);
+            $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Importe']     = round($importe,2);
 
             $i++;
         } }
 
-        $total           = number_format($subtotal + $timporte,2); # suma del total de articulos mas el total de IVA
-        $d['SubTotal']   = number_format($subtotal,2);
-        $d['Descuento']  = number_format($descuento,2); # o bien: null
+        $total           = round(($subtotal + $timporte),2); # suma del total de articulos mas el total de IVA
+        $d['SubTotal']   = round($subtotal + $descuento,2); 
+        $d['Descuento']  = round($descuento,2); # o bien: null
         $d['Moneda']     = 'MXN';
         $d['TipoCambio'] = "1";
-        $d['Total']      = number_format($total,2);
+        $d['Total']      = round($total,2);
 
         # Impuestos
         #$d['Impuestos']['TotalImpuestosRetenidos'] 	= 0.000000;
-        $d['Impuestos']['TotalImpuestosTrasladados'] 	= number_format($timporte,2);
+        $d['Impuestos']['TotalImpuestosTrasladados'] 	= round($timporte,2);
 
         # Definimos a detalle las retenciones
         #$d['Impuestos']['Retenciones'][0]['Impuesto'] 	= '001'; # 001=ISR, 002=IVA, 003=IEPS
@@ -158,7 +158,7 @@ class CtrTimbrarNotaCredito extends CI_Controller {
         $d['Impuestos']['Traslados'][0]['Impuesto'] 	= '002'; # 001=ISR, 002=IVA, 003=IEPS
         $d['Impuestos']['Traslados'][0]['TipoFactor'] 	= 'Tasa';
         $d['Impuestos']['Traslados'][0]['TasaOCuota'] 	= '0.160000'; # 16%
-        $d['Impuestos']['Traslados'][0]['Importe'] 		= number_format($timporte,2);; # Monto
+        $d['Impuestos']['Traslados'][0]['Importe'] 		= round($timporte,2);; # Monto
 
 
         # llamamos al método de timbrado

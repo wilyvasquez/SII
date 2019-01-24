@@ -58,8 +58,9 @@ class CtrInventario extends CI_Controller {
                 );
             $url = "";
             $peticion = $this->Modelo_inventario->put_inventario($data);
+            $msg = "Exito, Articulo agregado correctamente";
             // echo json_encode($this->resultado($peticion,$url));
-            echo json_encode($this->funciones->resultado($peticion,$url));
+            echo json_encode($this->funciones->resultado($peticion,$url,$msg));
         }
     }
 
@@ -72,8 +73,9 @@ class CtrInventario extends CI_Controller {
         );
         $peticion = $this->Modelo_inventario->put_marca($data);
         $url      = "ajax_marca";
+        $msg = "Exito, Marca agregado correctamente";
         // echo json_encode($this->resultado($peticion,$url));
-        echo json_encode($this->funciones->resultado($peticion,$url));
+        echo json_encode($this->funciones->resultado($peticion,$url,$msg));
     }
 
     public function ajax_marca()
@@ -91,8 +93,9 @@ class CtrInventario extends CI_Controller {
         );
         $peticion = $this->Modelo_inventario->put_linea($data);
         $url      = "ajax_linea";
+        $msg      = "Exito, Linea agregado correctamente";
         // echo json_encode($this->resultado($peticion,$url));
-        echo json_encode($this->funciones->resultado($peticion,$url));
+        echo json_encode($this->funciones->resultado($peticion,$url,$msg));
     }
 
     public function ajax_linea()
@@ -112,8 +115,9 @@ class CtrInventario extends CI_Controller {
         );
         $peticion = $this->Modelo_inventario->put_fabricante($data);
         $url      = "ajax_fabricante";
+        $msg = "Exito, Fabricante agregado correctamente";
         // echo json_encode($this->resultado($peticion,$url));
-        echo json_encode($this->funciones->resultado($peticion,$url));
+        echo json_encode($this->funciones->resultado($peticion,$url,$msg));
     }
 
     public function ajax_fabricante()

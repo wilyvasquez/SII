@@ -25,20 +25,13 @@
               <div class="input-group-addon">
                 <i class="fa fa-dollar"></i>
               </div>
-              <input type="text" class="form-control" id="costo" name="costo" placeholder="0.00" min="1" required step="any">
+              <input type="number" class="form-control" id="costo" name="costo" placeholder="0.00" min="1" required step="any">
               <input type="hidden" id="ids" name="ids" value="<?= $id ?>" required>
               <input type="hidden" id="id_cliente" name="id_cliente" value="<?= $icliente->id_cliente ?>" required>
             </div>
           </div>          
         </div>
       </div>
-
-      <!-- div class="form-group">
-        <label for="costo" style="font-weight: normal;">Costo</label>
-        <input type="text" class="form-control" id="costo" name="costo" placeholder="0.00" min="1" required step="any">
-        <input type="hidden" class="form-control" id="ids" name="ids" value="<?= $id ?>" required>
-        <input type="hidden" class="form-control" id="id_cliente" name="id_cliente" value="<?= $icliente->id_cliente ?>" required>
-      </div> -->
       <div class="row">
         <div class="form-group col-md-6">
           <label for="cantidad" style="font-weight: normal;">Cantidad</label>

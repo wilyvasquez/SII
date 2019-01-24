@@ -25,27 +25,27 @@ class Funciones {
 	      		$importe = $importe + $articulo->importe;
 	      		$descuento = $descuento + $articulo->descuento;
 	      	}
-			$subtotal  = number_format($importe,2);
-			$iva       = number_format($subtotal * 0.16,2);
-			$total     = number_format($importe + $iva,2);
-			$descuento = number_format($descuento,2);
+			$subtotal  = $importe;
+			$iva       = $subtotal * 0.16;
+			$total     = $importe + $iva;
+			$descuento = $descuento;
       	}
       	 return array($subtotal,$iva,$descuento,$total);
     }
 
-    function resultado($peticion,$url)
+    function resultado($peticion,$url,$msg)
 	{
 		if($peticion)
 		{
 			$result = array(
 				'respuesta' => 'correcto',
-				'msg'       => '<div class="alert alert-success" role="alert">Accion realizada Correctamente</div>',
+				'msg'       => '<div class="alert alert-success" role="alert">'.$msg.'</div>',
 				'url'		=> $url
 			);
 		}else{
 			$result = array(
 				'respuesta' => 'error',
-				'msg'       => '<div class="alert alert-danger" role="alert">Error en la accion</div>',
+				'msg'       => '<div class="alert alert-danger" role="alert">'.$msg.'</div>',
 				'url'		=> $url,
 			);
 		}

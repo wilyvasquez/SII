@@ -44,6 +44,8 @@ $(function(){
     var ids        = document.getElementById('ids').value;
     var id_cliente = document.getElementById('id_cliente').value;
     console.log(id_cliente);
+    console.log("--");
+    console.log(ids);
     var par = 
     {
       "ids"  : ids,
@@ -139,8 +141,13 @@ $(document).on("click", ".open-Editar", function () {
   $(".modal-body #articulo").val( articulo );
   var codigo = $(this).data('cod');
   $(".modal-body #codigo").val( codigo );
+  var descuento = $(this).data('descu');
+  $(".modal-body #descuento").val( descuento );
 
-  document.getElementById("codigos").innerHTML = codigo;
+  if (document.getElementById("codigos")) 
+  {
+    document.getElementById("codigos").innerHTML = codigo;
+  }
 
   var descripcion = $(this).data('des');
   $(".modal-body #descripcion").val( descripcion );
@@ -260,12 +267,31 @@ function ajax_tarticulos(json,par)
       $('#deleteModal').modal('hide');
       $("#editado").html("").delay(0).show(0);
       $("#borrado").html("").delay(0).show(0);
-    },2000); 
+    },1000); 
   });
 }
 
-function msg()
-{
-  console.log("%c¡Detente!", "font-family: ';Arial';, serif; font-weight: bold; color: red; font-size: 45px");
-  console.log("%cEsta función del navegador está pensada para desarrolladores. Si alguien te indicó que copiaras y pegaras algo aquí para habilitar una función o para PIRATEAR la cuenta de alguien, se trata de un fraude.", "font-family: ';Arial';, serif; color: black; font-size: 20px");
-}msg();
+// FUNCION EN FUNCIONAMIENTO PARA ELIMINAR RELACCION UUID (POSIBLE MOVERLO)
+$(function(){
+  $("#deleteuuid").on("submit", function(e){
+    e.preventDefault();
+    console.log("ELIMINAR UUIDD");
+    var formData = new FormData(document.getElementById("deleteuuid"));
+    // formData.append("dato", "valor");
+    $.ajax({
+      url: "../CtrUniversal/delete_uuid",
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function(res){
+      $("#tbl-uuid").html(res);
+      setTimeout(function(){ 
+        $('#modaldelete').modal('hide');
+      },500);
+    });
+  });
+});

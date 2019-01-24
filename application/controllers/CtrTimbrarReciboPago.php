@@ -139,7 +139,7 @@ class CtrTimbrarReciboPago extends CI_Controller {
             $i++;
             $total = $total + $articulo->monto;
             }
-            $d['Complemento']['Pagos'][0]['Monto'] = number_format($total,2);
+            $d['Complemento']['Pagos'][0]['Monto'] = round($total,2);
         }
 
         # PAGO 1 --> IMPUESTOS

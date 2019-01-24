@@ -64,8 +64,8 @@ class CtrClientes extends CI_Controller {
 				$url = 'ajax_scliente'; 
 			}
 			$peticion = $this->Modelo_cliente->put_cliente($datos);
-			// echo json_encode($this->resultado($peticion,$url));
-			echo json_encode($this->funciones->resultado($peticion,$url));
+			$msg = "Exito, Cliente agregado correctamente";
+			echo json_encode($this->funciones->resultado($peticion,$url,$msg));
 		}
 	}
 

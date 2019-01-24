@@ -34,79 +34,11 @@
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>bower_components/admin-lte/dist/js/adminlte.min.js"></script>
 <!-- alertify -->
-<script src="<?= base_url()?>assets/js/alertify/alertify.min.js"></script>
+<!-- <script src="<?= base_url()?>assets/js/alertify/alertify.min.js"></script> -->
 <!-- funciones -->
-<script src="<?= base_url() ?>assets/js/cliente/funciones_cliente.js"></script>
-<script src="<?= base_url() ?>assets/js/pre_factura/pre_factura.js"></script>
-<script src="<?= base_url() ?>assets/js/factura/funcion_factura.js"></script>
-<script src="<?= base_url() ?>assets/js/inventario/funcion_inventario.js"></script>
-<script src="<?= base_url() ?>assets/js/sucursales/sucursales.js"></script>
-<script src="<?= base_url() ?>assets/js/ncredito/nota_credito.js"></script>
-<script src="<?= base_url() ?>assets/js/pre_pagos/recibos_pagos.js"></script>
-<!-- AdminLTE for demo purposes -->
-<!-- <script src="<?= base_url() ?>dist/js/demo.js"></script> -->
-<!-- page script -->
-<script>
-  $(function () {
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : true,
-      'ordering'    : false,
-      'info'        : false,
-      'autoWidth'   : false,
-      "lengthMenu": [[12, 24], [12, 24]],
-      "language": {
-          "zeroRecords": "No se encontraron datos",
-          "infoEmpty": "No se encontraron datos",
-          "search": "Buscar",
-        "paginate": {
-          "first":      "Primero",
-          "last":       "Ultimo",
-          "next":       "Siguiente",
-          "previous":   "Anterior"
-        }
-      },
-    })
-    $('#example3').DataTable({
-      'paging'      : false,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : false,
-      'info'        : false,
-      'autoWidth'   : false,
-      "scrollY"     : "300px",
-      "scrollCollapse": true,
-      "language": {
-          "zeroRecords": "No se encontraron datos",
-          "infoEmpty": "No se encontraron datos",
-          "search": "Buscar",
-        "paginate": {
-          "first":      "Primero",
-          "last":       "Ultimo",
-          "next":       "Siguiente",
-          "previous":   "Anterior"
-        }
-      },
-    })
-
-    $('.select2').select2()
-
-    $('[data-mask]').inputmask()
-
-    //Date picker
-    $('#fecha').datepicker({
-      autoclose: true,
-      format: 'yyyy-mm-dd',
-    })
-
-  })
-</script>
-<script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-});
-</script>
+<?= $archivosJS ?>
+<!-- <script src="<?= base_url() ?>assets/js/cliente/funciones_cliente.js"></script> -->
+<!-- <script src="<?= base_url() ?>assets/js/inventario/funcion_inventario.js"></script>-->
+<!--<script src="<?= base_url() ?>assets/js/sucursales/sucursales.js"></script>-->
 </body>
 </html>

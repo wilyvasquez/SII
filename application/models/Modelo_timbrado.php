@@ -28,12 +28,12 @@ class Modelo_timbrado extends CI_Model
 		}
 	}
 
-	function get_productosTimbrar($num)
+	function get_productosTimbrar($id)
 	{
 		$this->db->select("*")->from("pre_venta");
 		$this->db->join('articulo_preventa', 'articulo_preventa.ref_preventa = pre_venta.id_preventa', 'inner');
 		$this->db->join('articulo', 'articulo.id_articulo = articulo_preventa.ref_articulo', 'inner');
-		$this->db->where('pre_venta.id_preventa', $num);
+		$this->db->where('pre_venta.id_preventa',$id);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query;
@@ -41,6 +41,20 @@ class Modelo_timbrado extends CI_Model
 			return false;
 		}
 	}
+
+	function get_facturasProceso()
+	{
+		$this->db->select("*")->from("pre_venta");
+		$this->db->join('cliente', 'cliente.id_cliente = pre_venta.ref_cliente', 'inner');
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+
 
 	function get_codigo()
 	{

@@ -64,10 +64,12 @@ $route['pcliente/(:num)']   = 'CtrClientes/perfil_cliente/$1';
 /**
  * 
  */
-$route['prefactura']      = 'CtrFactura/pre_factura';
-$route['factura/(:num)']  = 'CtrFactura/factura/$1';
-$route['descarga/(:any)'] = 'CtrFactura/descarga/$1';
-$route['xml/(:any)']      = 'CtrFactura/descargas_xml/$1';
+$route['prefactura']         = 'CtrFactura/pre_factura';
+$route['factura/(:num)']     = 'CtrFactura/factura/$1';
+$route['descarga/(:any)']    = 'CtrFactura/descarga/$1';
+$route['xml/(:any)']         = 'CtrFactura/descargas_xml/$1';
+$route['proceso']            = 'CtrFactura/facturas_proceso';
+$route['infoFactura/(:num)'] = 'CtrFactura/info_procesoFacturas/$1';
 
 $route['prencredito']     = 'CtrNotaCredito/pre_factura';
 $route['ncredito/(:num)'] = 'CtrNotaCredito/nota_credito/$1';
