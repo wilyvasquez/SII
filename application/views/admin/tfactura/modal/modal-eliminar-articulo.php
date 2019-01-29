@@ -13,7 +13,6 @@
               <div class="alert  alert-dismissible fade in" role="alert" style="background-color: #F7BFB0">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 </button>
-                <!-- <div id="codigos"></div> -->
                 <strong style="font-weight: bold;color: #DC1D0D"><center><i class="fa fa-warning" style="width: 30px"></i> Esta accion eliminara el articulo con codigo <font id="codigos" style="color: #3C8DBC"></font> de esta relacion.</center></strong> 
               </div>
               <input type="hidden" name="codigo" id="codigo" required>
@@ -26,7 +25,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary" style="background-color:#DC1D0D;border: 0">Eliminar</button>
+          <button type="submit" class="btn btn-primary" id="btn-eliminar" style="background-color:#DC1D0D;border: 0">Eliminar</button>
         </div>
       </form>
     </div>

@@ -35,7 +35,6 @@ class CtrUniversal extends CI_Controller {
             $url      = "ajax_tarticulos";
             $peticion = $this->Modelo_articulos->put_articulo($data);
             $msg      = "";
-            // echo json_encode($this->resultado($peticion,$url));
             echo json_encode($this->funciones->resultado($peticion,$url,$msg));
         }
     }
@@ -69,17 +68,21 @@ class CtrUniversal extends CI_Controller {
 
     public function agregar_uuid()
     {
-        $id   = $this->input->post("ids");
-        $data = array(
-            'uuid'            => $this->input->post("uuid"),
-            't_relacion'      => $this->input->post("relacion"),
-            'ref_preventa'    => $id
-        );
-        $peticion = $this->Modelo_timbrado->put_relacion($data);
-        $url      = "ajax_tuuid";
-        $msg      = "Exito, Agregado correctamente";
-        // echo json_encode($this->resultado($peticion,$url));
-        echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $id   = $this->input->post("ids");
+            $data = array(
+                'uuid'            => $this->input->post("uuid"),
+                't_relacion'      => $this->input->post("relacion"),
+                'ref_preventa'    => $id
+            );
+            $peticion = $this->Modelo_timbrado->put_relacion($data);
+            $url      = "ajax_tuuid";
+            $msg      = "Exito, Agregado correctamente";
+            echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+        }
     }
 
     public function ajax_tuuid()
@@ -96,25 +99,35 @@ class CtrUniversal extends CI_Controller {
 
     public function get_valorUnitario()
     {
-        $codigo   = $this->input->post("codigo");
-        $articulo = $this->Modelo_timbrado->get_importe($codigo);
-        $result = array(
-            'importe' => $articulo->costo,
-            'msg'     => $articulo->descripcion,
-        );
-        echo json_encode($result);
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $codigo   = $this->input->post("codigo");
+            $articulo = $this->Modelo_timbrado->get_importe($codigo);
+            $result = array(
+                'importe' => $articulo->costo,
+                'msg'     => $articulo->descripcion,
+            );
+            echo json_encode($result);
+        }
     }
 
     public function get_importe()
     {
-        $cantidad = $this->input->post("cantidad");
-        $costo    = $this->input->post("costo");
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $cantidad = $this->input->post("cantidad");
+            $costo    = $this->input->post("costo");
 
-        $importe = $cantidad * $costo;
-        $result = array(
-            'importe' => $importe,
-        );
-        echo json_encode($result);
+            $importe = $cantidad * $costo;
+            $result = array(
+                'importe' => $importe,
+            );
+            echo json_encode($result);
+        }
     }
 
     public function eliminar_articulo()
@@ -128,45 +141,49 @@ class CtrUniversal extends CI_Controller {
             $peticion = true;
             $url      = "ajax_tarticulos";
             $msg      = "Exito, Articulo eliminado correctamente";
-            // echo json_encode($this->resultado($peticion,$url));
             echo json_encode($this->funciones->resultado($peticion,$url,$msg));
         }
     }
 
     public function editar_articulo()
     {
-        $id        = $this->input->post("articulo");
-        $costo     = $this->input->post("costo");
-        $cantidad  = $this->input->post("cantidad");
-        $descuento = $this->input->post("descuento");
-        $importe   = $costo * $cantidad;
-
-        if ($descuento <= $importe) 
+        if(!$this->input->is_ajax_request())
         {
-            $total   = $importe - $descuento;
-
-            $data = array(
-                'cantidad_venta' => $cantidad,
-                'importe'        => $total,
-                'descuento'      => $descuento,
-            );
-            $this->Modelo_timbrado->up_articuloTimbrado($id,$data);
-
-            $articulo = $this->input->post("idArticulo");
-            $datos = array(
-                'descripcion' => $this->input->post("descripcion")
-            );
-            $this->Modelo_articulos->update_articulo($articulo,$datos);
-
-            $peticion = true;
-            $url      = "ajax_tarticulos";
-            $msg      = "Exito, Descuento aplicado correctamente";
-            echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+         show_404();
         }else{
-            $peticion = false;
-            $url      = "ajax_tarticulos";
-            $msg = "Error, descuento mayor que total";
-            echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+            $id        = $this->input->post("articulo");
+            $costo     = $this->input->post("costo");
+            $cantidad  = $this->input->post("cantidad");
+            $descuento = $this->input->post("descuento");
+            $importe   = $costo * $cantidad;
+
+            if ($descuento <= $importe) 
+            {
+                $total   = $importe - $descuento;
+
+                $data = array(
+                    'cantidad_venta' => $cantidad,
+                    'importe'        => $total,
+                    'descuento'      => $descuento,
+                );
+                $this->Modelo_timbrado->up_articuloTimbrado($id,$data);
+
+                $articulo = $this->input->post("idArticulo");
+                $datos = array(
+                    'descripcion' => $this->input->post("descripcion")
+                );
+                $this->Modelo_articulos->update_articulo($articulo,$datos);
+
+                $peticion = true;
+                $url      = "ajax_tarticulos";
+                $msg      = "Exito, Descuento aplicado correctamente";
+                echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+            }else{
+                $peticion = false;
+                $url      = "ajax_tarticulos";
+                $msg      = "Error, descuento mayor que total";
+                echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+            }
         }
     }
 
@@ -177,51 +194,21 @@ class CtrUniversal extends CI_Controller {
          show_404();
         }else{
             $id = $this->input->post("ids");
-            // $data["precios"] = $this->precios($id);
             $data["precios"] = $this->funciones->precios($id);
             $this->load->view('admin/tfactura/ajax/ajax_precio',$data);
         }   
     }
 
-    /*function precios($id)
+    public function not_found()
     {
-        $importe   = 0;
-        $subtotal  = 0;
-        $iva       = 0;
-        $total     = 0;
-        $descuento = 0;
+        $data = array(
+            "title"     => "404 Error Pagina",
+            "subtitle"  => "Error",
+            "contenido" => "universal/not_found",
+            "menu"      => "admin/menu_admin",
+            "archivosJS"=> $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
+        );
+        $this->load->view('universal/plantilla',$data);
 
-        $articulos = $this->Modelo_articulos->get_articulosVenta($id);
-        if (!empty($articulos)) {
-            foreach ($articulos ->result() as $articulo) 
-            {
-                $importe = $importe + $articulo->importe;
-                $descuento = $descuento + $articulo->descuento;
-            }
-            $subtotal  = number_format($importe,2);
-            $iva       = number_format($subtotal * 0.16,2);
-            $total     = number_format($importe + $iva,2);
-            $descuento = number_format($descuento,2);
-        }
-         return array($subtotal,$iva,$descuento,$total);
-    }*/
-
-    // function resultado($peticion,$url)
-    // {
-    //     if($peticion)
-    //     {
-    //         $result = array(
-    //             'respuesta' => 'correcto',
-    //             'msg'       => '<div class="alert alert-success" role="alert">Accion realizada Correctamente</div>',
-    //             'url'       => $url
-    //         );
-    //     }else{
-    //         $result = array(
-    //             'respuesta' => 'error',
-    //             'msg'       => '<div class="alert alert-danger" role="alert">Error en la accion</div>',
-    //             'url'       => $url
-    //         );
-    //     }
-    //     return $result;
-    // }
+    }
 }

@@ -4,7 +4,7 @@
       <div class="modal-header" style="background: #3C8DBC; color: white">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Editar datos Articulo</h4>
+        <h4 class="modal-title">Editar datos del Articulo</h4>
       </div>
       <form role="form" id="editarArticulo">
         <div class="modal-body">
@@ -46,7 +46,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Actualizar</button>
+          <button type="submit" class="btn btn-primary" id="btn-actualizar">Actualizar</button>
         </div>
       </form>
     </div>

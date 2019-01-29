@@ -18,11 +18,13 @@ class CtrUsuarios extends CI_Controller {
 
     public function usuarios()
 	{
-		$data["user"]      = "active";
-		$data["title"]     = "Usuarios";
-		$data["subtitle"]  = "Alta de usuarios";
-		$data["contenido"] = "admin/usuarios/usuarios";
-		$data["menu"]      = "admin/menu_admin";
+        $data = array(
+    		"user"      => "active",
+    		"title"     => "Usuarios",
+    		"subtitle"  => "Alta de usuarios",
+    		"contenido" => "admin/usuarios/usuarios",
+    		"menu"      => "admin/menu_admin"
+        );
 		$this->load->view('universal/plantilla',$data);
 	}
 

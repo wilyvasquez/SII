@@ -17,28 +17,35 @@ class CtrClientes extends CI_Controller {
 
     public function cliente()
 	{
-		$data["cliente"]   = "active";
-		$data["title"]     = "Cliente";
-		$data["subtitle"]  = "Alta de Cliente";
-		$data["contenido"] = "admin/cliente/cliente";
-		$data["menu"]      = "admin/menu_admin";
 		$data['clientes']  = $this->Modelo_cliente->get_clientes();
 		$data['ucfdis']    = $this->Modelo_sat->get_usoCfdi();
-		$data["tabla"]     = $this->load->view('admin/cliente/tabla-cliente',$data,true);
+		$data = array(
+			"cliente"   => "active",
+			"title"     => "Cliente",
+			"subtitle"  => "Alta de Cliente",
+			"contenido" => "admin/cliente/cliente",
+			"menu"      => "admin/menu_admin",
+			"tabla"     => $this->load->view('admin/cliente/tabla-cliente',$data,true),
+			"archivosJS"=> $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS
+		);
 		$this->load->view('universal/plantilla',$data);
 	}
 
 	public function perfil_cliente($id)
 	{
-		$data["cliente"]   = "active";
-		$data["title"]     = "Cliente";
-		$data["subtitle"]  = "Datos del Cliente";
-		$data["contenido"] = "admin/cliente/perfil-cliente";
-		$data["menu"]      = "admin/menu_admin";
-		$data['icliente']  = $this->Modelo_cliente->get_cliente($id);
-		$data['ifacturas'] = $this->Modelo_cliente->obtener_facturas($id);
-		$data["facturas"]  = $this->load->view('admin/cliente/facturas_cliente',$data,true);
-		$data["ucliente"]  = $this->load->view('admin/cliente/update-cliente',$data,true);
+		$datos['icliente']  = $this->Modelo_cliente->get_cliente($id);
+		$datos['ifacturas'] = $this->Modelo_cliente->obtener_facturas($id);
+
+		$data = array(
+			'cliente'   => "active",
+			'title'     => "Cliente",
+			'subtitle'  => "Datos del cliente", 
+			'contenido' => "admin/cliente/perfil-cliente",
+			'menu'      => "admin/menu_admin",
+			'facturas'  => $this->load->view('admin/cliente/facturas_cliente',$datos,true),
+			'ucliente'  => $this->load->view('admin/cliente/update-cliente',$datos,true),
+			'archivosJS'=> $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS
+		);
 		$this->load->view('universal/plantilla',$data);
 	}
 

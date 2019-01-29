@@ -24,12 +24,14 @@ class CtrNotaCredito extends CI_Controller {
         $data["subtitle"]    = "Crear Nota Credito";
         $data["contenido"]   = "admin/ncredito/nota_credito";
         $data["menu"]        = "admin/menu_admin";
-        $data['clientes']    = $this->Modelo_cliente->get_clientes();
-        $data['fpagos']      = $this->Modelo_sat->get_formaPagos();
-        $data['mpagos']      = $this->Modelo_sat->get_metodoPagos();
-        $data['ucfdis']      = $this->Modelo_sat->get_usoCfdi();
+        $data['clientes']    = $this->Modelo_cliente->get_clientes(); # OBTENER TODOS LOS CLIENTES
+        $data['fpagos']      = $this->Modelo_sat->get_formaPagos();   # OBTENER FORMAS DE PAGO
+        $data['mpagos']      = $this->Modelo_sat->get_metodoPagos();  # OBTENER METODOS DE PAGO
+        $data['ucfdis']      = $this->Modelo_sat->get_usoCfdi();      # OBTENER USO DEL CFDI
 
-        $data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true);
+        # VISTAS PARA OBTENER LOS DATOS DEL CLIENTE
+        $data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true); 
+        # MODAL REGISTRAR CLIENTE NUEVO CLIENTE
         $data["mcliente"]    = $this->load->view('admin/factura/modal/modal-cliente',null,true);
         # ARCHIVOS JS
         $data["archivosJS"]  = $this->load->view('admin/ncredito/archivos/archivosJS',null,true);
@@ -44,26 +46,30 @@ class CtrNotaCredito extends CI_Controller {
         }else{
             $preventa  = 1;
             $condicion = "CREDITO";
-            $codigo    = $this->Modelo_timbrado->get_codigo();
-
-            if (!empty($codigo)) {
-                $preventa = $codigo->codigo_preventa + 1;
+            $codigo    = $this->Modelo_timbrado->get_codigo(); # OBTENER EL ULTIMO CODIGO DE PREVENTA
+            # CONDICION SOBRE SI YA EXISTE ALGUN REGISTRO (COMPROBAR SI ESTA BIEN, CREO HAY ERROR)
+            if (!empty($codigo)){
+                $preventa = $codigo->codigo_preventa + 1; # AGREGAMOS UN UNO AL ULTIMO CODIGO
             }
-            if ($this->input->post("metodo") == "PUE") {
+            if ($this->input->post("metodo") == "PUE"){ # VALIDAMOS EL TIPO DE METODO ENVIADO
                 $condicion = "CONTADO";
             }
-
+            # ARREGLO DE DATOS PARA GUARDAR
             $data = array(
                 'alta_preventa'    => date("Y-m-d H:i:s"),
-                'codigo_preventa'  => "001-A".$preventa,
+                'codigo_preventa'  => "001-A0000".$preventa,
                 'condicion_pago'   => $condicion,
-                'ref_cliente'      => $this->input->post("cliente"),
                 'forma_pago'       => $this->input->post("forma"),
                 'metodo_pago'      => $this->input->post("metodo"),
-                'uso_cfdi'         => $this->input->post("cfdi")
+                'uso_cfdi'         => $this->input->post("cfdi"),
+                'ref_cliente'      => $this->input->post("cliente")
             );
-            $id = $this->Modelo_timbrado->put_preventa($data);
-            echo '<a href="'.base_url().'ncredito/'.$id.'" class="btn btn-primary btn-sm pull-left">Vincular Factura</a>';
+            $id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE NOTA DE CREDITO
+            if($id){
+                echo '<a href="'.base_url().'ncredito/'.$id.'" class="btn btn-primary btn-sm pull-left">Vincular Factura</a>'; # MOSTRAR VISTA BIEN
+            }else{
+                echo '<div class="alert alert-danger" role="alert">Error, al subir datos, contactar a sistemas.</div>'; # MOSTRAR VISTA ERROR
+            }
         }
     }
 

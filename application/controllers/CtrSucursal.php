@@ -17,35 +17,48 @@ class CtrSucursal extends CI_Controller {
 
     public function sucursal()
     {
-        $data["sucursal"]   = "active";
-        $data["title"]      = "Sucursal";
-        $data["subtitle"]   = "Alta de sucursal";
-        $data["contenido"]  = "admin/sucursal/sucursal";
-        $data["menu"]       = "admin/menu_admin";
-        $data['sucursales'] = $this->Modelo_sucursal->get_sucursal();
+        $data = array(
+            "sucursal"   => "active",
+            "title"      => "Sucursal",
+            "subtitle"   => "Alta de sucursal",
+            "contenido"  => "admin/sucursal/sucursal",
+            "menu"       => "admin/menu_admin",
+            "sucursales" => $this->Modelo_sucursal->get_sucursal(),
+            "archivosJS" => $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS
+        );
         $this->load->view('universal/plantilla',$data);
     }
 
     public function agregar_sucursal()
     {
-        $datos = array(
-            "razon_social"     => $this->input->post("razon"),
-            "sucursal"         => $this->input->post("sucursal"),
-            "rfc"              => $this->input->post("rfc"),
-            "direccion"        => $this->input->post("direccion"),
-            "correo"           => $this->input->post("correo"),
-            "telefono"         => $this->input->post("telefono"),
-            "estatus_sucursal" => $this->input->post("estatus")
-        );
-        $peticion = $this->Modelo_sucursal->put_sucursal($datos);
-        $url = "ajax_sucursal";
-        $msg = "Exito, Sucursal agregado correctamente";
-        echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $datos = array(
+                "razon_social"     => $this->input->post("razon"),
+                "sucursal"         => $this->input->post("sucursal"),
+                "rfc"              => $this->input->post("rfc"),
+                "direccion"        => $this->input->post("direccion"),
+                "correo"           => $this->input->post("correo"),
+                "telefono"         => $this->input->post("telefono"),
+                "estatus_sucursal" => $this->input->post("estatus")
+            );
+            $peticion = $this->Modelo_sucursal->put_sucursal($datos);
+            $url = "ajax_sucursal";
+            $msg = "Exito, Sucursal agregado correctamente";
+            echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+        }
     }
 
     public function ajax_sucursal()
     {
-        $data['sucursales'] = $this->Modelo_sucursal->get_sucursal();
-        $this->load->view('admin/sucursal/ajax/ajax_sucursal',$data);
+        if(!$this->input->is_ajax_request())
+        {
+         show_404();
+        }else{
+            $data['sucursales'] = $this->Modelo_sucursal->get_sucursal();
+            $this->load->view('admin/sucursal/ajax/ajax_sucursal',$data);
+        }
     }
 }

@@ -56,7 +56,7 @@
       <ul class="nav nav-tabs">
         <li class="active"><a href="#activity" data-toggle="tab">Facturas</a></li>
         <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-        <li><a href="#settings" data-toggle="tab">Configuracion</a></li>
+        <li><a href="#settings" data-toggle="tab">Datos</a></li>
       </ul>
       <div class="tab-content">
         <?= $facturas ?>

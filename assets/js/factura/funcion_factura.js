@@ -43,9 +43,9 @@ $(function(){
     e.preventDefault();
     var ids        = document.getElementById('ids').value;
     var id_cliente = document.getElementById('id_cliente').value;
-    console.log(id_cliente);
-    console.log("--");
-    console.log(ids);
+    // console.log(id_cliente);
+    // console.log("--");
+    // console.log(ids);
     var par = 
     {
       "ids"  : ids,
@@ -58,11 +58,18 @@ $(function(){
       data: par,
       beforeSend: function(){
         $("#resultado").html("Generando factura, espere por favor");
+        $('#btn-limpiar').attr("disabled", true);
+        $('#btn-articulo').attr("disabled", true);
+        $('#btn-actualizar').attr("disabled", true);
+        $('#btn-eliminar').attr("disabled", true);
+        $('#btn-delete').attr("disabled", true);
+        $('#btn-adduuid').attr("disabled", true);
       },
       success: function(response){
         $('#btn-timbrar').attr("disabled", true);
-        $('#btn-limpiar').attr("disabled", true);
-        $('#btn-articulo').attr("disabled", true);
+        // $('#btn-limpiar').attr("disabled", true);
+        // $('#btn-articulo').attr("disabled", true);
+        $('#ocultarUUID').hide(0);
         var json = $.parseJSON(response);
         $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);

@@ -26,7 +26,8 @@ class CtrFactura extends CI_Controller {
 			"subtitle"  => "Alta de folios",
 			"contenido" => "admin/folios/folios_series",
 			"menu"      => "admin/menu_admin",
-			"tabla"     => $this->load->view('admin/folios/tabla-folios',null,true)
+			"tabla"     => $this->load->view('admin/folios/tabla-folios',null,true),
+			"archivosJS"=> $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
 		);
 		$this->load->view('universal/plantilla',$data);
 	}
@@ -108,15 +109,15 @@ class CtrFactura extends CI_Controller {
 		}else{
 			$preventa  = 1;
 			$condicion = "CREDITO";
-			$codigo    = $this->Modelo_timbrado->get_codigo();
-
+			$codigo    = $this->Modelo_timbrado->get_codigo(); # OBTENER EL ULTIMO CODIGO DE PREVENTA
+			# CONDICION SOBRE SI YA EXISTE ALGUN REGISTRO (COMPROBAR SI ESTA BIEN, CREO HAY ERROR)
 			if (!empty($codigo)) {
-				$preventa = $codigo->id_preventa + 1;
+				$preventa = $codigo->id_preventa + 1; # AGREGAMOS UN UNO AL ULTIMO CODIGO
 			}
-			if ($this->input->post("metodo") == "PUE") {
+			if ($this->input->post("metodo") == "PUE") { # VALIDAMOS EL TIPO DE METODO ENVIADO
 				$condicion = "CONTADO";
 			}
-
+			# ARREGLO DE DATOS PARA GUARDAR
 			$data = array(
 				'alta_preventa'    => date("Y-m-d H:i:s"),
 				'codigo_preventa'  => "001-A0000".$preventa,
@@ -126,8 +127,12 @@ class CtrFactura extends CI_Controller {
 				'uso_cfdi'         => $this->input->post("cfdi"),
 				'ref_cliente'      => $this->input->post("cliente"),
 			);
-			$id = $this->Modelo_timbrado->put_preventa($data);
-			echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>';
+			$id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE NOTA DE CREDITO
+			if($id){
+                echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>'; # MOSTRAR VISTA BIEN
+            }else{
+                echo '<div class="alert alert-danger" role="alert">Error, al subir datos, contactar a sistemas.</div>'; # MOSTRAR VISTA ERROR
+            }
 		}
 	}
 	/**
@@ -166,9 +171,8 @@ class CtrFactura extends CI_Controller {
 		$data["precios"]     = $this->load->view('admin/tfactura/precios',$data,true);
 
 		# VISTAS NOTAS DE CREDITO
-        $data["tuuid"]       = $this->load->view('admin/tncredito/tabla_uuid',$data,true);
-        // $data["precios"]     = $this->load->view('admin/tncredito/timbrar_ncredito',$data,true);
-		
+        $data["tuuid"]       = $this->load->view('admin/tncredito/tabla_uuid',$data,true);		
+        
 		# MODALES
 		$data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
 		$data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);

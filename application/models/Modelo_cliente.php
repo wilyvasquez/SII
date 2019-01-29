@@ -87,7 +87,7 @@ class Modelo_cliente extends CI_Model
 
 	function obtener_facturas($id)
 	{
-		$query = $this->db->get_where('producto_facturado', array('ref_cliente' => $id));
+		$query = $this->db->get_where('factura', array('ref_cliente' => $id));
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 

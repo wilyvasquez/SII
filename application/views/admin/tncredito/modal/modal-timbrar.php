@@ -34,7 +34,7 @@
         <!-- /.box-body -->
         <div class="box-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-articulo">Agregar</button>
+          <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-adduuid">Agregar</button>
         </div>
       </form>
     </div>
