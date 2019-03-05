@@ -1,4 +1,4 @@
-<div class="modal fade crearrelacion" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade crearrelacion" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-body">
@@ -24,4 +24,4 @@
 
     </div>
   </div>
-</div>
+</div> -->

@@ -1,9 +1,4 @@
 <div class="box box-primary">
-  <!-- <div class="box-header with-border">
-    <h3 class="box-title">Precios</h3>
-  </div> -->
-  <!-- /.box-header -->
-  <!-- form start -->
   <form role="form" id="timbrar">
     <div id="ajaxprecio">
       <div class="box-body" id="suma">

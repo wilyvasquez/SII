@@ -1,6 +1,5 @@
 <div class="form-group">
   	<label for="cfdi_r" class="col-sm-4 control-label" style="font-weight: normal;"><font color="red">*</font> CFDI a relacionar</label>
-
   	<div class="col-sm-8">
     <select class="form-control select2 input-sm" style="width: 100%;" id="cfdi_r" data-placeholder="Selecciona" required>
 	  	<option value="">Selecciona</option>
@@ -13,7 +12,6 @@
 </div>
 <div class="form-group">
 	<label for="trelacion" class="col-sm-4 control-label" style="font-weight: normal;"><font color="red">*</font> Tipo de relacion</label>
-
 	<div class="col-sm-8">
 	<select class="form-control select2 input-sm" style="width: 100%;" id="trelacion" data-placeholder="Selecciona" required>
 	  <option value="">Selecciona</option>

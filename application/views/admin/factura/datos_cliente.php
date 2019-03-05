@@ -43,13 +43,6 @@
         </div>
       </div>
       <div id="ajax-ntf"></div>
-      <!-- <div class="form-group">
-        <label for="ucfdi" class="col-md-3 control-label" style="font-weight: normal;">Uso CFDI</label>
-
-        <div class="col-md-9">
-          <input type="text" class="form-control input-sm" id="ucfdi" placeholder="Uso del CFDI">
-        </div>
-      </div> -->
     </div>
     <div class="box-footer" id="ntf-cliente">
       <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-up" disabled>Actualizar</button>

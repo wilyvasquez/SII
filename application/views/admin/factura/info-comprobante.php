@@ -1,9 +1,7 @@
-<div class="box box-primary">
+<!-- <div class="box box-primary">
   <div class="box-header with-border">
     <h3 class="box-title">Informacion del Comprobante</h3>
   </div>
-  <!-- /.box-header -->
-  <!-- form start -->
   <form class="form-horizontal">
     <div class="box-body">
       <div class="form-group">
@@ -60,4 +58,4 @@
       </div>
     </div>
   </form>
-</div>
+</div> -->

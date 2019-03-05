@@ -104,30 +104,23 @@
   <div class="col-md-8">
     <div class="box box-primary">
       <div class="box-header">
-
       </div>
-      <!-- /.box-header -->
       <div class="box-body table-responsive">
-        <!-- <div style="display: none" id="cargando"> -->
-          <table id="tblInventario" class="table table-bordered table-striped">
-            <thead>
-              <tr style="background: #4C9DBD; color: white">
-                <th>#</th>
-                <th>Articulo</th>
-                <th>Codigo</th>
-                <th>Cantidad</th>
-                <th>Costo</th>
-                <th>Clave SAT</th>
-                <th>Accion</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>          
-        <!-- </div> -->
+        <table id="tblInventario" class="table table-bordered table-striped">
+          <thead>
+            <tr style="background: #4C9DBD; color: white">
+              <th>#</th>
+              <th>Articulo</th>
+              <th>Codigo</th>
+              <th>Cantidad</th>
+              <th>Costo</th>
+              <th>Clave SAT</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>     
       </div>
-      <!-- <div class="overlay" id="ocultar">
-        <i class="fa fa-refresh fa-spin"></i>
-      </div> -->
     </div>
   </div>
 </div>

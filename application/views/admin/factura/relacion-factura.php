@@ -1,9 +1,7 @@
-<div class="box box-primary">
+<!-- <div class="box box-primary">
   <div class="box-header with-border">
     <h3 class="box-title">CFDIs Relacionados</h3>
   </div>
-  <!-- /.box-header -->
-  <!-- form start -->
   <div class="form-horizontal">
     <div class="box-body">
       <div class="form-group">
@@ -31,4 +29,4 @@
       <button type="button" class="btn btn-primary btn-sm pull-right" onclick="agregar_relacion()" id="btn-relacion" disabled>Agregar UUID</button>
     </div>
   </div>
-</div>  
+</div>   -->

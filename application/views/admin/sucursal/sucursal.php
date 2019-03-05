@@ -48,9 +48,7 @@
               </select>
             </div>          
           </div>
-          <div id="ntf-sucursal">
-            
-          </div>
+          <div id="ntf-sucursal"></div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -61,10 +59,6 @@
   </div>
   <div class="col-md-8">
     <div class="box box-primary">
-      <div class="box-header">
-
-      </div>
-      <!-- /.box-header -->
       <div class="box-body" id="tbl-sucursal">
         <table id="example2" class="table table-bordered table-striped">
           <thead>

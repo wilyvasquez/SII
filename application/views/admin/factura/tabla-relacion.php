@@ -2,7 +2,6 @@
   <div class="box-header">
     <h3 class="box-title">UUID Relacionados</h3>
   </div>
-  <!-- /.box-header -->
   <div class="box-body no-padding" id="tabla_relacion">
     <table id="example3" class="table table-bordered table-hover">
       <thead>
@@ -29,5 +28,4 @@
     </tbody>
     </table><br>
   </div>
-  <!-- /.box-body -->
 </div>
