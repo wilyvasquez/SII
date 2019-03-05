@@ -89,23 +89,29 @@ class CtrClientes extends CI_Controller {
 
 	public function update_cliente()
 	{
-		if ($this->input->post("dcliente") && $this->input->post("rfc") && $this->input->post("telefono") && $this->input->post("id_cliente")) 
+		if ($this->input->post("activo") == "on") 
 		{
-			$id = $this->input->post("id_cliente");
-			$datos = array(
-				"cliente"   => $this->input->post("dcliente"),
-				"rfc"       => $this->input->post("rfc"),
-				"telefono"  => $this->input->post("telefono"),
-				"correo"    => $this->input->post("correo"),
-				"direccion" => $this->input->post("direccion")
-			);	
-			$peticion = $this->Modelo_cliente->update_cliente($id,$datos);
-			if ($peticion) {
-				$msg = "Exito, Cliente actualizado correctamente";
-				echo json_encode($this->funciones->resultado($peticion,$url = null,$msg));
+			if ($this->input->post("dcliente") && $this->input->post("rfc") && $this->input->post("telefono") && $this->input->post("id_cliente"))
+			{
+				$id = $this->input->post("id_cliente");
+				$datos = array(
+					"cliente"   => $this->input->post("dcliente"),
+					"rfc"       => $this->input->post("rfc"),
+					"telefono"  => $this->input->post("telefono"),
+					"correo"    => $this->input->post("correo"),
+					"direccion" => $this->input->post("direccion")
+				);	
+				$peticion = $this->Modelo_cliente->update_cliente($id,$datos);
+				if ($peticion) {
+					$msg = "Exito, Cliente actualizado correctamente";
+					echo json_encode($this->funciones->resultado($peticion,$url = null,$msg));
+				}
+			}else{
+				$msg = "Error, No se han actualizado los datos";
+	            echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
 			}
 		}else{
-			$msg = "Error, No se han actualizado los datos";
+			$msg = "Error, Confirmar datos de envio";
             echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
 		}
 	}

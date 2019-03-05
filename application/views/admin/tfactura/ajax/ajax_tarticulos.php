@@ -1,4 +1,4 @@
-<table id="example3" class="table table-hover" style="margin-top: 6px">
+<table id="example3" class="table table-striped table-hover" style="margin-top: 6px">
   <tr style="background: #4C9DBD">
     <th>Codigo</th>
     <th>Cantidad</th>

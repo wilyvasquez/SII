@@ -40,7 +40,11 @@
   <div id="ajax-ntf" class="col-md-offset-2"></div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary">Actualizar</button>
+      <button type="submit" class="btn btn-primary pull-right">Actualizar</button>
+      <label class="switch">
+        <input type="checkbox" class="success" id="activo" name="activo">
+        <span class="slider round"></span>
+      </label>
     </div>
   </div>
 </form>

@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/conexion.css">
 
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/estilos.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/css/estilos_boton.css">
 
 
 

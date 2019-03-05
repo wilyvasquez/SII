@@ -16,7 +16,7 @@
   </div>
   <!-- /.box-header -->
   <div class="box-body table-responsive no-padding" id="tbl-articulo">
-    <table id="example3" class="table table-hover">
+    <table id="example3" class="table table-striped table-hover table-responsive">
       <thead>
         <tr style="background: #4C9DBD">
           <th>Codigo</th>

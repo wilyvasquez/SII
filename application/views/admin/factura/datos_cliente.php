@@ -44,7 +44,11 @@
       </div>
       <div id="ajax-ntf"></div>
     </div>
-    <div class="box-footer" id="ntf-cliente">
+    <div class="box-footer">
+      <label class="switch">
+        <input type="checkbox" class="success" id="activo" name="activo">
+        <span class="slider round"></span>
+      </label>
       <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-up" disabled>Actualizar</button>
     </div>
   </form>

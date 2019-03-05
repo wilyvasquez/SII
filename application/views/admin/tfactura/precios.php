@@ -9,6 +9,10 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer" id="resultado">
+        <label class="switch">
+          <input type="checkbox" class="success" id="activos" name="activos">
+          <span class="slider round"></span>
+        </label>
         <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-timbrar">Timbrar</button>
       </div>      
     </div>

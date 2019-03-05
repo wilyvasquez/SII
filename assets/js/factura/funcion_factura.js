@@ -5,10 +5,10 @@ $(function(){
     $('#btn-articulo').attr("disabled", true);
     console.log("AGREGAR ARTICULO FACTURA, NOTA DE CREDITO");
     var formData = new FormData(document.getElementById("agregar_articulo"));
-    ids = document.getElementById('ids').value;
+    // ids = document.getElementById('ids').value;
     par =
     {
-      "ids" : ids
+      "ids" : document.getElementById('ids').value
     }
     $.ajax({
       url: "../CtrUniversal/push_articulo",
@@ -42,12 +42,14 @@ $(function(){
   $("#timbrar").on("submit", function(e){
     console.log("TIMBRAR FACTURA");
     e.preventDefault();
-    var ids        = document.getElementById('ids').value;
-    var id_cliente = document.getElementById('id_cliente').value;
+    // var ids        = document.getElementById('ids').value;
+    // var id_cliente = document.getElementById('id_cliente').value;
+    // var activo     = document.getElementById('activos').checked;
     var par = 
     {
-      "ids"  : ids,
-      "id_cliente"  : id_cliente,
+      "ids"  : document.getElementById('ids').value,
+      "id_cliente"  : document.getElementById('id_cliente').value,
+      "activo"  : document.getElementById('activos').checked,
     };
     $.ajax({
       url: "../CtrTimbrarFactura/timbrado",
@@ -63,14 +65,12 @@ $(function(){
         $('#btn-delete').attr("disabled", true);
         $('#btn-adduuid').attr("disabled", true);
       },
-      success: function(response)
-      {
+      success: function(response) {
         $('#btn-timbrar').attr("disabled", true);
         $('#ocultarUUID').hide(0);
         var json = $.parseJSON(response);
         $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);
-        console.log(json.msg);
       }
     })
   });
@@ -82,13 +82,13 @@ $(function(){
  */
 function valorUnitario()
 {
-  var codigo = document.getElementById('codigo').value;
+  // var codigo = document.getElementById('codigo').value;
   $('#cantidad').attr("disabled", false);
   $('#descripcion').attr("disabled", false);
   console.log("VALOR UNITARIO");
   var par = 
   {
-    "codigo"  : codigo,
+    "codigo"  : document.getElementById('codigo').value,
   };
   $.ajax({
     url: "../CtrUniversal/get_valorUnitario",
@@ -110,13 +110,13 @@ function valorUnitario()
  */
 function importe()
 {
-  var cantidad = document.getElementById('cantidad').value;
-  var costo    = document.getElementById('costo').value;
+  // var cantidad = document.getElementById('cantidad').value;
+  // var costo    = document.getElementById('costo').value;
   console.log("IMPORTE");
   var par = 
   {
-    "cantidad"  : cantidad,
-    "costo"   : costo,
+    "cantidad"  : document.getElementById('cantidad').value,
+    "costo"   : document.getElementById('costo').value,
   };
   $.ajax({
     url: "../CtrUniversal/get_importe",
@@ -178,12 +178,11 @@ $(function(){
   $("#deletearticulo").on("submit", function(e){
     console.log("ELIMINAR ARTICULO");
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("deletearticulo"));
-    ids = document.getElementById('ids').value;
     par =
     {
-      "ids" : ids
+      "ids" : document.getElementById('ids').value
     }
     $.ajax({
       url: "../CtrUniversal/eliminar_articulo",
@@ -211,12 +210,11 @@ $(function(){
   $("#editarArticulo").on("submit", function(e){
     console.log("EDITAR ARTICULO");
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("editarArticulo"));
-    ids = document.getElementById('ids').value;
     par =
     {
-      "ids" : ids
+      "ids" : document.getElementById('ids').value
     }
     $.ajax({
       url: "../CtrUniversal/editar_articulo",
