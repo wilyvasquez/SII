@@ -2,10 +2,10 @@
 <li class="dropdown tasks-menu">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     <i class="fa fa-flag-o"></i>
-    <span class="label label-danger">9</span>
+    <span class="label label-danger">0</span>
   </a>
   <ul class="dropdown-menu">
-    <li class="header">You have 9 tasks</li>
+    <li class="header">Tu tienes 0 tareas</li>
     <li>
       <!-- inner menu: contains the actual data -->
       <ul class="menu">
@@ -26,7 +26,7 @@
       </ul>
     </li>
     <li class="footer">
-      <a href="#">View all tasks</a>
+      <a href="#">Ver todas tareas</a>
     </li>
   </ul>
 </li>

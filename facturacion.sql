@@ -2648,3 +2648,22 @@ CREATE TABLE factura_docto
 	ref_factura int,
 	PRIMARY KEY (id_factura_docto)
 )
+
+CREATE TABLE relacion_factura
+(
+	id_rfactura serial not null AUTO_INCREMENT,
+	factura_pader int,
+	factura_hijo int,
+	c_tipoRelacion varchar(5),
+	PRIMARY KEY (id_rfactura)
+)
+
+CREATE TABLE folios_series
+(
+	id_folios serial not null AUTO_INCREMENT,
+	folio_inicio int,
+	serie varchar(5),
+	tipo_comprobante varchar(10),
+	folio_siguiente int,
+	PRIMARY KEY (id_folios)
+)

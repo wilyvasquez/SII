@@ -1,10 +1,13 @@
 <!-- VISTA DE PRE FACTURA -->
 <div class="row">
-  <form id="generarPreFactura">
-    <div class="col-md-6">
+  <div class="col-md-6">
+  	<form id="generarPreFactura">
       <?= $info; ?>
-    </div>
-  </form>
+  	</form>
+  </div>
+  <div class="col-md-6">
+  	<?= $dcliente  ?>
+  </div>
 </div>
 <div>
   <?= $mcliente ?>

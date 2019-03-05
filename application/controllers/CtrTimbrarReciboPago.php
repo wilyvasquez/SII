@@ -15,51 +15,51 @@ class CtrTimbrarReciboPago extends CI_Controller {
         $this->load->model('Modelo_inventario');
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
+        $this->load->helper('date');
+        date_default_timezone_set('America/Monterrey');
     }
 
     public function timbrado()
     {
-        /*
-        Datos POST
-         */
-        $preventa   = $this->input->post("ids");
-        $id_cliente = $this->input->post("id_cliente");
-        $fecha      = $this->input->post("fecha")."".date('\TH:i:s');
-
+        # Datos POST
         // $preventa   = 88;
         // $id_cliente  = 110;
-        // $fecha      = date("Y-m-d")."".date('\TH:i:s');
-        /**
-         * Consultas productos y datos clientes
-         */
-        $datos   = $this->Modelo_timbrado->get_relacionDocto($preventa);
-        $cliente = $this->Modelo_cliente->get_cliente($id_cliente);
-        // $uuid    = $this->Modelo_timbrado->get_relacion($preventa);
-        /**
-         * comprobamos si tiene relaciones con otras facturas
-         */
-        // $referencia = $cliente->relacion_uuid;
-        if ($datos != false) 
-        {  
-            $this->complemento($cliente,$datos,$fecha);
+        if ($this->input->post("ids") && $this->input->post("id_cliente")) 
+        {
+            $preventa   = $this->input->post("ids");
+            $id_cliente = $this->input->post("id_cliente");
+            $fecha      = $this->input->post("fecha")."".date('\TH:i:s');
+            
+            # Consultas productos y datos clientes
+            $datos   = $this->Modelo_timbrado->get_relacionDocto($preventa);
+            $cliente = $this->Modelo_cliente->get_cliente($id_cliente);
+
+            # comprobamos si tiene relaciones con otras facturas
+            if ($datos != false) 
+            {  
+                $this->complemento($preventa,$cliente,$datos,$fecha);
+            }else{
+                $msg = "Error, elementos vacios";
+                echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg));
+            }
         }else{
-            $peticion = false;
-            $uuid     = "";
-            $msg      = "Error, elementos vacios";
-            // echo json_encode($this->resultado($peticion,$uuid));
-            echo json_encode($this->funciones->resultado_timbrado($peticion,$uuid,$msg));
+            $msg_datos = "Error, Contactar a sistemas";
+            echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg_datos));
         }
     }
 
-    public function complemento($cliente,$datos,$fecha)
+    public function complemento($preventa,$cliente,$datos,$fecha)
     {
+        $folioSerie = $this->Modelo_timbrado->get_ultimoFolioSerie('Pago');
+        $serie      = $folioSerie->serie;
+        $folio      = $folioSerie->folio_siguiente;
         # llenamos los datos de nuestro CFDI
         # crearemos un xml de prueba
         $d = array();
 
         # datos basicos SAT
-        $d['Serie']             = 'PYMNT';
-        $d['Folio']             = rand(101,9999);  #'101';
+        $d['Serie']             = $serie;
+        $d['Folio']             = $folio;
         $d['Fecha']             = 'AUTO';
         $d['SubTotal']          = '0';
         $d['Moneda']            = 'XXX';
@@ -79,7 +79,6 @@ class CtrTimbrarReciboPago extends CI_Controller {
         $d['Receptor']['ResidenciaFiscal'] = null; # solo se usa cuando el receptor no esté dado de alta en el SAT
         $d['Receptor']['NumRegIdTrib']     = null; # para extranjeros
         $d['Receptor']['UsoCFDI']          = "P01"; # uso que le dará el cliente al cfdi
-
 
         # Receptor -> Domicilio (OPCIONAL)
         // $d["Receptor"]["Calle"] = "Palmas";
@@ -101,7 +100,6 @@ class CtrTimbrarReciboPago extends CI_Controller {
         $d['Conceptos'][0]['Importe']       = '0';
         $d['Concepto'][0]['Descuento']      = null; # no se permiten valores negativos
 
-
         # Inicia Complemento de Recepcion de Pagos
         # PAGO 1:
         $d['Complemento']['Pagos'][0]['FechaPago']          = $fecha; # ver Fecha Pago
@@ -122,22 +120,29 @@ class CtrTimbrarReciboPago extends CI_Controller {
 
         # complemento pagos --> documentos relacionados
         # PAGO 1 --> DOCUMENTO RELACIONADO 1
-        if (!empty($datos)) {
-        $i = 0;
-        $total = 0;
-        foreach ($datos ->result() as $articulo) {
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['IdDocumento']      = $articulo->uuid; # UUID documento 
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['Serie']            = "RO";
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['Folio']            = $articulo->folio;
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['MonedaDR']         = "MXN"; 
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['TipoCambioDR']     = "";
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['MetodoDePagoDR']   = $articulo->metodo_pago;
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['NumParcialidad']   = $articulo->parcialidad;
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpSaldoAnt']      = $articulo->total_factura; # ultimo saldo (antes de recibir este pago)
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpPagado']        = $articulo->monto; # importe pagado
-            $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpSaldoInsoluto'] = $articulo->total_factura - $articulo->monto; # saldo restante despues de haber recibido este pago
-            $i++;
-            $total = $total + $articulo->monto;
+        if (!empty($datos)) 
+        {
+            $i     = 0;
+            $total = 0;
+            foreach ($datos ->result() as $articulo) 
+            {
+                $totalRestante = $this->funciones->saldoRestanteCliente($articulo->uuid);
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['IdDocumento']      = $articulo->uuid; # UUID documento 
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['Serie']            = "RO";
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['Folio']            = $articulo->folio;
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['MonedaDR']         = "MXN"; 
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['TipoCambioDR']     = "";
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['MetodoDePagoDR']   = $articulo->metodo_pago;
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['NumParcialidad']   = $articulo->parcialidad;
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpSaldoAnt']      = round($totalRestante,2); # ultimo saldo (antes de recibir este pago)
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpPagado']        = $articulo->monto; # importe pagado
+                $insoluto = round($totalRestante - $articulo->monto);
+                if ($insoluto <= 0) {
+                    $insoluto = number_format($totalRestante - $articulo->monto,2);
+                }
+                $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpSaldoInsoluto'] = $insoluto; # saldo restante despues de haber recibido este pago
+                $i++;
+                $total = $total + $articulo->monto;
             }
             $d['Complemento']['Pagos'][0]['Monto'] = round($total,2);
         }
@@ -162,38 +167,48 @@ class CtrTimbrarReciboPago extends CI_Controller {
         // print_r( json_encode($d) );
         // echo "</pre>";
 
-        # llamamos al método de timbrado
-        $timbrar = $this->facturapi->generar_cfdi( $d );
+        try {
+            # llamamos al método de timbrado
+            $timbrar = $this->facturapi->generar_cfdi( $d );
 
-        # guardamos los datos del nuevo cfdi recién timbrado en nuestra base de datos
-        $uuid    = $timbrar->UUID;
-        $url_PDF = $timbrar->PDF;
-        $url_XML = $timbrar->XML;
+            # guardamos los datos del nuevo cfdi recién timbrado en nuestra base de datos
+            $uuid            = $timbrar->UUID;
+            $certificado     = $timbrar->NoCertificado;
+            $certificado_sat = $timbrar->NoCertificadoSAT;
+            $fecha_timbrado  = $timbrar->FechaTimbrado;
+            $url_PDF         = $timbrar->PDF;
+            $url_XML         = $timbrar->XML;
 
-        $ruta_destino = $this->facturas;
+            $ruta_destino = $this->facturas;
 
-        # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:
-        copy($url_PDF,$ruta_destino . $uuid . ".pdf");
-        copy($url_XML,$ruta_destino . $uuid . ".xml");
+            if (!empty($uuid)) 
+            {
+                echo json_encode($this->funciones->resultado_timbrado($peticion = true, $uuid, $msg = ""));
+                $factura = $this->funciones->agregarArticulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML,$total,$tipo = "P",$serie,$folio);
 
-        $peticion = true;
-        echo json_encode($this->resultado($peticion, $uuid));
+                # ACTUALIZAR EL FOLIO AL SIGUIENTE
+                $data = array(
+                    'folio_siguiente' => $folio + 1, 
+                );
+                $this->Modelo_timbrado->update_serieFolio($folioSerie->id_folios,$data);
 
-    }
+                if (!empty($datos)) 
+                {
+                    $this->funciones->relacion_factura($factura,$datos);
+                }
+            }
 
-    function resultado($peticion,$uuid)
-    {
-        if($peticion)
-        {
-            $result = array(
-                'msg'   => "<center><img src='".base_url()."assets/img/correcto.jpg' width='400px'></center>",
-                'btn'   => "<a href='".base_url()."descarga/".$uuid.".pdf' target='_blank'>Descargar Factura</a>",
-            );
-        }else{ 
-            $result = array(
-                'btn'  => '<div class="alert alert-danger" role="alert">Error en la accion</div>',
+            # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:
+            copy($url_PDF,$ruta_destino . $uuid . ".pdf");
+            copy($url_XML,$ruta_destino . $uuid . ".xml");
+        }catch (Exception $e) {
+            echo json_encode(
+                $result = array(
+                    'respuesta' => 'correcto',
+                    'msg'       => $e->getMessage(),
+                    'url'       => ""
+                )
             );
         }
-        return $result;
     }
 }

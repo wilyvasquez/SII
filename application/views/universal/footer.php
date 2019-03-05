@@ -33,12 +33,18 @@
 <script src="<?= base_url() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>bower_components/admin-lte/dist/js/adminlte.min.js"></script>
+
+<script type="text/javascript">
+  var baseurl = "<?php echo base_url(); ?>";
+</script>
 <!-- alertify -->
 <!-- <script src="<?= base_url()?>assets/js/alertify/alertify.min.js"></script> -->
 <!-- funciones -->
 <?= $archivosJS ?>
-<!-- <script src="<?= base_url() ?>assets/js/cliente/funciones_cliente.js"></script> -->
-<!-- <script src="<?= base_url() ?>assets/js/inventario/funcion_inventario.js"></script>-->
-<!--<script src="<?= base_url() ?>assets/js/sucursales/sucursales.js"></script>-->
+<script src="<?= base_url() ?>assets/js/inventario/tablas_inventario.js"></script>
+<script src="<?= base_url() ?>assets/js/cliente/tabla_clientes.js"></script>
+ <script src="<?= base_url() ?>assets/js/inventario/funcion_inventario.js"></script>
+<script src="<?= base_url() ?>assets/js/sucursales/sucursales.js"></script>
+<script src="<?= base_url() ?>assets/js/validador/validador.js"></script>
 </body>
 </html>

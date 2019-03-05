@@ -1,6 +1,6 @@
 <table id="example2" class="table table-bordered table-striped">
   <thead>
-  <tr>
+  <tr style="background: #4C9DBD;color: white">
     <th>Razon Social</th>
     <th>RFC</th>
     <th>Correo</th>

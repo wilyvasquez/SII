@@ -4,7 +4,7 @@
   </div>
   <!-- /.box-header -->
   <!-- form start -->
-  <form role="form" id="agregar_articulo">
+  <form role="form" id="updateCliente">
     <div class="box-body">
       <div class="form-group">
         <label for="cliente" style="font-weight: normal;">Cliente</label>        
@@ -29,7 +29,7 @@
               </div>
               <input type="text" class="form-control" id="rfc" name="rfc" value="<?= $icliente->rfc ?>">
               <input type="hidden" id="ids" name="ids" value="<?= $id ?>" required>
-              <!-- <input type="hidden" id="id_cliente" name="id_cliente" value="<?= $icliente->id_cliente ?>" required> -->
+              <input type="hidden" id="id_cliente" name="id_cliente" value="<?= $icliente->id_cliente ?>" required>
             </div>
           </div>          
         </div>
@@ -64,9 +64,7 @@
         <label for="direccion" style="font-weight: normal;">Direccion</label>
         <textarea class="form-control" rows="3" placeholder="Direccion ..." id="direccion" name="direccion"><?= $icliente->direccion ?></textarea>
       </div> 
-      <!-- <div id="ntf-cliente">
-        
-      </div> -->
+      <div id="upd-cliente"></div>
     </div>
     <!-- /.box-body -->
     <div class="box-footer">

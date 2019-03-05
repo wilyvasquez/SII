@@ -6,8 +6,8 @@
           <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Agregar Nuevo Cliente</h4>
       </div>
-      <div class="modal-body">
-        <form role="form" id="addcliente">
+      <form role="form" id="addcliente">
+        <div class="modal-body">
           <div class="box-body">
             <div class="form-group">
               <label for="cliente">Nombre del cliente</label>
@@ -27,8 +27,8 @@
                 <input type="email" class="form-control" name="correo" placeholder="Correo" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="rfc">RFC</label>
-                <input type="text" class="form-control" name="rfc" placeholder="RFC" minlength="12" required>
+                <label for="rfc">RFC</label> <span id="resultado"></span>
+                <input type="text" class="form-control" name="rfc" oninput="validarInput(this)" placeholder="RFC" minlength="12" required>
               </div>
               <div class="form-group col-md-6">
                 <label for="ucfdi">USO del CFDI</label>
@@ -43,13 +43,12 @@
             <input type="hidden" class="form-control" name="ref" value="0">
             <div id="add-cliente"></div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </div>
-        </form>
-      </div>
-
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

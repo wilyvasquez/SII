@@ -6,6 +6,9 @@ class Funciones {
     {
         $CI =& get_instance();
         $CI->load->model('Modelo_articulos');
+        $CI->load->model('Modelo_timbrado');
+        $CI->load->helper('date');
+        date_default_timezone_set('America/Monterrey');
     }
 
 
@@ -69,5 +72,120 @@ class Funciones {
         }
         return $result;
 	}
+
+	function agregarArticulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML,$total,$tipo,$serie,$folio)
+    {
+    	$CI =& get_instance();
+        $factura    = $CI->Modelo_timbrado->get_timbrar($preventa);
+        $datos = array(                 
+            'uuid'             => $uuid,
+            'total_factura'    => $total,
+            'pdf'              => $url_PDF,
+            'xml    '          => $url_XML,
+            'fecha_timbrado'   => date("Y-m-d H:i:s"), 
+            'uso_cfdi'         => $factura->uso_cfdi,
+            'certificado'      => $certificado, 
+            'certificado_sat'  => $certificado_sat, 
+            'serie'            => $serie,
+            'folio'            => $folio,
+            'tipo_comprobante' => $tipo,
+            'condicion_pago'   => $factura->condicion_pago,
+            'metodo_pago'      => $factura->metodo_pago,
+            'forma_pago'       => $factura->forma_pago,
+            'ref_cliente'      => $factura->ref_cliente
+        );
+        $id = $CI->Modelo_articulos->insertarDatosTimbrado($datos);
+        ///////////////////////////////////////////////////////////////////////
+        $articulos = $CI->Modelo_timbrado->get_productosTimbrar($preventa);
+        if (!empty($articulos)) 
+        {
+            foreach ($articulos ->result() as $articulo) 
+            {
+               $data = array(
+                'cve_producto'     => $articulo->clave_sat,
+                'articulo'         => $articulo->articulo, 
+                'cantidad'         => $articulo->cantidad_venta, 
+                'cve_unidad'       => $articulo->unidad, 
+                'descripcion'      => $articulo->descripcion_preventa, 
+                'valor_unitario'   => $articulo->costo, 
+                'importe'          => $articulo->importe, 
+                'descuento'        => $articulo->descuento,
+                'ref_factura'   => $id
+                );
+                $CI->Modelo_articulos->insertarProductoFacturado($data);
+            }            
+        }
+        $this->borrar_datos($factura->id_preventa);        
+
+        return $id;
+        // $peticion = true;
+        // return json_encode($this->resultado($peticion,$uuid));
+    }
+
+    function borrar_datos($id)
+    {
+    	$CI =& get_instance();
+        $CI->Modelo_timbrado->borrar_preventa($id);
+        $CI->Modelo_timbrado->borrar_articulosPreventa($id);
+        $CI->Modelo_timbrado->borrar_uuidRelacion($id);
+        $CI->Modelo_timbrado->eliminar_relacionDocto($id);        
+    }
+
+    function relacion_factura($factura,$r_uuid)
+    {
+    	$CI =& get_instance();
+        foreach ($r_uuid ->result() as $uuids) 
+        {
+            $result   =  $CI->Modelo_timbrado->get_factura($uuids->uuid);
+            $relacion = null;
+            if (!empty($uuids->t_relacion)) {
+                $relacion = $uuids->t_relacion;
+            }
+        	$data = array(
+				'factura_padre'  => $factura, 
+				'factura_hijo'   => $result->id_factura,
+				'c_tipoRelacion' => $relacion,
+                'fechaRelacion'  => date("Y-m-d H:i:s") 
+        	);            
+            $CI->Modelo_timbrado->agregarRelacion($data);
+        } 
+    }
+
+    function validacion_timbrado($id,$tipo)
+    {
+        $CI =& get_instance();
+        $timbrado = $CI->Modelo_timbrado->validacion($id);
+        if (!empty($timbrado)) 
+        {
+            $result   = $timbrado->estatus_preventa;
+            $cliente  = $timbrado->ref_cliente;
+            if ($result == "timbrado") {
+                redirect(base_url().'pcliente/'.$cliente);
+            }else if($result == "activo"){
+
+            }           
+        }else{
+            redirect(base_url().$tipo);
+        }
+    }
+
+    # OBTENEMOS LA RESTA DEL TOTAL DE LA FACTURA MENOS LOS COMPROBANTES DE PAGO
+    function saldoRestanteCliente($uuid)
+    {
+        $CI =& get_instance();
+        $resul        = $CI->Modelo_timbrado->get_facturasRelacion($uuid);
+        $totalFactura = $resul->total_factura;
+        $total        = 0;
+        $resul        = $CI->Modelo_timbrado->get_recibosPagos($uuid);
+        if (!empty($resul)) {
+            $res   = $CI->Modelo_timbrado->get_comprobantesPagoTotal($resul->factura_hijo);
+            if (!empty($res)) {
+                foreach ($res -> result() as $totales) {
+                    $total = $total + $totales->total_factura;
+                }
+            }
+        }
+        return $totalResultado = $totalFactura - $total;
+    }
 
 }

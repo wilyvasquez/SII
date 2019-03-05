@@ -30,7 +30,7 @@
                     <div class="input-group-addon">
                       <i class="fa fa-dollar"></i>
                     </div>
-                    <input type="number" class="form-control" id="descuento" name="descuento">
+                    <input type="number" class="form-control" id="descuento" name="descuento" min="0" step="any">
                   </div>
                 </div>          
               </div>

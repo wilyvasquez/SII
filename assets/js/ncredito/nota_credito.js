@@ -86,7 +86,6 @@ $(function(){
     e.preventDefault();
     var ids        = document.getElementById('ids').value;
     var id_cliente = document.getElementById('id_cliente').value;
-    console.log(id_cliente);
     var par = 
     {
       "ids"  : ids,
@@ -101,13 +100,16 @@ $(function(){
         $("#resultado").html("Generando factura, espere por favor");
       },
       success: function(response){
-        // $('#btn-timbrar').attr("disabled", true);
-        // $('#btn-limpiar').attr("disabled", true);
-        // $('#btn-articulo').attr("disabled", true);
+        $('#btn-limpiar').attr("disabled", true);
+        $('#btn-articulo').attr("disabled", true);
+
         var json = $.parseJSON(response);
+        console.log(json.status);
+        if (json.status == "exito") {
+          $('#ocultarUUID').hide(0);
+        }
         $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);
-        // $("#resultado").html(response);
       }
     })
   });

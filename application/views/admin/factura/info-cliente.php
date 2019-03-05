@@ -10,7 +10,7 @@
         <label for="cliente" class="col-md-4 col-sm-4 control-label" style="font-weight: normal;">Nombre del cliente: </label>
         <div class="col-md-8 col-sm-8">
           <div id="ajax-cliente">
-            <select class="form-control select2 input-sm" style="width: 100%;" id="cliente" name="cliente" data-placeholder="Selecciona" required>
+            <select class="form-control select2 input-sm" style="width: 100%;" onchange="datosCliente()" id="cliente" name="cliente" data-placeholder="Selecciona" required>
               <option value="">Selecciona</option>
               <?php if (!empty($clientes)) {
               foreach ($clientes ->result() as $cliente) { ?>
@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="cfdi" class="col-md-4 col-sm-4 control-label" style="font-weight: normal;">Uso del CFDI</label>
+        <label for="cfdi" class="col-md-4 col-sm-4 control-label" style="font-weight: normal;">Uso del CFDI: </label>
         <div class="col-md-8 col-sm-8">
           <select class="form-control select2 input-sm" style="width: 100%;" id="cfdi" name="cfdi" data-placeholder="Selecciona" required>
             <option value="">Selecciona</option>
@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    <div class="box-footer" id="ntf-cliente">
+    <div class="box-footer" id="ntf-cliente" style="margin-top: 5px">
       <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-generar">Generar <?= $title ?></button>
     </div>
   </div>

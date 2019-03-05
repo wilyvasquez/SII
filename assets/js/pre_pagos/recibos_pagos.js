@@ -43,9 +43,18 @@ $(function(){
       processData: false
     })
     .done(function(res){
-      // $("#ntf-cliente").html(res);
-      $("#tbl-uuid").html(res);
-      $('#btn-articulo').attr("disabled", true);
+      try {
+        var json = $.parseJSON(res);
+        $("#ntf-rpago").html(json.msg).delay(2000).hide(0); 
+        $('#btn-articulo').attr("disabled", true);
+        setTimeout(function(){ 
+          $("#ntf-rpago").html("").delay(0).show(0);
+        },1000);
+      }
+      catch(error) {
+        $("#tbl-uuid").html(res);
+        $('#btn-articulo').attr("disabled", true);  
+      }
     });
   });
 });
@@ -61,8 +70,6 @@ $(function(){
     var ids        = document.getElementById('ids').value;
     var id_cliente = document.getElementById('id_cliente').value;
     var fecha      = document.getElementById('fecha').value;
-    console.log(ids);
-    console.log(fecha);
     var par = 
     {
       "ids"  : ids,
@@ -76,24 +83,21 @@ $(function(){
       data: par,
       beforeSend: function(){
         $("#resultado").html("Generando factura, espere por favor");
-        // $("#notificacion").html('<div class="box-body no-padding"><div class="row"><div class="col-md-12" style="text-align: center;"><div class="loader online"><div class="loader-inner"><div class="loading one"></div></div><div class="loader-inner"><div class="loading two"></div></div><div class="loader-inner"><div class="loading three"></div></div><div class="loader-inner"><div class="loading four"></div></div></div></div></div></div>');
       },
-      success: function(response){
-        // $('#btn-timbrar').attr("disabled", true);
-        // $('#btn-limpiar').attr("disabled", true);
-        // $('#btn-articulo').attr("disabled", true);
-        // 
+      success: function(response)
+      {
         var json = $.parseJSON(response);
         $("#tbl-articulo").html(json.msg);
         if (json.status == "error") 
         { 
-         $("#resultado").html(json.btn); 
+          $("#resultado").html(json.btn); 
         }else{
           $("#resultado").html(json.btn); 
           $("#notificacion").html(json.msg);  
+          $('#btn-articulo').attr("disabled", true);
+          $('#btn-limpiar').attr("disabled", true);
           console.log(json.msg)        
         }
-        // $("#resultado").html(response);
       }
     })
   });
@@ -115,8 +119,14 @@ function valorParcialidad()
     dataType: "html",
     data: par,
   })
-  .done(function(response){
-     $("#parcialidad").val(response);
+  .done(function(response)
+  {
+    var json = $.parseJSON(response);
+    $("#parcialidad").val(json.parcialidad);
+    $("#total").html(json.total);
+    if (json.msg == "error") {
+      $('#btn-articulo').attr("disabled", true);
+    }
   });
 }
 
@@ -128,7 +138,6 @@ $(function(){
   $("#deleteuuidrpagos").on("submit", function(e){
     e.preventDefault();
     var formData = new FormData(document.getElementById("deleteuuidrpagos"));
-    // formData.append("dato", "valor");
     $.ajax({
       url: "../CtrRecibosPago/deleteUuidRecibosPago",
       type: "post",
@@ -138,7 +147,8 @@ $(function(){
       contentType: false,
       processData: false
     })
-    .done(function(res){
+    .done(function(res)
+    {
       $("#tbl-uuid").html(res);
       setTimeout(function(){ 
         $('#modaldelete').modal('hide');

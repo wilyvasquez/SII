@@ -14,8 +14,8 @@
             <input type="text" class="form-control" name="cliente" placeholder="Nombre Cliente" required>
           </div>
           <div class="form-group">
-            <label for="rfc">RFC</label>
-            <input type="text" class="form-control" name="rfc" placeholder="RFC" required>
+            <label for="rfc">RFC</label> <font id="resultado"></font>
+            <input type="text" class="form-control" name="rfc" placeholder="RFC" oninput="validarInput(this)" required>
           </div>
           <div class="form-group">
             <label for="ucfdi">Uso CFDI</label>
@@ -81,9 +81,7 @@
             </div>
           </div> -->
           <input type="hidden" class="form-control" name="ref" value="1">
-          <div id="ntf-cliente">
-
-          </div>
+          <div id="ntf-cliente"></div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -99,7 +97,12 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body" id="ajax-cliente">
-       <?= $tabla ?>
+        <!-- <div style="display: none" id="cargando"> -->
+          <?= $tabla ?>
+        <!-- </div> -->
+        <!-- <div class="overlay" id="ocultar">
+          <i class="fa fa-refresh fa-spin"></i>
+        </div> -->
       </div>
       <!-- /.box-body -->
     </div>

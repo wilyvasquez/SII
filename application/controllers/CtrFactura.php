@@ -6,6 +6,7 @@ class CtrFactura extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->library('Funciones');
+		$this->load->library('Not_found');
 		$this->load->model('Modelo_cliente');
 		$this->load->model('Modelo_sucursal');
 		$this->load->model('Modelo_articulos');
@@ -16,18 +17,22 @@ class CtrFactura extends CI_Controller {
 
 		$this->factura 	= 'assets/pdf/facturas/';
 		$this->load->helper(array('download'));
+		$this->load->helper('date');
+		date_default_timezone_set('America/Monterrey');
 	}
 	
 	public function folios()
 	{
+		$datos["serieFolio"] = $this->Modelo_cliente->get_serieFolio();
 		$data = array(
-			"folios"    => "active",
-			"title"     => "Folios ,y Series",
-			"subtitle"  => "Alta de folios",
-			"contenido" => "admin/folios/folios_series",
-			"menu"      => "admin/menu_admin",
-			"tabla"     => $this->load->view('admin/folios/tabla-folios',null,true),
-			"archivosJS"=> $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
+			"folios"      => "active",
+			"title"       => "Folios y Series",
+			"subtitle"    => "Alta de folios",
+			"contenido"   => "admin/folios/folios_series",
+			"menu"        => "admin/menu_admin",
+			"tabla"       => $this->load->view('admin/folios/tabla-folios',$datos,true),
+			"archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+			"mSerieFolio" => $this->load->view('admin/folios/modal/modal_serieFolio',null,true)  # MODAL ACTUALIZAR SERIE FOLIO
 		);
 		$this->load->view('universal/plantilla',$data);
 	}
@@ -38,6 +43,10 @@ class CtrFactura extends CI_Controller {
 
 	public function pre_factura()
 	{
+		# OBTENEMOS EL USO DEL CFDI SAT
+		$cfdi = array(
+			'ucfdis' => $this->Modelo_sat->get_usoCfdi()
+		);
 		$data = array(
 			'title'      => 'Factura',
 			'timbrado'   => 'active',
@@ -45,7 +54,7 @@ class CtrFactura extends CI_Controller {
 			'subtitle'   => 'Crear Factura',
 			'contenido'  => 'admin/factura/factura', 
 			'menu'       => 'admin/menu_admin', # MENU DE AMDIN
-			'mcliente'   => $this->load->view('admin/factura/modal/modal-cliente',null,true), # MODAL CLIENTE REGISTRO PRE FACTURA
+			'mcliente'   => $this->load->view('admin/factura/modal/modal-cliente',$cfdi,true), # MODAL CLIENTE REGISTRO PRE FACTURA
 			'archivosJS' => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
 		);
 		$datos = array(
@@ -56,7 +65,8 @@ class CtrFactura extends CI_Controller {
 			'ucfdis'     => $this->Modelo_sat->get_usoCfdi(),     # OBTENEMOS EL USO DEL CFDI SAT
 		);
 		# VISTA DEL REGISTRO DE LOS CLIENTES PARA MOSTRAR EN LA PRE FACTURA
-		$data["info"] = $this->load->view('admin/factura/info-cliente',$datos,true);
+		$data["info"]     = $this->load->view('admin/factura/info-cliente',$datos,true);
+		$data["dcliente"] = $this->load->view('admin/factura/datos_cliente',$datos,true);
 		# PLANTILLA DE LAS VISTAS
 		$this->load->view('universal/plantilla',$data);
 	}
@@ -89,12 +99,12 @@ class CtrFactura extends CI_Controller {
 			'tarticulos' => $this->Modelo_articulos->get_articulo($id),
 			'marticulo'  => $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true) # MODALES
 		);
-		$datos = array(
-			'icliente' => $this->Modelo_cliente->datos_cliente($id),
-			'id'       => $id
-		);
+		$data["id"]         = $id;
+		$data['icliente']   = $this->Modelo_cliente->datos_cliente($id);
+		$data["nombre"]     = $data['icliente']->cliente;
+		$data["idCliente"]  = $data['icliente']->id_cliente;
 		# INFORMACION DEL CLIENTE
-		$data["info"]       = $this->load->view('admin/factura/proceso/datos_proceso',$datos,true);
+		$data["info"]       = $this->load->view('admin/factura/proceso/datos_proceso',$data,true);
 		# TABLA DE LOS ARTICULOS A TIMBRAR
 		$data["tarticulos"] = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
 		# PLANTILLA DE LAS VISTAS
@@ -105,34 +115,39 @@ class CtrFactura extends CI_Controller {
 	{
 		if(!$this->input->is_ajax_request())
 		{
-		 show_404();
+			$this->not_found->not_found();
 		}else{
-			$preventa  = 1;
-			$condicion = "CREDITO";
-			$codigo    = $this->Modelo_timbrado->get_codigo(); # OBTENER EL ULTIMO CODIGO DE PREVENTA
-			# CONDICION SOBRE SI YA EXISTE ALGUN REGISTRO (COMPROBAR SI ESTA BIEN, CREO HAY ERROR)
-			if (!empty($codigo)) {
-				$preventa = $codigo->id_preventa + 1; # AGREGAMOS UN UNO AL ULTIMO CODIGO
+			if ($this->input->post("forma") && $this->input->post("metodo") && $this->input->post("cfdi") && $this->input->post("cliente")) 
+			{
+				$preventa  = 1;
+				$condicion = "CREDITO";
+				$codigo    = $this->Modelo_timbrado->get_codigo(); # OBTENER EL ULTIMO CODIGO DE PREVENTA
+				# CONDICION SOBRE SI YA EXISTE ALGUN REGISTRO (COMPROBAR SI ESTA BIEN, CREO HAY ERROR)
+				if (!empty($codigo)) {
+					$preventa = $codigo->id_preventa + 1; # AGREGAMOS UN UNO AL ULTIMO CODIGO
+				}
+				if ($this->input->post("metodo") == "PUE") { # VALIDAMOS EL TIPO DE METODO ENVIADO
+					$condicion = "CONTADO";
+				}
+				# ARREGLO DE DATOS PARA GUARDAR
+				$data = array(
+					'alta_preventa'    => date("Y-m-d H:i:s"),
+					'codigo_preventa'  => "001-A0000".$preventa,
+					'condicion_pago'   => $condicion,
+					'forma_pago'       => $this->input->post("forma"),
+					'metodo_pago'      => $this->input->post("metodo"),
+					'uso_cfdi'         => $this->input->post("cfdi"),
+					'ref_cliente'      => $this->input->post("cliente"),
+				);
+				$id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE NOTA DE CREDITO
+				if($id){
+	                echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>'; 
+	            }else{
+	                echo '<div class="alert alert-danger" role="alert">Error, al subir datos, contactar a sistemas.</div>'; # MOSTRAR VISTA ERROR
+	            }
+			}else{
+				echo '<div class="alert alert-danger" role="alert">Error, al generar la factura.</div>'; # MOSTRAR VISTA ERROR
 			}
-			if ($this->input->post("metodo") == "PUE") { # VALIDAMOS EL TIPO DE METODO ENVIADO
-				$condicion = "CONTADO";
-			}
-			# ARREGLO DE DATOS PARA GUARDAR
-			$data = array(
-				'alta_preventa'    => date("Y-m-d H:i:s"),
-				'codigo_preventa'  => "001-A0000".$preventa,
-				'condicion_pago'   => $condicion,
-				'forma_pago'       => $this->input->post("forma"),
-				'metodo_pago'      => $this->input->post("metodo"),
-				'uso_cfdi'         => $this->input->post("cfdi"),
-				'ref_cliente'      => $this->input->post("cliente"),
-			);
-			$id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE NOTA DE CREDITO
-			if($id){
-                echo '<a href="'.base_url().'factura/'.$id.'" class="btn btn-primary btn-sm pull-left">Agregar Articulos</a>'; # MOSTRAR VISTA BIEN
-            }else{
-                echo '<div class="alert alert-danger" role="alert">Error, al subir datos, contactar a sistemas.</div>'; # MOSTRAR VISTA ERROR
-            }
 		}
 	}
 	/**
@@ -140,15 +155,8 @@ class CtrFactura extends CI_Controller {
 	 */
 	public function factura($id)
 	{
-		$this->validacion_timbrado($id);		
-		$data["timbrado"]    = "active";
-		$data["factura"]     = "active";
-		$data["title"]       = "Factura";
-		$data["subtitle"]    = "Timbrar Factura";
-		$data["contenido"]   = "admin/tfactura/tfactura";
-		$data["menu"]        = "admin/menu_admin";
-
-		# CONSULTA OBTENER ARTICULAR A FACTURAR
+		$this->funciones->validacion_timbrado($id,$tipo = "prefactura");
+		# CONSULTA OBTENER ARTICULOS A FACTURAR
 		$data['articulos']   = $this->Modelo_articulos->get_articulos();
 		$data['tarticulos']  = $this->Modelo_articulos->get_articulo($id);
 
@@ -163,21 +171,25 @@ class CtrFactura extends CI_Controller {
 		$data["id"]          = $id;
 		$data['icliente']    = $this->Modelo_cliente->datos_cliente($id);
 		$data["nombre"]      = $data['icliente']->cliente;
+		$data["idCliente"]   = $data['icliente']->id_cliente;
 		$data["precios"]     = $this->funciones->precios($id);
 
-		# VISTAS FACTURAS
-		$data["articulo"]    = $this->load->view('admin/tfactura/agregar-articulo',$data,true);
-		$data["tarticulos"]  = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
-		$data["precios"]     = $this->load->view('admin/tfactura/precios',$data,true);
-
-		# VISTAS NOTAS DE CREDITO
-        $data["tuuid"]       = $this->load->view('admin/tncredito/tabla_uuid',$data,true);		
-        
-		# MODALES
-		$data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
-		$data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
-		$data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',$data,true);
-        $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
+		$data = array(
+			'timbrado'    => "active",
+			'factura'     => "active",
+			'title'       => "Factura",
+			'subtitle'    => "Timbrar Factura",
+			'contenido'   => "admin/tfactura/tfactura",
+			'menu'        => "admin/menu_admin",
+			'articulo'    => $this->load->view('admin/tfactura/agregar-articulo',$data,true), # VISTA DE AGREGAR ARTICULO
+			'tarticulos'  => $this->load->view('admin/tfactura/tabla-articulos',$data,true),  # VISTA TABLA ARTICULOS
+			'precios'     => $this->load->view('admin/tfactura/precios',$data,true),		  # VISTA TABLA DE PRECIOS
+			'tuuid'       => $this->load->view('admin/tncredito/tabla_uuid',$data,true),	  # VISTA TABLA DE UUID
+			'marticulo'   => $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true),   # VISTA MODAL EDITAR ARTICULO
+			'mearticulo'  => $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true), # VISTA MODAL ELIMAR ARTICULO
+			'meuuid'      => $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',$data,true),   # VISTA MODAL ELIMAR UUID
+        	'mtimbrar'    => $this->load->view('admin/tncredito/modal/modal-timbrar',null,true) 		  # VISTA MODAL AGREGAR UUID
+		);       		
 		# ARCHIVOS JS
         $data["archivosJS"]  = $this->load->view('admin/tfactura/archivos/archivosJS',null,true);
 		$this->load->view('universal/plantilla',$data);
@@ -187,36 +199,31 @@ class CtrFactura extends CI_Controller {
 	 */
 	public function descarga($name)
 	{  
-       	$mi_pdf = fopen ($this->factura.$name, "r");
-        if (!$mi_pdf) {
-            echo "<p>No puedo abrir el archivo para lectura</p>";
-            exit;
-        }
-        header('Content-type: application/pdf');
-        fpassthru($mi_pdf); // Esto hace la magia
-        fclose ($mi_pdf);      
+		$exists = file_exists( $this->factura.$name );
+		if ($exists) {
+	       	$mi_pdf = fopen ($this->factura.$name, "r");
+	        if (!$mi_pdf) {
+	            echo "<p>No puedo abrir el archivo para lectura</p>";
+	            exit;
+	        }else{
+		        header('Content-type: application/pdf');
+		        fpassthru($mi_pdf); // Esto hace la magia
+		        fclose ($mi_pdf);              	
+	        }
+		}else{
+			// $this->not_found->not_found();
+			echo '<div style="text-align:center;padding:50px;background-color: #F19C9C;">Error, Factura (PDF) no encontrado</div>';
+		}
 	}
 
 	public function descargas_xml($name)
    	{   		
-       $data = file_get_contents($this->factura.$name); 
-       force_download($name,$data);      
-	}
-
-	function validacion_timbrado($id)
-	{
-		$timbrado = $this->Modelo_timbrado->validacion($id);
-		if (!empty($timbrado)) 
-		{
-			$result   = $timbrado->estatus_preventa;
-			$cliente  = $timbrado->ref_cliente;
-			if ($result == "timbrado") {
-				redirect(base_url().'pcliente/'.$cliente);
-			}else if($result == "activo"){
-
-			}			
-		}else{
-			redirect(base_url().'prefactura');
-		}
+   		$exists = file_exists( $this->factura.$name );
+   		if ($exists) {
+	       	$data = file_get_contents($this->factura.$name); 
+	       	force_download($name,$data);      
+       	}else{
+	        echo '<div style="text-align:center;padding:50px;background-color: #F19C9C;">Error, XML no encontrado</div>';            	
+        }
 	}
 }

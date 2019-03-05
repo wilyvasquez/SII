@@ -57,3 +57,32 @@ $('#fecha').datepicker({
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();   
 });
+
+
+function datosCliente()
+{
+  var id = document.getElementById('cliente').value;
+  console.log("DATOS DEL CLIENTE");
+  var par = 
+  {
+    "id"  : id,
+  };
+  $.ajax({
+    url: "CtrUniversal/get_datosCliente",
+    type: "post",
+    dataType: "html",
+    data: par,
+  })
+  .done(function(response)
+  {
+    var json = $.parseJSON(response);
+    console.log(json.cliente);
+    $("#dcliente").val(json.cliente);
+    $("#rfc").val(json.rfc);
+    $("#correo").val(json.correo);
+    $("#telefono").val(json.telefono);
+    $("#direccion").val(json.direccion);
+    $("#id_cliente").val(json.id_cliente);
+    $('#btn-up').attr("disabled", false);
+  });
+}

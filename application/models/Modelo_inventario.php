@@ -90,5 +90,44 @@ class Modelo_inventario extends CI_Model
 			return false;
 		}
 	}
+
+	function get_inventario($start,$length,$search)
+	{
+		$srch = "";
+		if ($search) {
+			$srch = "WHERE (p.articulo like '%".$search."%' OR 
+							p.codigo_interno like '%".$search."%' OR 
+							p.cantidad like '%".$search."%' OR 
+							p.costo like '%".$search."%' OR 
+							p.codigo_sat like '%".$search."%') ";
+		}
+
+
+		$qnr = "SELECT count(1) cant FROM articulo p ".$srch;
+		$qnr = $this->db->query($qnr);
+		$qnr = $qnr->row();
+		$qnr = $qnr->cant;
+
+		$q = "SELECT p.id_articulo, p.articulo, p.codigo_interno, p.cantidad, p.costo, p.codigo_sat 
+		FROM articulo p ".$srch." limit $start, $length";
+		$r = $this->db->query($q);
+
+		$retornar = array(
+			'numDataTotal' => $qnr,
+			'datos' => $r, 
+		);
+
+		return $retornar;
+	}
+
+	function get_inventarios()
+	{
+		$this->db->select('p.id_articulo, p.articulo, p.codigo_interno, p.cantidad, p.costo, p.codigo_sat');
+		$this->db->from('articulo p');
+
+		$r = $this->db->get();
+
+		return $r->result();
+	}
 }
 ?>

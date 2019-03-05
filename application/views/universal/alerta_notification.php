@@ -2,10 +2,10 @@
 <li class="dropdown notifications-menu">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     <i class="fa fa-bell-o"></i>
-    <span class="label label-warning">10</span>
+    <span class="label label-warning">0</span>
   </a>
   <ul class="dropdown-menu">
-    <li class="header">You have 10 notifications</li>
+    <li class="header">Tu tienes 0 notificaciones</li>
     <li>
       <!-- inner menu: contains the actual data -->
       <ul class="menu">
@@ -16,6 +16,6 @@
         </li>
       </ul>
     </li>
-    <li class="footer"><a href="#">View all</a></li>
+    <li class="footer"><a href="#">Ver todo</a></li>
   </ul>
 </li>

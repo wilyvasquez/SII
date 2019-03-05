@@ -6,11 +6,11 @@
         Opciones <span class="caret"></span>
       </a>
       <ul class="dropdown-menu" style="border-color: #67A6E5">
-        <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="#">Editar Pre-Factura</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Editar Pre-Factura</a></li>
         <li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-toggle="modal" data-target=".timbrar">Vincular Facturas <strong>(UUID)</strong></a></li>
 
         <li role="presentation" class="divider"></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Informacion del Cliente</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" target="_blank" href="<?= base_url()?>pcliente/<?= $idCliente ?>">Informacion del Cliente</a></li>
       </ul>
     </div>     
   </div>
@@ -23,8 +23,8 @@
           <th>Cantidad</th>
           <th>Articulo</th>
           <th>Valor</th>
-          <th>Importe</th>
           <th>Desc</th>
+          <th>Importe</th>
           <th>Editar</th>
           <th>Eliminar</th>
         </tr>
@@ -36,26 +36,14 @@
         <td><?= $articulo->cantidad_venta ?></td>
         <td><?= $articulo->articulo ?></td>
         <td>$<?= $articulo->costo ?></td>
-        <td>$<?= $articulo->importe ?></td>
         <td>$<?= $articulo->descuento ?></td>
+        <td>$<?= $articulo->importe ?></td>
         <td>
           <button type="button" data-toggle="modal" class="btn btn-primary open-Editar btn-xs" data-target=".addarticulo" data-idar="<?= $articulo->id_apreventa ?>" data-cant="<?= $articulo->cantidad_venta ?>" data-cod="<?= $articulo->codigo_interno ?>" data-des="<?= $articulo->descripcion ?>" data-costo="<?= $articulo->costo ?>" data-arti="<?= $articulo->ref_articulo ?>" data-descu="<?= $articulo->descuento ?>">Editar</button>
         </td>
         <td>
           <a href="#" data-toggle="modal" class="open-Editar" data-cod="<?= $articulo->codigo_interno ?>" data-idar="<?= $articulo->id_apreventa ?>" data-target=".deletearticulo" style="color: red">Eliminar</a>
         </td>
-        <!-- <td>
-          <div class="dropdown">
-            <button class="btn btn-warning btn-xs dropdown-toggle" type="button" id="btn-accion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              Accion
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu pull-right" aria-labelledby="btn-accion">
-              <li><a href="#" data-toggle="modal" class="open-Editar" data-target=".addarticulo" data-idar="<?= $articulo->id_apreventa ?>" data-cant="<?= $articulo->cantidad_venta ?>" data-cod="<?= $articulo->codigo_interno ?>" data-des="<?= $articulo->descripcion ?>" data-costo="<?= $articulo->costo ?>" data-arti="<?= $articulo->ref_articulo ?>" data-descu="<?= $articulo->descuento ?>">Editar</a></li>
-              <li><a href="#" data-toggle="modal" class="open-Editar" data-cod="<?= $articulo->codigo_interno ?>" data-idar="<?= $articulo->id_apreventa ?>" data-target=".deletearticulo">Eliminar</a></li>
-            </ul>
-          </div>
-        </td> -->
       </tr>
       <?php } } ?>
     </table>

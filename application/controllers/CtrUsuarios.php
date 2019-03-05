@@ -14,6 +14,8 @@ class CtrUsuarios extends CI_Controller {
         $this->load->model('Modelo_inventario');
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
+        $this->load->helper('date');
+        date_default_timezone_set('America/Monterrey');
     }
 
     public function usuarios()

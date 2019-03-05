@@ -1,5 +1,11 @@
 <!-- INICIO DEL MENU -->
 <ul class="sidebar-menu" data-widget="tree">
+  <li class="header">HOME</li>
+  <li class="<?php if(!empty($home)){ echo $home; } ?>">
+    <a href="<?= base_url() ?>home">
+      <i class="fa fa-home"></i> <span>Principal</span>
+    </a>
+  </li>
   <li class="header">MENU DE OPCIONES</li>
   <li class="treeview <?php if(!empty($timbrado)){ echo $timbrado; } ?>">
     <a href="#">
@@ -65,23 +71,18 @@
     </ul>
   </li> -->
   <li class="<?php if(!empty($reporte)){ echo $reporte; } ?>">
-    <a href="#" target="_black">
+    <a href="#">
       <i class="fa fa-clipboard"></i> <span>Reportes</span>
     </a>
   </li>
   <li class="header">OTROS</li>
-  <li class="<?php if(!empty($config)){ echo $config; } ?>">
-    <a href="#" target="_black">
-      <i class="fa fa-file-text"></i> <span>Historial</span>
+  <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
+    <a href="#">
+      <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
     </a>
   </li>
-  <!-- <li class="<?php if(!empty($config)){ echo $config; } ?>">
-    <a href="#" target="_black">
-      <i class="fa fa-share-alt"></i> <span>Extras</span>
-    </a>
-  </li> -->
   <li class="<?php if(!empty($config)){ echo $config; } ?>">
-    <a href="#" target="_black">
+    <a href="#">
       <i class="fa fa-gears"></i> <span>Configuraciones</span>
     </a>
   </li>

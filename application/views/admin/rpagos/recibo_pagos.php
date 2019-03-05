@@ -1,10 +1,13 @@
 <!-- VISTA DE NOTA DE CREDITO -->
 <div class="row">
-  <form id="agregar_rpagos">
-    <div class="col-md-6">
+  <div class="col-md-6">
+	<form id="agregar_rpagos">
       <?php if (!empty($info)) { echo $info; }?>
-    </div>
-  </form>
+  	</form>
+  </div>
+  <div class="col-md-6">
+  	<?= $dcliente  ?>
+  </div>
 </div>
 <div>
   <?= $mcliente ?>

@@ -2,10 +2,10 @@
 <li class="dropdown messages-menu">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
     <i class="fa fa-envelope-o"></i>
-    <span class="label label-success">4</span>
+    <span class="label label-success">0</span>
   </a>
   <ul class="dropdown-menu">
-    <li class="header">You have 4 messages</li>
+    <li class="header">Tu tienes 0 mensajes</li>
     <li>
       <!-- inner menu: contains the actual data -->
       <ul class="menu">
@@ -24,6 +24,6 @@
         <!-- end message -->
       </ul>
     </li>
-    <li class="footer"><a href="#">See All Messages</a></li>
+    <li class="footer"><a href="#">Todos mensajes</a></li>
   </ul>
 </li>

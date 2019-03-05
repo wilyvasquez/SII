@@ -7,6 +7,7 @@ class CtrNotaCredito extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('Funciones');
+        $this->load->library('Not_found');
         $this->facturas = 'assets/pdf/facturas/';
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_sucursal');
@@ -14,25 +15,29 @@ class CtrNotaCredito extends CI_Controller {
         $this->load->model('Modelo_inventario');
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
+        $this->load->helper('date');
+        date_default_timezone_set('America/Monterrey');
     }
 
     public function pre_factura()
     {
-        $data["timbrado"]    = "active";
-        $data["ncredito"]    = "active";
-        $data["title"]       = "Nota Credito";
-        $data["subtitle"]    = "Crear Nota Credito";
-        $data["contenido"]   = "admin/ncredito/nota_credito";
-        $data["menu"]        = "admin/menu_admin";
-        $data['clientes']    = $this->Modelo_cliente->get_clientes(); # OBTENER TODOS LOS CLIENTES
-        $data['fpagos']      = $this->Modelo_sat->get_formaPagos();   # OBTENER FORMAS DE PAGO
-        $data['mpagos']      = $this->Modelo_sat->get_metodoPagos();  # OBTENER METODOS DE PAGO
-        $data['ucfdis']      = $this->Modelo_sat->get_usoCfdi();      # OBTENER USO DEL CFDI
-
+        $data = array(
+            'timbrado'    => "active",
+            'ncredito'    => "active",
+            'title'       => "Nota Credito",
+            'subtitle'    => "Crear Nota Credito",
+            'contenido'   => "admin/ncredito/nota_credito",
+            'menu'        => "admin/menu_admin",
+            'clientes'    => $this->Modelo_cliente->get_clientes(), # OBTENER TODOS LOS CLIENTES
+            'fpagos'      => $this->Modelo_sat->get_formaPagos(),   # OBTENER FORMAS DE PAGO
+            'mpagos'      => $this->Modelo_sat->get_metodoPagos(),  # OBTENER METODOS DE PAGO
+            'ucfdis'      => $this->Modelo_sat->get_usoCfdi()       # OBTENER USO DEL CFDI
+        );
         # VISTAS PARA OBTENER LOS DATOS DEL CLIENTE
         $data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true); 
         # MODAL REGISTRAR CLIENTE NUEVO CLIENTE
         $data["mcliente"]    = $this->load->view('admin/factura/modal/modal-cliente',null,true);
+        $data["dcliente"] = $this->load->view('admin/factura/datos_cliente',$data,true);
         # ARCHIVOS JS
         $data["archivosJS"]  = $this->load->view('admin/ncredito/archivos/archivosJS',null,true);
         $this->load->view('universal/plantilla',$data);
@@ -42,48 +47,47 @@ class CtrNotaCredito extends CI_Controller {
     {
         if(!$this->input->is_ajax_request())
         {
-         show_404();
+            $this->not_found->not_found();
         }else{
-            $preventa  = 1;
-            $condicion = "CREDITO";
-            $codigo    = $this->Modelo_timbrado->get_codigo(); # OBTENER EL ULTIMO CODIGO DE PREVENTA
-            # CONDICION SOBRE SI YA EXISTE ALGUN REGISTRO (COMPROBAR SI ESTA BIEN, CREO HAY ERROR)
-            if (!empty($codigo)){
-                $preventa = $codigo->codigo_preventa + 1; # AGREGAMOS UN UNO AL ULTIMO CODIGO
-            }
-            if ($this->input->post("metodo") == "PUE"){ # VALIDAMOS EL TIPO DE METODO ENVIADO
-                $condicion = "CONTADO";
-            }
-            # ARREGLO DE DATOS PARA GUARDAR
-            $data = array(
-                'alta_preventa'    => date("Y-m-d H:i:s"),
-                'codigo_preventa'  => "001-A0000".$preventa,
-                'condicion_pago'   => $condicion,
-                'forma_pago'       => $this->input->post("forma"),
-                'metodo_pago'      => $this->input->post("metodo"),
-                'uso_cfdi'         => $this->input->post("cfdi"),
-                'ref_cliente'      => $this->input->post("cliente")
-            );
-            $id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE NOTA DE CREDITO
-            if($id){
-                echo '<a href="'.base_url().'ncredito/'.$id.'" class="btn btn-primary btn-sm pull-left">Vincular Factura</a>'; # MOSTRAR VISTA BIEN
+            if ($this->input->post("forma") && $this->input->post("metodo") && $this->input->post("cfdi") && $this->input->post("cliente"))
+            {
+                $preventa  = 1;
+                $condicion = "CREDITO";
+                $codigo    = $this->Modelo_timbrado->get_codigo(); # OBTENER EL ULTIMO CODIGO DE PREVENTA
+                # CONDICION SOBRE SI YA EXISTE ALGUN REGISTRO (COMPROBAR SI ESTA BIEN, CREO HAY ERROR)
+                if (!empty($codigo)) {
+                    $preventa = $codigo->codigo_preventa + 1; # AGREGAMOS UN UNO AL ULTIMO CODIGO
+                }
+                if ($this->input->post("metodo") == "PUE") { # VALIDAMOS EL TIPO DE METODO ENVIADO
+                    $condicion = "CONTADO";
+                }
+                # ARREGLO DE DATOS PARA GUARDAR
+                $data = array(
+                    'alta_preventa'    => date("Y-m-d H:i:s"),
+                    'codigo_preventa'  => "001-A0000".$preventa,
+                    'condicion_pago'   => $condicion,
+                    'forma_pago'       => $this->input->post("forma"),
+                    'metodo_pago'      => $this->input->post("metodo"),
+                    'uso_cfdi'         => $this->input->post("cfdi"),
+                    'ref_cliente'      => $this->input->post("cliente")
+                );
+                $id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE NOTA DE CREDITO
+                if($id){
+                    # MOSTRAR VISTA BIEN
+                    echo '<a href="'.base_url().'ncredito/'.$id.'" class="btn btn-primary btn-sm pull-left">Vincular Factura</a>'; 
+                }else{
+                    echo '<div class="alert alert-danger" role="alert">Error, al subir datos, contactar a sistemas.</div>'; # MOSTRAR VISTA ERROR
+                }
             }else{
-                echo '<div class="alert alert-danger" role="alert">Error, al subir datos, contactar a sistemas.</div>'; # MOSTRAR VISTA ERROR
+                echo '<div class="alert alert-danger" role="alert">Error, al generar la Nota de Credito.</div>'; # MOSTRAR VISTA ERROR
             }
         }
     }
 
     public function nota_credito($id)
     {
-        $this->validacion_timbrado($id);        
-        $data["timbrado"]    = "active";
-        $data["ncredito"]    = "active";
-        $data["title"]       = "Nota Credito";
-        $data["subtitle"]    = "Timbrar Nota Credito";
-        $data["contenido"]   = "admin/tncredito/tncredito";
-        $data["menu"]        = "admin/menu_admin";
-
-        # CONSULTA OBTENER ARTICULAR A FACTURAR
+        $this->funciones->validacion_timbrado($id,$tipo = "prencredito");   
+        # CONSULTA OBTENER ARTICULOS A FACTURAR
         $data['articulos']   = $this->Modelo_articulos->get_articulos();
         $data['tarticulos']  = $this->Modelo_articulos->get_articulo($id);
 
@@ -98,40 +102,27 @@ class CtrNotaCredito extends CI_Controller {
         $data["id"]          = $id;
         $data['icliente']    = $this->Modelo_cliente->datos_cliente($id);
         $data["nombre"]      = $data['icliente']->cliente;
+        $data["idCliente"]   = $data['icliente']->id_cliente;
         $data["precios"]     = $this->funciones->precios($id);
 
-        # VISTAS FACTURAS
-        $data["articulo"]    = $this->load->view('admin/tfactura/agregar-articulo',$data,true);
-        $data["tarticulos"]  = $this->load->view('admin/tfactura/tabla-articulos',$data,true);
-        
-        # VISTAS NOTAS DE CREDITO
-        $data["tuuid"]       = $this->load->view('admin/tncredito/tabla_uuid',$data,true);
-        $data["precios"]     = $this->load->view('admin/tncredito/timbrar_ncredito',$data,true);
-
-        # MODALES
-        $data["marticulo"]   = $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true);
-        $data["mearticulo"]  = $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true);
-        $data["meuuid"]      = $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',null,true);
-        $data["mtimbrar"]    = $this->load->view('admin/tncredito/modal/modal-timbrar',null,true);
+        $data = array(
+            'timbrado'    => "active",
+            'ncredito'    => "active",
+            'title'       => "Nota Credito",
+            'subtitle'    => "Timbrar Nota Credito",
+            'contenido'   => "admin/tncredito/tncredito",
+            'menu'        => "admin/menu_admin",
+            'articulo'    => $this->load->view('admin/tfactura/agregar-articulo',$data,true), # VISTA DE AGREGAR ARTICULO
+            'tarticulos'  => $this->load->view('admin/tfactura/tabla-articulos',$data,true),  # VISTA TABLA ARTICULOS
+            'tuuid'       => $this->load->view('admin/tncredito/tabla_uuid',$data,true),      # VISTA DE TABLA UUID
+            'precios'     => $this->load->view('admin/tncredito/timbrar_ncredito',$data,true),# VISTA DE TABLA DE PRECIOS
+            'marticulo'   => $this->load->view('admin/tfactura/modal/modal-editar-articulo',null,true),  # MODAL EDITAR ARTICULO
+            'mearticulo'  => $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true),# MODAL ELIMINAR ARTICULO
+            'meuuid'      => $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',null,true),   # MODAL ELIMINAR UUID
+            'mtimbrar'    => $this->load->view('admin/tncredito/modal/modal-timbrar',null,true)          # MODAL AGREGAR UUID
+        );    
         # ARCHIVOS JS
         $data["archivosJS"]  = $this->load->view('admin/tncredito/archivos/archivosJS',null,true);
         $this->load->view('universal/plantilla',$data);
-    }
-    
-    function validacion_timbrado($id)
-    {
-        $timbrado = $this->Modelo_timbrado->validacion($id);
-        if (!empty($timbrado)) 
-        {
-            $result   = $timbrado->estatus_preventa;
-            $cliente  = $timbrado->ref_cliente;
-            if ($result == "timbrado") {
-                redirect(base_url().'pcliente/'.$cliente);
-            }else if($result == "activo"){
-
-            }           
-        }else{
-            redirect(base_url().'prefactura');
-        }
     }
 }

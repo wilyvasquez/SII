@@ -2,7 +2,7 @@ var _0x208b=["\x25\x63\xA1\x44\x65\x74\x65\x6E\x74\x65\x21","\x66\x6F\x6E\x74\x2
 function show5()
 {
     if (!document.layers&&!document.all&&!document.getElementById)
-    return
+      return
       var Digital=new Date()
       var hours=Digital.getHours()
       var minutes=Digital.getMinutes()
@@ -20,7 +20,8 @@ function show5()
     {
       hours=12;
     }
-    if (minutes<=9){
+    if (minutes<=9)
+    {
       minutes="0"+minutes;
     }
     if (seconds<=9)
@@ -36,10 +37,15 @@ function show5()
     else if (document.all)
     {
       liveclock.innerHTML=myclock;          
-    }
-    else if (document.getElementById){
+    }else if (document.getElementById){
       document.getElementById("liveclock").innerHTML=myclock;
       setTimeout("show5()",1000);
     }
 }
-window.onload=show5
+show5();
+
+window.onload = function() {
+  // console.log("cargando");
+  $('#ocultar').delay(400).hide(0);
+  $('#cargando').delay(0).show(0);
+};

@@ -32,3 +32,40 @@ $(function(){
       });
   });
 });
+
+/**
+ * Funcion que actualiza un articulo en el menu inventario
+ */
+$(function(){
+  $("#upSucursal").on("submit", function(e){
+    e.preventDefault();
+    var f = $(this);
+    var formData = new FormData(document.getElementById("upSucursal"));
+    formData.append("dato", "valor");
+    $.ajax({
+        url: "CtrSucursal/up_sucursal",
+        type: "post",
+        dataType: "html",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false
+      })
+      .done(function(res){
+        var json = $.parseJSON(res);
+        $("#ajax-ntf").html(json.msg).delay(2000).hide(0);
+        setTimeout(function(){ 
+          $("#ajax-ntf").html("").delay(0).show(0);
+        },1000);
+      });
+  });
+});
+
+selSucursal =  function(id,rsocial,rfc,correo,telefono,estatus){
+  $('#mid').val(id);
+  $('#rsocial').val(rsocial);
+  $('#mrfc').val(rfc);
+  $('#mcorreo').val(correo);
+  $('#mtelefono').val(telefono);
+  $('#mestatus').val(estatus);
+}

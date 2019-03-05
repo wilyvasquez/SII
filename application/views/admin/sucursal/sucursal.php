@@ -23,8 +23,8 @@
               </select>
             </div>
             <div class="form-group col-md-6">
-              <label for="rfc">RFC</label>
-              <input type="text" class="form-control" name="rfc" placeholder="RFC" required>
+              <label for="rfc">RFC</label><font id="resultado"></font>
+              <input type="text" class="form-control" name="rfc" oninput="validarInput(this)" placeholder="RFC" required>
             </div>
           </div>
           <div class="form-group">
@@ -68,12 +68,13 @@
       <div class="box-body" id="tbl-sucursal">
         <table id="example2" class="table table-bordered table-striped">
           <thead>
-          <tr>
+          <tr style="background: #4C9DBD;color: white">
             <th>Razon Social</th>
             <th>RFC</th>
             <th>Correo</th>
             <th>Telefono</th>
             <th>Estatus</th>
+            <th>Accion</th>
           </tr>
           </thead>
           <tbody>
@@ -85,6 +86,9 @@
               <td><?= $sucursal->correo ?></td>
               <td><?= $sucursal->telefono ?></td>
               <td><?= $sucursal->estatus_sucursal ?></td>
+              <td>
+                <button type="button" class="btn btn-block btn-primary btn-xs" onclick="selSucursal('<?= $sucursal->id_sucursal ?>','<?= $sucursal->razon_social ?>','<?= $sucursal->rfc ?>','<?= $sucursal->correo?>','<?= $sucursal->telefono?>','<?= $sucursal->estatus_sucursal?>')" data-toggle="modal" data-target=".editarSucursal">Editar</button>
+              </td>
             </tr>
           <?php } } ?>
           </tbody>
@@ -94,3 +98,6 @@
     </div>
   </div>
 </div> 
+<div>
+  <?= $modal_s ?>
+</div>

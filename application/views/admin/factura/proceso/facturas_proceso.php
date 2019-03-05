@@ -6,10 +6,10 @@
 
       </div>
       <!-- /.box-header -->
-      <div class="box-body table-responsive">
+      <div class="box-body table-responsive" style="display: none" id="cargando">
         <table id="example2" class="table table-bordered table-striped">
           <thead>
-          <tr>
+          <tr style="background: #4C9DBD;color: white">
             <th>#</th>
             <th>Codigo PreVenta</th>
             <th>Cliente</th>
@@ -21,7 +21,7 @@
           </thead>
           <tbody>
           <?php if (!empty($prefactura)) {
-          	$i = 0;
+          	$i = 1;
           foreach ($prefactura ->result() as $proceso) { ?>
           <tr>
           	<td><?= $i ?></td>
@@ -38,7 +38,9 @@
           </tbody>
         </table>
       </div>
-      <!-- /.box-body -->
+      <div class="overlay" id="ocultar">
+        <i class="fa fa-refresh fa-spin"></i>
+      </div>
     </div>  
   </div>
 </div>

@@ -122,13 +122,12 @@ class Modelo_timbrado extends CI_Model
 
 	function borrar_articulosPreventa($id)
 	{
-		$this->db->where("ref_pre_venta", $id)->delete("articulo_preventa");
+		$this->db->where("ref_preventa", $id)->delete("articulo_preventa");
         if ($this->db->trans_status() === true) {
             return true;
         }else{
             return null;
         }
- 
 	}
 
 	function put_relacion($datos)
@@ -161,9 +160,29 @@ class Modelo_timbrado extends CI_Model
         }
 	}
 
+	function borrar_uuidRelacion($id)
+	{
+		$this->db->where("ref_preventa", $id)->delete("relacion_uuid");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
+	}
+
 	function delete_uuid($id)
 	{
 		$this->db->where("ref_preventa", $id)->delete("relacion_uuid");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
+	}
+
+	function eliminar_relacionDocto($id)
+	{
+		$this->db->where("ref_preventa", $id)->delete("relacion_docto");
         if ($this->db->trans_status() === true) {
             return true;
         }else{
@@ -218,9 +237,78 @@ class Modelo_timbrado extends CI_Model
 	function get_recibosPagos($id)
 	{
 		$this->db->select("*")->from("factura");
-		$this->db->join('factura_docto', 'factura_docto.ref_factura = factura.id_factura', 'inner');
-		$this->db->join('documento', 'documento.id_docto = factura_docto.ref_docto', 'inner');
-		$this->db->order_by("documento.id_docto", "desc");
+		$this->db->join('relacion_factura', 'factura.id_factura = relacion_factura.factura_hijo', 'inner');
+		$this->db->where('factura.uuid', $id);
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_facturasRelacion($uuid)
+	{
+		$query = $this->db->get_where('factura', array('uuid' => $uuid));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_contarComprobantesPago($id)
+	{
+		$query = $this->db->query("SELECT COUNT(*) as numero FROM `relacion_factura` INNER JOIN factura ON relacion_factura.factura_padre = factura.id_factura WHERE relacion_factura.factura_hijo = '$id' AND factura.tipo_comprobante = 'P' ");
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_comprobantesPagoTotal($id)
+	{
+		$this->db->select("*")->from("relacion_factura");
+		$this->db->join('factura', 'relacion_factura.factura_padre = factura.id_factura', 'inner');
+		$this->db->where('relacion_factura.factura_hijo', $id);
+		// $this->db->where('factura.tipo_comprobante', 'P');
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function agregarRelacion($datos)
+	{
+		$this->db->insert('relacion_factura', $datos);
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }else {
+            return false;
+        }
+	}
+
+	function search_factura($id)
+	{
+		$query = $this->db->get_where('factura', array('id_factura' => $id));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
+	# OBTENEMOS EL FOLIO SIGUIENTE PAR AGREGARLO A LA FACTURA
+	function get_ultimoFolioSerie($tipo)
+	{
+		// $query = $this->db->query("SELECT * FROM folios_series where tipo_comprobante = '$tipo' ORDER BY id_folios desc LIMIT 1");
+		$this->db->select("*")->from("folios_series");
+		$this->db->where('tipo_comprobante', $tipo);
+		$this->db->order_by("id_folios desc");
 		$this->db->limit(1);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0) {
@@ -230,5 +318,14 @@ class Modelo_timbrado extends CI_Model
 		}
 	}
 
+	# ACTUALIZAMOS EL FOLIO PARA LA SIGUIENTE FACTURA
+	function update_serieFolio($id,$data)
+	{
+		$this->db->set($data)->where("id_folios", $id)->update("folios_series");
+		if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
+	}
 }
-?>

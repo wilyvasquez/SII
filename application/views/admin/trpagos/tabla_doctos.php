@@ -10,9 +10,9 @@
           <tr style="background: #4C9DBD">
             <th>#</th>
             <th>UUID</th>
-            <th>Serie/Folio</th>
+            <th>Monto</th>
             <th>Parcialidad</th>
-            <th>Pagado</th>
+            <th>Accion</th>
           </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
         <tr>
           <td><?= $i ?></td>
           <td><?= $articulo->uuid ?></td>
-          <td><?= $articulo->folio ?></td>
+          <td>$ <?= number_format($articulo->monto,2) ?></td>
           <td><?= $articulo->parcialidad ?></td>
           <td>
             <div class="dropdown">

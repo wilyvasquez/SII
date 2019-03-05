@@ -45,13 +45,11 @@ class Modelo_articulos extends CI_Model
 
 	function update_articulo($id,$data)
 	{
-		/*$this->db->where('id_articulo', $id);
-		$this->db->update('articulo',$data); */
 		$this->db->set($data)->where("id_articulo", $id)->update("articulo");
 		if ($this->db->trans_status() === true) {
             return true;
         } else {
-            return null;
+            return false;
         }
 	}
 

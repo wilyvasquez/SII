@@ -7,29 +7,34 @@
       </div>
       <!-- /.box-header -->
       <!-- form start -->
-      <form role="form">
+      <form role="form" id="addFolioSeries">
         <div class="box-body">
           <div class="form-group">
-            <label for="articulo">Folio Inicial</label>
-            <input type="text" class="form-control" id="articulo" placeholder="Folio Inicial">
+            <label for="finicial">Folio Inicial</label>
+            <input type="number" class="form-control" name="finicial" id="finicial" min="1" placeholder="Folio Inicial">
           </div>
           <div class="form-group">
-            <label for="codigoi">Serie</label>
-            <input type="text" class="form-control" id="codigoi" placeholder="Serie">
+            <label for="serie">Serie</label>
+            <input type="text" class="form-control" name="serie" id="serie" placeholder="Serie">
           </div>
           <div class="form-group">
-            <label for="codigoi">Tipo comprobante</label>
-            <input type="text" class="form-control" id="codigoi" placeholder="Tipo comprobante">
+            <label for="tcomprobante">Tipo comprobante</label>
+            <select class="form-control" name="tcomprobante" id="tcomprobante">
+              <option value="Ingreso">Ingreso</option>
+              <option value="Egreso">Egreso</option>
+              <option value="Pago">Pago</option>              
+            </select>
           </div>
           <div class="form-group">
-            <label for="costo">Folio siguente</label>
-            <input type="text" class="form-control" id="costo" placeholder="Folio siguente">
+            <label for="fsiguiente">Folio siguente</label>
+            <input type="number" class="form-control" name="fsiguiente" id="fsiguiente" min="1" placeholder="Folio siguente">
           </div>
+          <div id="ajax-ntf"></div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
+          <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+        </div>        
       </form>
     </div>
   </div>
@@ -45,4 +50,7 @@
       <!-- /.box-body -->
     </div>
   </div>
+</div>
+<div>
+  <?= $mSerieFolio ?>
 </div>

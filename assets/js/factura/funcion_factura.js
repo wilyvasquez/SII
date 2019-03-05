@@ -19,7 +19,8 @@ $(function(){
       contentType: false,
       processData: false
     })
-    .done(function(res){
+    .done(function(res)
+    {
       var json = $.parseJSON(res);
       $("#ntf-cliente").html(json.msg).delay(2000).hide(0);
       ajax_tarticulos(json,par);
@@ -43,9 +44,6 @@ $(function(){
     e.preventDefault();
     var ids        = document.getElementById('ids').value;
     var id_cliente = document.getElementById('id_cliente').value;
-    // console.log(id_cliente);
-    // console.log("--");
-    // console.log(ids);
     var par = 
     {
       "ids"  : ids,
@@ -65,15 +63,14 @@ $(function(){
         $('#btn-delete').attr("disabled", true);
         $('#btn-adduuid').attr("disabled", true);
       },
-      success: function(response){
+      success: function(response)
+      {
         $('#btn-timbrar').attr("disabled", true);
-        // $('#btn-limpiar').attr("disabled", true);
-        // $('#btn-articulo').attr("disabled", true);
         $('#ocultarUUID').hide(0);
         var json = $.parseJSON(response);
         $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);
-        // console.log(response);
+        console.log(json.msg);
       }
     })
   });
@@ -99,7 +96,8 @@ function valorUnitario()
     dataType: "html",
     data: par,
   })
-  .done(function(response){
+  .done(function(response)
+  {
     var json = $.parseJSON(response);
     $("#costo").val(json.importe);
     $("#descripcion").val(json.msg);
@@ -121,15 +119,15 @@ function importe()
     "costo"   : costo,
   };
   $.ajax({
-      url: "../CtrUniversal/get_importe",
-      type: "post",
-      dataType: "html",
-      data: par,
-    })
-    .done(function(response){
-      var json = $.parseJSON(response);
-      $("#importes").val(json.importe);
-    });
+    url: "../CtrUniversal/get_importe",
+    type: "post",
+    dataType: "html",
+    data: par,
+  })
+  .done(function(response){
+    var json = $.parseJSON(response);
+    $("#importes").val(json.importe);
+  });
 }
 /*FIN IMPORTE*/
 
@@ -165,9 +163,7 @@ $(document).on("click", ".open-Editar", function () {
   $(".modal-body #costo").val( costo );
 });
 
-/**
- * INICIO DE LOS MODALES ELIMINAR Y EDITAR
- */
+// INICIO DE LOS MODALES ELIMINAR Y EDITAR
 $(document).on("click", ".open-uuid", function () {
   var uuid = $(this).data('uuid');
   $(".modal-body #uuid").val( uuid );
@@ -184,7 +180,6 @@ $(function(){
     e.preventDefault();
     var f = $(this);
     var formData = new FormData(document.getElementById("deletearticulo"));
-    // formData.append("dato", "valor");
     ids = document.getElementById('ids').value;
     par =
     {
@@ -282,9 +277,8 @@ function ajax_tarticulos(json,par)
 $(function(){
   $("#deleteuuid").on("submit", function(e){
     e.preventDefault();
-    console.log("ELIMINAR UUIDD");
+    console.log("ELIMINAR UUID");
     var formData = new FormData(document.getElementById("deleteuuid"));
-    // formData.append("dato", "valor");
     $.ajax({
       url: "../CtrUniversal/delete_uuid",
       type: "post",
@@ -299,6 +293,28 @@ $(function(){
       setTimeout(function(){ 
         $('#modaldelete').modal('hide');
       },500);
+    });
+  });
+});
+
+// FUNCION PARA ACTUALIZAR DATOS DEL CLIENTE
+$(function(){
+  $("#updateCliente").on("submit", function(e){
+    e.preventDefault();
+    console.log("ACTUALIZAR CLIENTE");
+    var formData = new FormData(document.getElementById("updateCliente"));
+    $.ajax({
+      url: "../CtrClientes/update_cliente",
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function(res){
+      var json = $.parseJSON(res);
+      $("#upd-cliente").html(json.msg);
     });
   });
 });

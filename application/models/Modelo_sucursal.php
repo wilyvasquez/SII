@@ -27,5 +27,15 @@ class Modelo_sucursal extends CI_Model
 			return false;
 		}
 	}
+
+	function update_sucursal($id,$data)
+	{
+		$this->db->set($data)->where("id_sucursal", $id)->update("sucursal");
+		if ($this->db->trans_status() === true) {
+            return true;
+        } else {
+            return false;
+        }
+	}
 }
 ?>

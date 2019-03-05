@@ -27,16 +27,10 @@
             <div class="form-group col-md-6">
               <label>Clave</label>
               <input type="text" class="form-control" name="clave" placeholder="Nombre Articulo" minlength="8" maxlength="8" required>
-              <!-- <select class="form-control select2" style="width: 100%;" name="cve_pro" data-placeholder="Selecciona" required>
-                <?php if (!empty($clave)) {
-                foreach ($clave ->result() as $claves) { ?>
-                  <option value="<?= $claves->clave ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
-                <?php } } ?>
-              </select> -->
             </div>
             <div class="form-group col-md-6">
               <label for="cantidad">Cantidad</label>
-              <input type="number" class="form-control" name="cantidad" placeholder="Cantidad" required>
+              <input type="number" class="form-control" name="cantidad" placeholder="Cantidad" min="0" required>
             </div>
           </div>
           <div class="form-group">
@@ -47,16 +41,7 @@
                 <option value="<?= $claves->id_clave ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
               <?php } } ?>
             </select>
-          </div>
-          <!-- <div class="form-group">
-            <label>Clave SAT</label>
-            <select class="form-control select2" style="width: 100%;" name="clave" data-placeholder="Selecciona" required>
-                <?php if (!empty($clave)) {
-                foreach ($clave ->result() as $claves) { ?>
-                  <option value="<?= $claves->c_ClaveUnidad ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
-                <?php } } ?>
-              </select>
-          </div>     -->      
+          </div>  
           <div class="form-group">
             <label>Marca</label>
             <div id="ajax-marca">
@@ -68,9 +53,6 @@
                   <?php } } ?>
               </select>
             </div>
-            <!-- <a href="#" class="selecciona test" data-toggle="modal" data-target=".addmarca">
-              <i class="fa fa-plus"></i> Registrar nueva Marca
-            </a> -->
             <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".addmarca"><i class="fa fa-plus"></i> Registrar nueva Marca</button>
           </div>
           <div class="form-group">
@@ -125,32 +107,27 @@
 
       </div>
       <!-- /.box-header -->
-      <div class="box-body">
-        <table id="example2" class="table table-bordered table-striped">
-          <thead>
-          <tr>
-            <th>Articulo</th>
-            <th>Codigo Interno</th>
-            <th>Cantidad</th>
-            <th>Costo</th>
-            <th>Clave SAT</th>
-          </tr>
-          </thead>
-          <tbody>
-          <?php if (!empty($articulos)) {
-          foreach ($articulos ->result() as $articulo) { ?>
-          <tr>
-            <td><?= $articulo->articulo ?></td>
-            <td><?= $articulo->codigo_interno ?></td>
-            <td><?= $articulo->cantidad ?></td>
-            <td><?= $articulo->costo ?></td>
-            <td><?= $articulo->clave_sat ?></td>
-          </tr>
-          <?php } } ?>
-          </tbody>
-        </table>
+      <div class="box-body table-responsive">
+        <!-- <div style="display: none" id="cargando"> -->
+          <table id="tblInventario" class="table table-bordered table-striped">
+            <thead>
+              <tr style="background: #4C9DBD; color: white">
+                <th>#</th>
+                <th>Articulo</th>
+                <th>Codigo</th>
+                <th>Cantidad</th>
+                <th>Costo</th>
+                <th>Clave SAT</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>          
+        <!-- </div> -->
       </div>
-      <!-- /.box-body -->
+      <!-- <div class="overlay" id="ocultar">
+        <i class="fa fa-refresh fa-spin"></i>
+      </div> -->
     </div>
   </div>
 </div>
@@ -158,4 +135,5 @@
   <?= $modal_f ?>
   <?= $modal_l ?>
   <?= $modal_m ?>
-</div> 
+  <?= $modal_i ?>
+</div>
