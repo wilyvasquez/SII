@@ -14,7 +14,7 @@
               <div class="input-group-addon">
                 <i class="fa fa-user"></i>
               </div>
-              <input type="text" class="form-control" id="cliente" name="cliente" value="<?= $icliente->cliente ?>">
+              <input type="text" class="form-control" id="dcliente" name="dcliente" value="<?= $icliente->cliente ?>">
             </div>
           </div>          
         </div>
@@ -68,6 +68,10 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
+      <label class="switch">
+        <input type="checkbox" class="success" id="activo" name="activo">
+        <span class="slider round"></span>
+      </label>
       <button type="submit" class="btn btn-primary btn-sm pull-right" id="btn-articulo">Actualizar</button>
     </div>
   </form>

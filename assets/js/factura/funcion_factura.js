@@ -326,6 +326,9 @@ $(function(){
     .done(function(res){
       var json = $.parseJSON(res);
       $("#upd-cliente").html(json.msg);
+      setTimeout(function(){ 
+      $("#upd-cliente").html("").delay(0).show(0);
+    },1000);
     });
   });
 });

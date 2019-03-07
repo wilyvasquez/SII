@@ -103,6 +103,7 @@ class CtrFactura extends CI_Controller {
 		$data['icliente']   = $this->Modelo_cliente->datos_cliente($id);
 		$data["nombre"]     = $data['icliente']->cliente;
 		$data["idCliente"]  = $data['icliente']->id_cliente;
+		$data["opciones"]   = $this->load->view('admin/tfactura/menu_opciones',$data,true);
 		# INFORMACION DEL CLIENTE
 		$data["info"]       = $this->load->view('admin/factura/proceso/datos_proceso',$data,true);
 		# TABLA DE LOS ARTICULOS A TIMBRAR
