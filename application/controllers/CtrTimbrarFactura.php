@@ -39,15 +39,15 @@ class CtrTimbrarFactura extends CI_Controller {
                 {  
                     $this->factura($preventa,$id_cliente,$datos,$cliente,$r_uuid);
                 }else{
-                    $msg_datos = "Error, Sin Articulos a timbrar";
+                    $msg_datos = "Error, Sin Articulos a timbrar.";
                     echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg_datos));
                 }
             }else{
-                $msg_datos = "Error, Contactar a sistemas";
+                $msg_datos = "Error, Contactar a sistemas.";
                 echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg_datos));
             }
         }else{
-            $msg_datos = "Error, Confirmar datos de envio ";
+            $msg_datos = "Error, Confirmar datos de envio.";
             echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg_datos));
         }
     }

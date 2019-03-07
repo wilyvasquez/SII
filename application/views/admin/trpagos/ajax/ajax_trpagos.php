@@ -3,9 +3,9 @@
     <tr style="background: #4C9DBD">
       <th>#</th>
       <th>UUID</th>
-      <th>Monto</th>
-      <th>Parcialidad</th>
-      <th>Accion</th>
+      <th>MONTO</th>
+      <th>PARCIALIDAD</th>
+      <th>ACCION</th>
     </tr>
   </thead>
   <tbody>

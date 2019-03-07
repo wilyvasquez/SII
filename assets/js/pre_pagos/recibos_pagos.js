@@ -67,14 +67,12 @@ $(function(){
   $("#timbrarpagos").on("submit", function(e){
     console.log("TIMBRAR RECIBO DE PAGOS");
     e.preventDefault();
-    var ids        = document.getElementById('ids').value;
-    var id_cliente = document.getElementById('id_cliente').value;
-    var fecha      = document.getElementById('fecha').value;
     var par = 
     {
-      "ids"  : ids,
-      "id_cliente"  : id_cliente,
-      "fecha"  : fecha,
+      "ids"  : document.getElementById('ids').value,
+      "id_cliente"  : document.getElementById('id_cliente').value,
+      "fecha"  : document.getElementById('fecha').value,
+      "activo"  : document.getElementById('activos').checked,
     };
     $.ajax({
       url: "../CtrTimbrarReciboPago/timbrado",
@@ -82,21 +80,26 @@ $(function(){
       dataType: "html",
       data: par,
       beforeSend: function(){
-        $("#resultado").html("Generando factura, espere por favor");
+        $("#resultado").html("Generando Recibo de pago, espere por favor");
+        $('#btn-timbrar').attr("disabled", true);
       },
       success: function(response)
       {
         var json = $.parseJSON(response);
         $("#tbl-articulo").html(json.msg);
+        $("#resultado").html(json.btn); 
         if (json.status == "error") 
         { 
-          $("#resultado").html(json.btn); 
+          $('#btn-timbrar').attr("disabled", false);
+          setTimeout(function(){ 
+            $("#resultado").html("").delay(0).show(0);
+          },1000);
         }else{
+          $('#btn-timbrar').attr("disabled", true);
           $("#resultado").html(json.btn); 
           $("#notificacion").html(json.msg);  
           $('#btn-articulo').attr("disabled", true);
-          $('#btn-limpiar').attr("disabled", true);
-          console.log(json.msg)        
+          $('#btn-limpiar').attr("disabled", true);            
         }
       }
     })

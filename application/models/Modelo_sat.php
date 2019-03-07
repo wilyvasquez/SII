@@ -67,4 +67,3 @@ class Modelo_sat extends CI_Model
 		}
 	}
 }
-?>

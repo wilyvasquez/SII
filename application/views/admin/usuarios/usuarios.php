@@ -5,64 +5,56 @@
       <div class="box-header with-border">
         <h3 class="box-title">Subir Usuarios</h3>
       </div>
-      <!-- /.box-header -->
-      <!-- form start -->
-      <form role="form">
+      <form role="form" id="addUsuario">
         <div class="box-body">
           <div class="form-group">
-            <label for="articulo">Nombre usuario</label>
-            <input type="text" class="form-control" id="articulo" placeholder="Nombre Cliente">
+            <label for="nombre">Nombre usuario</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre de cliente" required>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="codigoi">Usuario</label>
-              <input type="text" class="form-control" id="codigoi" placeholder="Usuario">
+              <label for="usuario">Usuario</label>
+              <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" required>
             </div>
             <div class="form-group col-md-6">
-              <label for="codigoi">Password</label>
-              <input type="text" class="form-control" id="codigoi" placeholder="Password">
+              <label for="contrasena">Password</label>
+              <input type="text" class="form-control" id="contrasena" name="contrasena" placeholder="Password" required>
             </div>            
           </div>
           <div class="form-group">
-            <label for="costo">Telefono</label>
-            <input type="text" class="form-control" id="costo" placeholder="Telefono">
+            <label for="telefono">Telefono</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
           </div>
           <div class="form-group">
-            <label for="codigoi">Correo</label>
-            <input type="text" class="form-control" id="codigoi" placeholder="Correo">
+            <label for="correo">Correo</label>
+            <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo" required>
           </div>
           <div class="form-group">
-            <label for="costo">Direccion</label>
-            <input type="text" class="form-control" id="costo" placeholder="Direccion">
+            <label for="direccion">Permisos</label>
+            <select class="form-control select2" style="width: 100%;" id="direccion" name="direccion">
+              <option selected="selected" value="Caja">Caja</option>
+              <option value="Admin">Admin</option>
+            </select>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
-              <label for="estatus">Sucursal</label>
-              <select class="form-control select2" style="width: 100%;" id="estatus">
-                <option selected="selected">Alabama</option>
-                <option>Alaska</option>
-                <option>California</option>
-                <option>Delaware</option>
-                <option>Tennessee</option>
-                <option>Texas</option>
-                <option>Washington</option>
+              <label for="sucursal">Sucursal</label>
+              <select class="form-control select2" style="width: 100%;" id="sucursal" name="sucursal">
+                <option selected="selected" value="Oaxaca">Oaxaca</option>
+                <option value="Monterrey">Monterrey</option>
+                <option value="Chiapas">Chiapas</option>
               </select>
             </div>
             <div class="form-group col-md-6">
               <label for="estatus">Estatus</label>
-              <select class="form-control select2" style="width: 100%;" id="estatus">
-                <option selected="selected">Alabama</option>
-                <option>Alaska</option>
-                <option>California</option>
-                <option>Delaware</option>
-                <option>Tennessee</option>
-                <option>Texas</option>
-                <option>Washington</option>
+              <select class="form-control select2" style="width: 100%;" id="estatus" name="estatus">
+                <option selected="selected" value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
               </select>
             </div>            
           </div>
+          <div id="ajax-ntf"></div>
         </div>
-        <!-- /.box-body -->
         <div class="box-footer">
           <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
@@ -71,77 +63,38 @@
   </div>
   <div class="col-md-8">
     <div class="box box-primary">
-      <div class="box-header">
-
-      </div>
-      <!-- /.box-header -->
       <div class="box-body">
         <table id="example2" class="table table-bordered table-striped">
           <thead>
-          <tr>
-            <th>Usuario</th>
-            <th>Telefono</th>
-            <th>Correo</th>
-            <th>Sucursal</th>
-            <th>Estatus</th>
+          <tr style="background: #4C9DBD; color: white">
+            <th>USUARIO</th>
+            <th>TELEFONO</th>
+            <th>CORREO</th>
+            <th>SUCURSAL</th>
+            <th>ESTATUS</th>
+            <th>ACCION</th>
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>Trident</td>
-            <td>Internet
-              Explorer 4.0
-            </td>
-            <td>Win 95+</td>
-            <td> 4</td>
-            <td>X</td>
-          </tr>
-          <tr>
-            <td>Tasman</td>
-            <td>Internet Explorer 5.1</td>
-            <td>Mac OS 7.6-9</td>
-            <td>1</td>
-            <td>C</td>
-          </tr>
-          <tr>
-            <td>Tasman</td>
-            <td>Internet Explorer 5.2</td>
-            <td>Mac OS 8-X</td>
-            <td>1</td>
-            <td>C</td>
-          </tr>
-          <tr>
-            <td>Misc</td>
-            <td>NetFront 3.1</td>
-            <td>Embedded devices</td>
-            <td>-</td>
-            <td>C</td>
-          </tr>
-          <tr>
-            <td>Misc</td>
-            <td>NetFront 3.4</td>
-            <td>Embedded devices</td>
-            <td>-</td>
-            <td>A</td>
-          </tr>
-          <tr>
-            <td>Misc</td>
-            <td>Dillo 0.8</td>
-            <td>Embedded devices</td>
-            <td>-</td>
-            <td>X</td>
-          </tr>
-          <tr>
-            <td>Other browsers</td>
-            <td>All others</td>
-            <td>-</td>
-            <td>-</td>
-            <td>U</td>
-          </tr>
+          <?php if (!empty($usuarios)) { 
+          foreach ($usuarios ->result() as $usuario) { ?>
+            <tr>
+              <td><?= $usuario->nombre?></td>
+              <td><?= $usuario->telefono?></td>
+              <td><?= $usuario->correo?></td>
+              <td><?= $usuario->sucursal?></td>
+              <td><?= $usuario->estatus?></td>
+              <td>
+                <button class="btn btn-primary btn-xs" data-toggle="modal" data-target=".editarUsuario" onclick="selUsuario('<?= $usuario->id_usuario?>','<?= $usuario->nombre?>','<?= $usuario->telefono?>','<?= $usuario->correo?>','<?= $usuario->sucursal?>','<?= $usuario->direccion?>','<?= $usuario->estatus?>')">Editar</button>
+              </td>
+            </tr>
+          <?php }} ?>
           </tbody>
         </table>
       </div>
-      <!-- /.box-body -->
     </div>
   </div>
+</div>
+<div>
+  <?= $modalUser ?>
 </div>

@@ -2,13 +2,13 @@
   <div class="box-header">
     <h3 class="box-title">UUID Relacionados</h3>
   </div>
-  <div class="box-body no-padding" id="tabla_relacion">
+  <div class="box-body no-padding table-responsive" id="tabla_relacion">
     <table id="example3" class="table table-bordered table-hover">
       <thead>
         <tr style="background: #4C9DBD; color: white">
           <th>#</th>
           <th>UUID</th>
-          <th>Relacion</th>
+          <th>RELACION</th>
           <th style="width: 100px">Accion</th>
         </tr>
       </thead>

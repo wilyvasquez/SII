@@ -1,5 +1,4 @@
 <div class="active tab-pane" id="activity">
-  <!-- Post -->
   <?php if (!empty($ifacturas)) {
   foreach ($ifacturas ->result() as $facturas) { 
     $cpagos = $this->Modelo_timbrado->get_comprobantesPagoTotal($facturas->id_factura);
@@ -22,11 +21,9 @@
               }?>
               <small class="label" style="background-color: <?= $color ?>; font-size: 9px "><?= $tipo ?></small>
             </span>
-            <!-- <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a> -->
           </span>
       <span class="description">Fecha Timbrado - <?= $facturas->fecha_timbrado ?></span>
     </div>
-    <!-- /.user-block -->
     <p>
       Folio fiscal: <?= $facturas->uuid ?>, se facturo con metodo de pago <?= $facturas->metodo_pago ?>, forma de pago <?= $facturas->forma_pago ?>, uso de CFDI <?= $facturas->uso_cfdi ?>
     </p>
@@ -62,5 +59,4 @@
     <?php } } ?>
   </div>
   <?php } } ?>
-  <!-- /.post -->
 </div>

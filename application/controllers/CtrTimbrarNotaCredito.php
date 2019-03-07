@@ -22,27 +22,33 @@ class CtrTimbrarNotaCredito extends CI_Controller {
     public function timbrado()
     {
         # Datos POST
-        if ($this->input->post("ids") && $this->input->post("id_cliente")) 
+        if ($this->input->post("activo") == 'true') 
         {
-            $preventa   = $this->input->post("ids");
-            $id_cliente = $this->input->post("id_cliente");
-            
-            # Consultas productos y datos clientes
-    		$datos   = $this->Modelo_timbrado->get_productosTimbrar($preventa);
-    		$cliente = $this->Modelo_cliente->get_cliente($id_cliente);
-    		$uuid    = $this->Modelo_timbrado->get_relacion($preventa);
-            
-            # comprobamos si tiene relaciones con otras facturas
-            if ($datos != false && $uuid != false) 
-            {  
-                $this->nota_credito($preventa,$id_cliente,$datos,$cliente,$uuid);
+            if ($this->input->post("ids") && $this->input->post("id_cliente")) 
+            {
+                $preventa   = $this->input->post("ids");
+                $id_cliente = $this->input->post("id_cliente");
+                
+                # Consultas productos y datos clientes
+        		$datos   = $this->Modelo_timbrado->get_productosTimbrar($preventa);
+        		$cliente = $this->Modelo_cliente->get_cliente($id_cliente);
+        		$uuid    = $this->Modelo_timbrado->get_relacion($preventa);
+                
+                # comprobamos si tiene relaciones con otras facturas
+                if ($datos != false && $uuid != false) 
+                {  
+                    $this->nota_credito($preventa,$id_cliente,$datos,$cliente,$uuid);
+                }else{
+                    $msg = "Error, elementos vacios.";
+                    echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg));
+                }
             }else{
-                $msg = "Error, elementos vacios";
-                echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg));
+                $msg_datos = "Error, Contactar a sistemas.";
+                echo json_encode($this->funciones->resultado_timbrado($peticion = false , $uuid = "", $msg_datos));
             }
         }else{
-            $msg_datos = "Error, Contactar a sistemas";
-            echo json_encode($this->funciones->resultado_timbrado($peticion = false , $uuid = "", $msg_datos));
+            $msg_datos = "Error, Confirmar datos de envio.";
+            echo json_encode($this->funciones->resultado_timbrado($peticion = false, $uuid = "", $msg_datos));
         }
     }
 

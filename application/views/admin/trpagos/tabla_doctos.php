@@ -5,14 +5,14 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body no-padding" id="tbl-uuid">
-      <table class="table table-hover">
+      <table id="example4" class="table table-striped table-hover table-responsive">
         <thead>
           <tr style="background: #4C9DBD">
             <th>#</th>
             <th>UUID</th>
-            <th>Monto</th>
-            <th>Parcialidad</th>
-            <th>Accion</th>
+            <th>MONTO</th>
+            <th>PARCIALIDAD</th>
+            <th>ACCION</th>
           </tr>
         </thead>
         <tbody>

@@ -1,7 +1,6 @@
 <form class="form-horizontal" id="upDatosCliente">
   <div class="form-group">
     <label for="nombre" class="col-sm-2 control-label">Nombre</label>
-
     <div class="col-sm-10">
       <input type="text" class="form-control" id="dcliente" name="dcliente" value="<?= $icliente->cliente ?>">
       <input type="hidden" class="form-control" id="id_cliente" name="id_cliente" value="<?= $icliente->id_cliente ?>">

@@ -2667,3 +2667,17 @@ CREATE TABLE folios_series
 	folio_siguiente int,
 	PRIMARY KEY (id_folios)
 )
+
+CREATE TABLE usuarios
+(
+	id_usuario serial not null AUTO_INCREMENT,
+	nombre     varchar(50),
+    usuario    varchar(50),
+    contrasena varchar(50),
+    telefono   varchar(15),
+    correo     varchar(50),
+    direccion  text,
+    sucursal   varchar(15),
+    estatus    varchar(15),
+	PRIMARY KEY (id_usuario)
+)

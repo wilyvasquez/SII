@@ -217,10 +217,4 @@ class CtrClientes extends CI_Controller {
 			}
 		}		
     }
-
-    public function prueba()
-    {
-    	$data['facturas'] = $this->Modelo_cliente->get_facturaCliente(126);
-    	$this->load->view('arbol',$data);
-    }
 }

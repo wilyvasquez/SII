@@ -20,6 +20,18 @@ $('#example2').DataTable({
     }
   },
 })
+$('#example4').DataTable({
+  'paging'      : false,
+  'lengthChange': false,
+  'searching'   : false,
+  'ordering'    : false,
+  'info'        : false,
+  'autoWidth'   : false,
+  "language": {
+    "zeroRecords": "No se encontraron datos",
+    "infoEmpty": "No se encontraron datos",
+  },
+})
 $('#example3').DataTable({
   'paging'      : false,
   'lengthChange': false,

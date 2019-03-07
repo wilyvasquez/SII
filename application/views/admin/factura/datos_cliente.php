@@ -2,8 +2,6 @@
   <div class="box-header with-border">
     <h3 class="box-title">Datos del cliente</h3>
   </div>
-  <!-- /.box-header -->
-  <!-- form start -->
   <form class="form-horizontal" id="upDatosCliente">
     <div class="box-body">
       <div class="form-group">

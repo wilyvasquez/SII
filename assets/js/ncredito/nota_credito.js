@@ -84,12 +84,11 @@ $(function(){
   $("#timbrarncredito").on("submit", function(e){
     console.log("TIMBRAR NOTA CREDITO");
     e.preventDefault();
-    var ids        = document.getElementById('ids').value;
-    var id_cliente = document.getElementById('id_cliente').value;
     var par = 
     {
-      "ids"  : ids,
-      "id_cliente"  : id_cliente,
+      "ids"  : document.getElementById('ids').value,
+      "id_cliente"  : document.getElementById('id_cliente').value,
+      "activo"  : document.getElementById('activos').checked,
     };
     $.ajax({
       url: "../CtrTimbrarNotaCredito/timbrado",
@@ -97,19 +96,29 @@ $(function(){
       dataType: "html",
       data: par,
       beforeSend: function(){
-        $("#resultado").html("Generando factura, espere por favor");
+        $('#btn-timbrar').attr("disabled", true);
+        $("#resultado").html("Generando Nota de Credito, espere por favor");
       },
-      success: function(response){
-        $('#btn-limpiar').attr("disabled", true);
-        $('#btn-articulo').attr("disabled", true);
-
+      success: function(response) {
         var json = $.parseJSON(response);
-        console.log(json.status);
-        if (json.status == "exito") {
-          $('#ocultarUUID').hide(0);
-        }
         $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);
+        if (json.status == "error") {
+          $('#btn-timbrar').attr("disabled", false);
+          setTimeout(function(){ 
+            $("#resultado").html("").delay(0).show(0);
+          },1000);
+        }else{
+          $('#btn-timbrar').attr("disabled", true);
+          $('#ocultarUUID').hide(0);
+          $('#btn-adduuid').attr("disabled", true);
+          $('#btn-limpiar').attr("disabled", true);
+          $('#btn-articulo').attr("disabled", true);
+          $('#btn-actualizar').attr("disabled", true);
+          $('#btn-eliminar').attr("disabled", true);
+          $('#btn-delete').attr("disabled", true);
+          $('#activos').attr("disabled",true)
+        }
       }
     })
   });

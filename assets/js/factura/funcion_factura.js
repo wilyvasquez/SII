@@ -35,6 +35,17 @@ $(document).on("click", ".open-Modal", function () {
   $(".modal-body #venta").val( venta );
 });
 
+/*
+funcion para activar timbrado
+ */
+$( "#activos" ).click(function() {
+  var activo = document.getElementById('activos').checked;
+  if (activo = "false") {
+    $('#btn-timbrar').attr("disabled", false);
+  }
+  console.log(activo);
+});
+
 /**
  * Funcion que valida el timbrado para generar la factura 
  */
@@ -42,9 +53,6 @@ $(function(){
   $("#timbrar").on("submit", function(e){
     console.log("TIMBRAR FACTURA");
     e.preventDefault();
-    // var ids        = document.getElementById('ids').value;
-    // var id_cliente = document.getElementById('id_cliente').value;
-    // var activo     = document.getElementById('activos').checked;
     var par = 
     {
       "ids"  : document.getElementById('ids').value,
@@ -56,21 +64,30 @@ $(function(){
       type: "post",
       dataType: "html",
       data: par,
-      beforeSend: function(){
-        $("#resultado").html("Generando factura, espere por favor");
-        $('#btn-limpiar').attr("disabled", true);
-        $('#btn-articulo').attr("disabled", true);
-        $('#btn-actualizar').attr("disabled", true);
-        $('#btn-eliminar').attr("disabled", true);
-        $('#btn-delete').attr("disabled", true);
-        $('#btn-adduuid').attr("disabled", true);
+      beforeSend: function() {
+        $("#btn-timbrar").attr("disabled", true);                                         
+        $("#resultado").html("Generando factura, espere por favor");    
       },
-      success: function(response) {
-        $('#btn-timbrar').attr("disabled", true);
-        $('#ocultarUUID').hide(0);
+      success: function(response) {        
         var json = $.parseJSON(response);
         $("#resultado").html(json.btn);
         $("#tbl-articulo").html(json.msg);
+        if (json.status == "error") {
+          $('#btn-timbrar').attr("disabled", false);
+          setTimeout(function(){ 
+            $("#resultado").html("").delay(0).show(0);
+          },1000);
+        }else{
+          $('#btn-timbrar').attr("disabled", true);
+          $('#ocultarUUID').hide(0);
+          $('#btn-adduuid').attr("disabled", true);
+          $('#btn-limpiar').attr("disabled", true);
+          $('#btn-articulo').attr("disabled", true);
+          $('#btn-actualizar').attr("disabled", true);
+          $('#btn-eliminar').attr("disabled", true);
+          $('#btn-delete').attr("disabled", true);
+          $('#activos').attr("disabled",true)
+        }
       }
     })
   });
@@ -110,8 +127,6 @@ function valorUnitario()
  */
 function importe()
 {
-  // var cantidad = document.getElementById('cantidad').value;
-  // var costo    = document.getElementById('costo').value;
   console.log("IMPORTE");
   var par = 
   {
@@ -178,7 +193,6 @@ $(function(){
   $("#deletearticulo").on("submit", function(e){
     console.log("ELIMINAR ARTICULO");
     e.preventDefault();
-    // var f = $(this);
     var formData = new FormData(document.getElementById("deletearticulo"));
     par =
     {
@@ -210,7 +224,6 @@ $(function(){
   $("#editarArticulo").on("submit", function(e){
     console.log("EDITAR ARTICULO");
     e.preventDefault();
-    // var f = $(this);
     var formData = new FormData(document.getElementById("editarArticulo"));
     par =
     {

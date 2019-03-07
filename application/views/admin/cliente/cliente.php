@@ -5,8 +5,6 @@
       <div class="box-header with-border">
         <h3 class="box-title">Subir Cliente</h3>
       </div>
-      <!-- /.box-header -->
-      <!-- form start -->
       <form role="form" id="addcliente">
         <div class="box-body">
           <div class="form-group">
@@ -43,7 +41,6 @@
           <input type="hidden" class="form-control" name="ref" value="1">
           <div id="ntf-cliente"></div>
         </div>
-        <!-- /.box-body -->
         <div class="box-footer">
           <button type="submit" class="btn btn-primary pull-right">Guardar</button>
         </div>
@@ -54,11 +51,9 @@
     <div class="box box-primary">
       <div class="box-header">
       </div>
-      <!-- /.box-header -->
       <div class="box-body" id="ajax-cliente">
-          <?= $tabla ?>
+        <?= $tabla ?>
       </div>
-      <!-- /.box-body -->
     </div>
   </div>
 </div>

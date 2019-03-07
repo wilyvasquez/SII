@@ -66,7 +66,7 @@ class Funciones {
             );
         }else{ 
             $result = array(
-				'btn'    => '<div class="alert alert-danger" role="alert">'.$msg.'</div>',
+				'btn'    => '<div style="background: #F04E49;color: white; padding: 5px;border-radius: 5px;">'.$msg.'</div>',
 				'status' => 'error'
             );
         }

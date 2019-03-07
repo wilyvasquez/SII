@@ -1,9 +1,9 @@
-<table class="table table-hover">
+<table id="example4" class="table table-striped table-hover">
   <tr style="background: #4C9DBD">
     <th>#</th>
     <th>UUID</th>
-    <th>Relacion</th>
-    <th>Acciones</th>
+    <th>RELACION</th>
+    <th>ACCIONES</th>
   </tr>
   <?php if (!empty($tuuid)) {
     $i= 1;
@@ -15,17 +15,6 @@
     <td>
       <button type="button" data-toggle="modal" class="btn btn-danger open-uuid btn-xs" data-target=".deleteuuid" data-uuid="<?= $articulo->id_relacion ?>">Eliminar</button>
     </td>
-    <!-- <td>
-      <div class="dropdown">
-        <button class="btn btn-warning btn-xs dropdown-toggle" type="button" id="btn-accion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          Accion
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right" aria-labelledby="btn-accion">
-          <li><a href="#" data-toggle="modal" class="open-uuid" data-target=".deleteuuid" data-uuid="<?= $articulo->id_relacion ?>">Eliminar</a></li>
-        </ul>
-      </div>
-    </td> -->
   </tr>
   <?php $i++; } } ?>
 </table>

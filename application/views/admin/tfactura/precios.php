@@ -6,9 +6,9 @@
         <p><strong>IVA (16 %):</strong> $ <?= number_format($precios[1],2) ?></p>
         <p><strong>Descuento:</strong> $ <?= number_format($precios[2],2) ?></p>
         <p><strong>TOTAL:</strong> $ <?= number_format($precios[3],2) ?></p>
+        <div id="resultado"></div>
       </div>
-      <!-- /.box-body -->
-      <div class="box-footer" id="resultado">
+      <div class="box-footer">
         <label class="switch">
           <input type="checkbox" class="success" id="activos" name="activos">
           <span class="slider round"></span>

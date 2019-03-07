@@ -1,7 +1,5 @@
 <div class="row">
   <div class="col-md-3">
-
-    <!-- Profile Image -->
     <div class="box box-primary">
       <div class="box-body box-profile">
         <img class="profile-user-img img-responsive img-circle" src="<?= base_url() ?>assets/img/default-50x50.gif" alt="User profile picture">
@@ -21,14 +19,8 @@
             <b>RFC</b> <a class="pull-right"><?= $icliente->rfc ?></a>
           </li>
         </ul>
-
-        <!-- <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a> -->
       </div>
-      <!-- /.box-body -->
     </div>
-    <!-- /.box -->
-
-    <!-- About Me Box -->
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Sobre Mi</h3>

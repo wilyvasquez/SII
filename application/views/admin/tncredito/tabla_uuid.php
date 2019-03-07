@@ -3,18 +3,18 @@
     <h3 class="box-title">Facturas Vinculadas  <strong>(UUID)</strong></h3>    
   </div>
   <div class="box-body table-responsive no-padding" id="tbl-uuid">
-    <table class="table table-hover">
+    <table id="example4" class="table table-striped table-hover">
       <thead>
         <tr style="background: #4C9DBD">
           <th>#</th>
           <th>UUID</th>
-          <th>Relacion</th>
-          <th>Acciones</th>
+          <th>RELACION</th>
+          <th>ACCIONES</th>
         </tr>
       </thead>
       <tbody>
       <?php if (!empty($tuuid)) {
-      	$i = 1;
+      $i = 1;
       foreach ($tuuid ->result() as $articulo) { ?>
       <tr>
         <td><?= $i ?></td>

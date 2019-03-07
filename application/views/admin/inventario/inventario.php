@@ -5,8 +5,6 @@
       <div class="box-header with-border">
         <h3 class="box-title">Subir Articulo</h3>
       </div>
-      <!-- /.box-header -->
-      <!-- form start -->
       <form role="form" id="addinventario">
         <div class="box-body">
           <div class="form-group">
@@ -90,11 +88,8 @@
             <input type="file" id="imagen" class="form-control">
             <p class="help-block">Formato jpg, png, maximo 514 kb.</p>
           </div>
-          <div id="ntf-cliente">
-            
-          </div>
+          <div id="ntf-cliente"></div>
         </div>
-        <!-- /.box-body -->
         <div class="box-footer">
           <button type="submit" class="btn btn-primary">Guardar</button>
         </div>

@@ -173,7 +173,7 @@ class CtrFactura extends CI_Controller {
 		$data["nombre"]      = $data['icliente']->cliente;
 		$data["idCliente"]   = $data['icliente']->id_cliente;
 		$data["precios"]     = $this->funciones->precios($id);
-
+		$data["opciones"]    = $this->load->view('admin/tfactura/menu_opciones',$data,true);
 		$data = array(
 			'timbrado'    => "active",
 			'factura'     => "active",
