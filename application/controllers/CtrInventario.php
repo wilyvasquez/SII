@@ -8,24 +8,26 @@ class CtrInventario extends CI_Controller {
         parent::__construct();
         $this->load->library('Funciones');
         $this->load->library('Not_found');
-        $this->load->model('Modelo_cliente');
-        $this->load->model('Modelo_sucursal');
+        $this->load->library('Permisos');
+        
         $this->load->model('Modelo_articulos');
         $this->load->model('Modelo_inventario');
-        $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
+        $this->permisos->redireccion();
+
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
 
     public function inventario()
     {
+        $pmenu = $this->permisos->menu();
         $data = array(
             "inventario" => "active",
             "title"      => "Articulos",
             "subtitle"   => "Alta de inventario",
             "contenido"  => "admin/inventario/inventario",
-            "menu"       => "admin/menu_admin",
+            "menu"       => $pmenu,
             "modal_f"    => $this->load->view('admin/inventario/modal/modal-fabricante',null,true), # AGREGAR NUEVO FABRICANTE
             "modal_l"    => $this->load->view('admin/inventario/modal/modal-linea',null,true), # AGREGAR NUEVA LINEA
             "modal_m"    => $this->load->view('admin/inventario/modal/modal-marca',null,true), # AGREGAR NUNEVA MARCA
@@ -56,6 +58,7 @@ class CtrInventario extends CI_Controller {
                     'codigo_sat'       => $this->input->post("clave"),
                     'descripcion'      => $this->input->post("descripcion"),
                     'costo'            => $this->input->post("costo"),
+                    'tipo'             => $this->input->post("tipo"),
                     'unidad'           => $clave->clave,
                     'clave_sat'        => $clave->c_ClaveUnidad,
                     'codigo_interno'   => $this->input->post("codigoi"),

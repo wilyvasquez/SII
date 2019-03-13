@@ -7,6 +7,7 @@ class Funciones {
         $CI =& get_instance();
         $CI->load->model('Modelo_articulos');
         $CI->load->model('Modelo_timbrado');
+        $CI->load->library('session');
         $CI->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
@@ -60,8 +61,13 @@ class Funciones {
 		if($peticion)
         {
             $result = array(
-                'msg'   => "<center><img src='".base_url()."assets/img/correcto.jpg' width='400px'></center>",
-                'btn'   => "<a href='".base_url()."descarga/".$uuid.".pdf' target='_blank'>Descargar Factura</a>",
+                'msg'   => "<div style='height: 360px'>
+                              <center style='margin-top: 50px'>
+                                <img src='".base_url()."assets/img/descarga.png' width='400px'><br><br><br>
+                                <a href='".base_url()."descarga/".$uuid.".pdf' target='_blank'><u>Descargar Factura</u></a>
+                              </center>
+                            </div>",
+                'btn'   => '<div style="background: #2AA755;color: white; padding: 5px;border-radius: 5px;">'.$msg.'</div>',
                 'status'=> "exito"
             );
         }else{ 
@@ -186,6 +192,19 @@ class Funciones {
             }
         }
         return $totalResultado = $totalFactura - $total;
+    }
+
+
+    function permisos()
+    {
+        $CI =& get_instance();
+        if($CI->session->userdata('permiso') == "admin"){
+            $permiso = "";
+        }else{
+            $permiso = "onfocus = 'this.blur()' ";
+        }
+
+        return $permiso;
     }
 
 }

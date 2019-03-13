@@ -39,6 +39,15 @@
                 <option value="<?= $claves->id_clave ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
               <?php } } ?>
             </select>
+          </div>
+          <div class="form-group">
+            <label>Tipo</label>
+            <select class="form-control select2" style="width: 100%;" name="tipo" data-placeholder="Selecciona" required>
+                <option value="Refacciones">Refacciones</option>
+                <option value="Motocicletas">Motocicletas</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Taller">Taller</option>
+            </select>
           </div>  
           <div class="form-group">
             <label>Marca</label>
@@ -105,12 +114,12 @@
           <thead>
             <tr style="background: #4C9DBD; color: white">
               <th>#</th>
-              <th>Articulo</th>
-              <th>Codigo</th>
-              <th>Cantidad</th>
-              <th>Costo</th>
-              <th>Clave SAT</th>
-              <th>Accion</th>
+              <th>ARTICULO</th>
+              <th>CODIGO</th>
+              <th>CANTIDAD</th>
+              <th>COSTO</th>
+              <th>CLAVE SAT</th>
+              <th>ACCION</th>
             </tr>
           </thead>
           <tbody></tbody>

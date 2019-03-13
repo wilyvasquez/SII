@@ -1,11 +1,11 @@
 <table id="example2" class="table table-bordered table-striped">
   <thead>
-  <tr>
-    <th>Folio Inicial</th>
-    <th>Serie</th>
-    <th>Comprobante</th>
-    <th>Folio Siguiente</th>
-    <th>Acciones</th>
+  <tr style="background: #4C9DBD; color: white">
+    <th>FOLIO INICIAL</th>
+    <th>SERIE</th>
+    <th>COMPROBANTE</th>
+    <th>FOLIO SIGUIENTE</th>
+    <th>ACCION</th>
   </tr>
   </thead>
   <tbody>

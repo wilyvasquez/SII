@@ -8,12 +8,13 @@ class CtrUniversal extends CI_Controller {
         parent::__construct();
         $this->load->library('Funciones');
         $this->load->library('Not_found');
+        $this->load->library('Permisos');
+        
         $this->load->model('Modelo_cliente');
-        $this->load->model('Modelo_sucursal');
         $this->load->model('Modelo_articulos');
-        $this->load->model('Modelo_inventario');
         $this->load->model('Modelo_timbrado');
-        $this->load->model('Modelo_sat');
+        $this->permisos->redireccion();
+
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
@@ -253,20 +254,32 @@ class CtrUniversal extends CI_Controller {
     }
 
     public function principal()
-    {
+    {        
+        $pmenu = $this->permisos->menu();
+        #CONSULTAS DASHBOARD
+        $facturas         = $this->Modelo_cliente->get_doctoTipo('I');
+        $ncredito         = $this->Modelo_cliente->get_doctoTipo('E');
+        $rpagos           = $this->Modelo_cliente->get_doctoTipo('P');
+        $total            = $this->Modelo_cliente->get_allFacturas();        
+
+        $datos["facturas"] = $facturas->num_rows();
+        $datos["ncredito"] = $ncredito->num_rows();
+        $datos["rpagos"]   = $rpagos->num_rows();
+        $datos["total"]    = $total->num_rows();
+
         $data = array(
             "home"          => "active",
             "title"         => "Dashboard",
             "subtitle"      => "Estadisticas",
             "contenido"     => "admin/home/home",
-            "menu"          => "admin/menu_admin",
-            // "archivosJS" => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
-            "info"          => $this->load->view('admin/home/informacion',null,true),
+            "menu"          => $pmenu,
+            "info"          => $this->load->view('admin/home/informacion',$datos,true),
             "grafica"       => $this->load->view('admin/home/grafica_estadisticas',null,true),
             "pastel"        => $this->load->view('admin/home/grafica_pastel',null,true),
             "tareas"        => $this->load->view('admin/home/tareas',null,true),
             "archivosJS"    => $this->load->view('admin/home/archivos/archivosJS',null,true),
         );
+
         $this->load->view('universal/plantilla',$data);
     }
 
@@ -306,5 +319,34 @@ class CtrUniversal extends CI_Controller {
             }
         } 
 
+    }
+
+    public function get_allTimbrado()
+    {
+        $pmenu = $this->permisos->menu();
+        $datos["docto"] = $this->Modelo_cliente->get_allFacturas();
+        $data = array(
+            "doctos"      => "active",
+            "title"       => "NC, RP, Facturas",
+            "subtitle"    => "Timbrado",
+            "contenido"   => "admin/timbrado/timbrado",
+            "menu"        => $pmenu,
+            "tabla"       => $this->load->view('admin/timbrado/tabla_timbrado',$datos,true)
+        );
+        $this->load->view('universal/plantilla',$data);
+    }
+
+    public function datos_factura()
+    {   
+        $pmenu = $this->permisos->menu();
+        $data = array(
+            "doctos"      => "active",
+            "title"       => "NC, RP, Facturas",
+            "subtitle"    => "Timbrado",
+            "contenido"   => "admin/timbrado/datos_factura",
+            "menu"        => $pmenu,
+            "datos"       => $this->load->view('admin/timbrado/datos_factura',null,true)
+        );
+        $this->load->view('universal/plantilla',$data);
     }
 }

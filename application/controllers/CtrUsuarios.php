@@ -7,26 +7,27 @@ class CtrUsuarios extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('Funciones');
-        $this->facturas = 'assets/pdf/facturas/';
-        $this->load->model('Modelo_cliente');
-        $this->load->model('Modelo_sucursal');
-        $this->load->model('Modelo_articulos');
-        $this->load->model('Modelo_inventario');
-        $this->load->model('Modelo_timbrado');
-        $this->load->model('Modelo_sat');
+        $this->load->library('Permisos');
+        $this->load->library('Not_found');
+
         $this->load->model('Modelo_usuarios');
+        $this->permisos->redireccion();
+        
+        $this->facturas = 'assets/pdf/facturas/';
+
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
 
     public function usuarios()
 	{
+        $pmenu = $this->permisos->menu();
         $data = array(
     		"user"      => "active",
     		"title"     => "Usuarios",
     		"subtitle"  => "Alta de usuarios",
     		"contenido" => "admin/usuarios/usuarios",
-    		"menu"      => "admin/menu_admin",
+    		"menu"      => $pmenu,
             "archivosJS"=> $this->load->view('admin/usuarios/archivos/archivoJS',null,true) # ARCHIVOS JS UTILIZADOS
         );
         $data["usuarios"] = $this->Modelo_usuarios->get_usuarios();

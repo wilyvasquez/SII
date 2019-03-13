@@ -8,25 +8,27 @@ class CtrRecibosPago extends CI_Controller {
         parent::__construct();
         $this->load->library('Funciones');
         $this->load->library('Not_found');
+        $this->load->library('Permisos');
+        
         $this->load->model('Modelo_cliente');
-        $this->load->model('Modelo_sucursal');
-        $this->load->model('Modelo_articulos');
-        $this->load->model('Modelo_inventario');
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
+        $this->permisos->redireccion();
+
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
 
     public function pre_pagos()
     {
+        $pmenu = $this->permisos->menu();
         $data = array(
             'timbrado'    => "active",
             'rpagos'      => "active",
             'title'       => "Recibo de pagos",
             'subtitle'    => "Crear Recibo pago",
             'contenido'   => "admin/rpagos/recibo_pagos",
-            'menu'        => "admin/menu_admin",            
+            'menu'        => $pmenu,            
             'mcliente'    => $this->load->view('admin/factura/modal/modal-cliente',null,true), # MODAL REGISTRAR CLIENTE NUEVO CLIENTE
             'clientes'    => $this->Modelo_cliente->get_clientes(), # OBTENER TODOS LOS CLIENTES
             'fpagos'      => $this->Modelo_sat->get_formaPagos(),   # OBTENER FORMAS DE PAGO
@@ -82,6 +84,7 @@ class CtrRecibosPago extends CI_Controller {
 
     public function recibo_pagos($id)
     {
+        $pmenu = $this->permisos->menu();
         $this->funciones->validacion_timbrado($id,$tipo = "prepagos");
         $data["id"]         = $id;
         $data['icliente']   = $this->Modelo_cliente->datos_cliente($id);
@@ -97,7 +100,7 @@ class CtrRecibosPago extends CI_Controller {
             'title'      => "Recibo de pagos",
             'subtitle'   => "Timbrar Recibo pago",
             'contenido'  => "admin/trpagos/trpagos",
-            'menu'       => "admin/menu_admin",
+            'menu'       => $pmenu,
             'articulo'   => $this->load->view('admin/trpagos/agregar_docto',$data,true),
             'tarticulos' => $this->load->view('admin/tfactura/tabla-articulos',$data,true),
             'tdoctos'    => $this->load->view('admin/trpagos/tabla_doctos',$data,true),

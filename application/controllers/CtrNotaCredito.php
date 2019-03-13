@@ -8,38 +8,42 @@ class CtrNotaCredito extends CI_Controller {
         parent::__construct();
         $this->load->library('Funciones');
         $this->load->library('Not_found');
-        $this->facturas = 'assets/pdf/facturas/';
+        $this->load->library('Permisos');
+        
         $this->load->model('Modelo_cliente');
-        $this->load->model('Modelo_sucursal');
         $this->load->model('Modelo_articulos');
-        $this->load->model('Modelo_inventario');
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
+        $this->permisos->redireccion();
+
+        $this->facturas = 'assets/pdf/facturas/';
+        
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
 
     public function pre_factura()
     {
+        $pmenu = $this->permisos->menu();
         $data = array(
             'timbrado'    => "active",
             'ncredito'    => "active",
             'title'       => "Nota Credito",
             'subtitle'    => "Crear Nota Credito",
             'contenido'   => "admin/ncredito/nota_credito",
-            'menu'        => "admin/menu_admin",
+            'menu'        => $pmenu,
             'clientes'    => $this->Modelo_cliente->get_clientes(), # OBTENER TODOS LOS CLIENTES
             'fpagos'      => $this->Modelo_sat->get_formaPagos(),   # OBTENER FORMAS DE PAGO
             'mpagos'      => $this->Modelo_sat->get_metodoPagos(),  # OBTENER METODOS DE PAGO
             'ucfdis'      => $this->Modelo_sat->get_usoCfdi()       # OBTENER USO DEL CFDI
         );
         # VISTAS PARA OBTENER LOS DATOS DEL CLIENTE
-        $data["info"]        = $this->load->view('admin/factura/info-cliente',$data,true); 
+        $data["info"]       = $this->load->view('admin/factura/info-cliente',$data,true); 
         # MODAL REGISTRAR CLIENTE NUEVO CLIENTE
-        $data["mcliente"]    = $this->load->view('admin/factura/modal/modal-cliente',null,true);
-        $data["dcliente"] = $this->load->view('admin/factura/datos_cliente',$data,true);
+        $data["mcliente"]   = $this->load->view('admin/factura/modal/modal-cliente',null,true);
+        $data["dcliente"]   = $this->load->view('admin/factura/datos_cliente',$data,true);
         # ARCHIVOS JS
-        $data["archivosJS"]  = $this->load->view('admin/ncredito/archivos/archivosJS',null,true);
+        $data["archivosJS"] = $this->load->view('admin/ncredito/archivos/archivosJS',null,true);
         $this->load->view('universal/plantilla',$data);
     }
 
@@ -86,6 +90,7 @@ class CtrNotaCredito extends CI_Controller {
 
     public function nota_credito($id)
     {
+        $pmenu = $this->permisos->menu();
         $this->funciones->validacion_timbrado($id,$tipo = "prencredito");   
         # CONSULTA OBTENER ARTICULOS A FACTURAR
         $data['articulos']   = $this->Modelo_articulos->get_articulos();
@@ -105,13 +110,15 @@ class CtrNotaCredito extends CI_Controller {
         $data["idCliente"]   = $data['icliente']->id_cliente;
         $data["precios"]     = $this->funciones->precios($id);
         $data["opciones"]    = $this->load->view('admin/tfactura/menu_opciones',$data,true);
+        $data["permiso"]     = $this->funciones->permisos();
+        
         $data = array(
             'timbrado'    => "active",
             'ncredito'    => "active",
             'title'       => "Nota Credito",
             'subtitle'    => "Timbrar Nota Credito",
             'contenido'   => "admin/tncredito/tncredito",
-            'menu'        => "admin/menu_admin",
+            'menu'        => $pmenu,
             'articulo'    => $this->load->view('admin/tfactura/agregar-articulo',$data,true), # VISTA DE AGREGAR ARTICULO
             'tarticulos'  => $this->load->view('admin/tfactura/tabla-articulos',$data,true),  # VISTA TABLA ARTICULOS
             'tuuid'       => $this->load->view('admin/tncredito/tabla_uuid',$data,true),      # VISTA DE TABLA UUID

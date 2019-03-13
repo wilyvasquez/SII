@@ -77,7 +77,7 @@
   </li>
   <li class="header">OTROS</li>
   <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
-    <a href="#">
+    <a href="<?= base_url() ?>timbrado">
       <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
     </a>
   </li>

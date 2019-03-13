@@ -24,7 +24,7 @@
               <div class="input-group-addon">
                 <i class="fa fa-dollar"></i>
               </div>
-              <input type="number" class="form-control" id="costo" name="costo" placeholder="0.00" min="1" required step="any">
+              <input type="number" class="form-control" id="costo" name="costo" placeholder="0.00" min="1" required step="any" <?= $permiso ?> >
               <input type="hidden" id="ids" name="ids" value="<?= $id ?>" required>
               <input type="hidden" id="id_cliente" name="id_cliente" value="<?= $icliente->id_cliente ?>" required>
             </div>

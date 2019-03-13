@@ -105,8 +105,27 @@ class Modelo_cliente extends CI_Model
 
 	function get_facturas()
 	{
-		// $query = $this->db->get('factura');
 		$query = $this->db->get_where('factura', array('tipo_comprobante' => 'I'));
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_doctoTipo($tipo)
+	{
+		$query = $this->db->get_where('factura', array('tipo_comprobante' => $tipo));
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_allFacturas()
+	{
+		$query = $this->db->get('factura');
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 

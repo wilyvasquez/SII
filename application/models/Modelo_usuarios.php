@@ -38,4 +38,18 @@ class Modelo_usuarios extends CI_Model
             return false;
         }
 	}
+
+	function login_user($usuario,$password)
+	{
+		$this->db->select('*');
+		$this->db->from('usuarios');
+		$this->db->where('usuario', $usuario);
+		$this->db->where('contrasena', $password);
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
 }

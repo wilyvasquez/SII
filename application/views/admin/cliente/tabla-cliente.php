@@ -2,11 +2,11 @@
   <thead>
   <tr style="background: #4C9DBD;color: white">
     <th>#</th>
-    <th>Cliente</th>
+    <th>CLIENTE</th>
     <th>RFC</th>
-    <th>Telefono</th>
-    <th>Correo</th>
-    <th>Acciones</th>
+    <th>TELEFONO</th>
+    <th>CORREO</th>
+    <th>ACCION</th>
   </tr>
   </thead>
   <tbody></tbody>

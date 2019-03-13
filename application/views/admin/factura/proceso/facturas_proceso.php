@@ -11,12 +11,12 @@
           <thead>
           <tr style="background: #4C9DBD;color: white">
             <th>#</th>
-            <th>Codigo PreVenta</th>
-            <th>Cliente</th>
-            <th>Fecha</th>
+            <th>CODIGO PREVENTA</th>
+            <th>CLIENTE</th>
+            <th>FECHA</th>
             <th>RFC</th>
-            <th>Telefono</th>
-            <th>Accion</th>
+            <th>TELEFONO</th>
+            <th>ACCION</th>
           </tr>
           </thead>
           <tbody>

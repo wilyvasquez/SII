@@ -8,24 +8,24 @@ class CtrSucursal extends CI_Controller {
         parent::__construct();
         $this->load->library('Funciones');
         $this->load->library('Not_found');
-        $this->load->model('Modelo_cliente');
+        $this->load->library('Permisos');
+        
         $this->load->model('Modelo_sucursal');
-        $this->load->model('Modelo_articulos');
-        $this->load->model('Modelo_inventario');
-        $this->load->model('Modelo_timbrado');
-        $this->load->model('Modelo_sat');
+        $this->permisos->redireccion();
+        
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
 
     public function sucursal()
     {
+        $pmenu = $this->permisos->menu();
         $data = array(
             "sucursal"   => "active",
             "title"      => "Sucursal",
             "subtitle"   => "Alta de sucursal",
             "contenido"  => "admin/sucursal/sucursal",
-            "menu"       => "admin/menu_admin",
+            "menu"       => $pmenu,
             "modal_s"    => $this->load->view('admin/sucursal/modal/modal-sucursal',null,true), # AGREGAR NUNEVA MARCA
             "sucursales" => $this->Modelo_sucursal->get_sucursal(),
             "archivosJS" => $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS

@@ -63,12 +63,12 @@
         <table id="example2" class="table table-bordered table-striped">
           <thead>
           <tr style="background: #4C9DBD;color: white">
-            <th>Razon Social</th>
+            <th>RAZON SOCIAL</th>
             <th>RFC</th>
-            <th>Correo</th>
-            <th>Telefono</th>
-            <th>Estatus</th>
-            <th>Accion</th>
+            <th>CORREO</th>
+            <th>TELEFONO</th>
+            <th>ESTATUS</th>
+            <th>ACCION</th>
           </tr>
           </thead>
           <tbody>
@@ -88,7 +88,6 @@
           </tbody>
         </table>
       </div>
-      <!-- /.box-body -->
     </div>
   </div>
 </div> 

@@ -42,9 +42,17 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <div>
-      <center><img src="<?= base_url()?>assets/img/code.png" class="img-responsive" width="90"></center>
+      <center><img src="<?= base_url()?>assets/img/code.png" class="img-responsive" width="90" height="30"></center>
+      <div class="row">
+        <p class="login-box-msg" style="padding: 1px">
+          <?php if($this->session->flashdata('usuario_incorrecto')) { ?>
+          <?=$this->session->flashdata('usuario_incorrecto')?>
+          <?php } ?>
+        </p>
+      </div>
     </div><br>
-    <form action="home" method="post">
+    <form action="<?= base_url() ?>session" method="post">
+      <!-- <?php echo form_open('session'); ?> -->
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="Usuario" id="username" name="username" pattern="[A-Za-z0-9._]{1,20}" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>

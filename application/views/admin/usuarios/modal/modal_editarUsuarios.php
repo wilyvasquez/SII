@@ -26,7 +26,7 @@
                 <input type="text" class="form-control" id="mcorreo" name="mcorreo">
               </div>
               <div class="form-group col-md-6">
-                <label for="mdireccion" style="font-weight: normal;">Permisos</label>
+                <label for="mdireccion" style="font-weight: normal;">Direccion</label>
                 <input type="text" class="form-control" id="mdireccion" name="mdireccion">
               </div>
             </div>

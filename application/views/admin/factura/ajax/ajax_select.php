@@ -1,4 +1,4 @@
-<select class="form-control select2 input-sm" style="width: 100%;" id="cliente" name="cliente" data-placeholder="Selecciona" required>
+<select class="form-control select2 input-sm" style="width: 100%;" id="cliente" onchange="datosCliente()" name="cliente" data-placeholder="Selecciona" required>
 	<option value="">Selecciona</option>
 	<?php if (!empty($clientes)) {
 	foreach ($clientes ->result() as $cliente) { ?>

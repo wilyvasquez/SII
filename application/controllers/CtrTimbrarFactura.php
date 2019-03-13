@@ -8,13 +8,14 @@ class CtrTimbrarFactura extends CI_Controller {
         parent::__construct();
         $this->load->library('Facturapi');
         $this->load->library('Funciones');
-        $this->facturas = 'assets/pdf/facturas/';
+        $this->load->library('Permisos');
+        
         $this->load->model('Modelo_cliente');
-        $this->load->model('Modelo_sucursal');
-        $this->load->model('Modelo_articulos');
-        $this->load->model('Modelo_inventario');
         $this->load->model('Modelo_timbrado');
-        $this->load->model('Modelo_sat');
+        $this->permisos->redireccion();
+
+        $this->facturas = 'assets/pdf/facturas/';
+        
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
     }
@@ -184,7 +185,8 @@ class CtrTimbrarFactura extends CI_Controller {
 
             if (!empty($uuid)) 
             {
-                echo json_encode($this->funciones->resultado_timbrado($peticion = true, $uuid, $msg = ""));
+                $msg = "Exito, Factura generada con exito.";
+                echo json_encode($this->funciones->resultado_timbrado($peticion = true, $uuid, $msg));
                 $factura = $this->funciones->agregarArticulos($preventa,$uuid,$certificado,$certificado_sat,$fecha_timbrado,$url_PDF,$url_XML,$total,$tipo = "I",$serie,$folio);
 
                 # ACTUALIZAR EL FOLIO AL SIGUIENTE

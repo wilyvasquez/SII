@@ -77,3 +77,8 @@ $route['rpagos/(:num)']        = 'CtrRecibosPago/recibo_pagos/$1';
 
 $route['home']                 = 'CtrUniversal/principal';
 $route['login']                = 'CtrLogin/login';
+$route['timbrado']             = 'CtrUniversal/get_allTimbrado';
+$route['dfactura']             = 'CtrUniversal/datos_factura';
+
+$route['session']              = 'CtrLogin/verificar';
+$route['cerrar']               = 'CtrLogin/logout_ci';
