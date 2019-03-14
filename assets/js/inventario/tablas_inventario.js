@@ -1,4 +1,3 @@
-
 $(function () {
   $('#tblInventario').DataTable({
     'paging'      : true,

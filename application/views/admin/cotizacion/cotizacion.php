@@ -3,9 +3,11 @@
 	    <?= $tabla ?>
 	</div>
 	<div class="col-md-6">
-	    <div class="box box-primary">
-	      <div class="box-body">
-	      </div>
-	    </div>
+	    <?= $ctabla ?>
 	</div>
+</div>
+<div>
+	<?= $modal ?>
+	<?= $eliminar ?>
+	<?= $crear ?>
 </div>

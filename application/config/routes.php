@@ -82,6 +82,7 @@ $route['timbrado']             = 'CtrUniversal/get_allTimbrado';
 $route['dfactura/(:num)']      = 'CtrUniversal/datos_factura/$1';
 
 $route['cotizacion']      	   = 'CtrCotizacion';
+$route['dcotizacion']      	   = 'CtrReportes/reporte';
 
 $route['session']              = 'CtrLogin/verificar';
 $route['cerrar']               = 'CtrLogin/logout_ci';
