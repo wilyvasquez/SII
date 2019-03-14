@@ -54,6 +54,30 @@ $('#example3').DataTable({
   },
 })
 
+$('#example5').DataTable({
+  'paging'      : true,
+  'lengthChange': true,
+  'searching'   : true,
+  'ordering'    : false,
+  'info'        : true,
+  'autoWidth'   : false,
+  "scrollY"     : "360px",
+  "scrollCollapse": true,
+  "language": {
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sInfo":           "Mostrando _START_ al _END_ de un total de _TOTAL_ registros",
+      "zeroRecords": "No se encontraron datos",
+      "infoEmpty": "No se encontraron datos",
+      "search": "Buscar",
+    "paginate": {
+      "first":      "Primero",
+      "last":       "Ultimo",
+      "next":       "Siguiente",
+      "previous":   "Anterior"
+    }
+  },
+})
+
 $('.select2').select2()
 
 $('[data-mask]').inputmask()

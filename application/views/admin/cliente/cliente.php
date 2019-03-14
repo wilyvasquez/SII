@@ -39,7 +39,7 @@
             <input type="text" class="form-control" name="direccion" placeholder="Direccion" required>
           </div>
           <input type="hidden" class="form-control" name="ref" value="1">
-          <div id="ntf-cliente"></div>
+          <div id="add-cliente"></div>
         </div>
         <div class="box-footer">
           <button type="submit" class="btn btn-primary pull-right">Guardar</button>

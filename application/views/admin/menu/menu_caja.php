@@ -31,6 +31,11 @@
       <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
     </a>
   </li>
+  <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
+    <a href="<?= base_url() ?>timbrado">
+      <i class="fa fa-pencil-square-o"></i> <span>Cortes</span>
+    </a>
+  </li>
   <li class="<?php if(!empty($config)){ echo $config; } ?>">
     <a href="#">
       <i class="fa fa-gears"></i> <span>Configuraciones</span>

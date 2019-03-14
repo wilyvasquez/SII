@@ -5,9 +5,7 @@
 $(function(){
   $("#addcliente").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
     var formData = new FormData(document.getElementById("addcliente"));
-    formData.append("dato", "valor");
     $.ajax({
         url: "CtrClientes/agregar_cliente",
         type: "post",
@@ -20,22 +18,20 @@ $(function(){
       .done(function(res){
         var json = $.parseJSON(res);
         $("#add-cliente").html(json.msg).delay(2000).hide(0);
-        $.ajax({
-          url: "CtrClientes/"+json.url,
-          type: "post",
-          dataType: "html",
-          data: null,
-        })
-        .done(function(response){
-          $("#ajax-cliente").html(response);
-        });
+        if (json.url) {
+          $.ajax({
+            url: "CtrClientes/"+json.url,
+            type: "post",
+            dataType: "html",
+            data: null,
+          })
+          .done(function(response){
+            $("#ajax-cliente").html(response);
+          });          
+        }
       });
   });
 });
-
-/**
- * 
- */
 
 /**
  * Funcion que agrega un nuevo cliente en el apartado de cliente

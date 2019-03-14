@@ -35,11 +35,19 @@
       <i class="fa fa-user-plus"></i> <span>Usuarios y Roles</span>
     </a>
   </li>
-  <li class="<?php if(!empty($inventario)){ echo $inventario; } ?>">
-    <a href="<?= base_url() ?>inventario">
+  <li class="treeview <?php if(!empty($rinventario)){ echo $rinventario; } ?>">
+    <a href="#">
       <i class="fa fa-archive"></i> <span>Inventario</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
     </a>
+    <ul class="treeview-menu">
+      <li class="<?php if(!empty($inventario)){ echo $inventario; } ?>"><a href="<?= base_url() ?>inventario"><i class="fa fa-circle-o"></i> Alta Inventario</a></li>
+      <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>hinventario"><i class="fa fa-circle-o"></i> Inventario</a></li>
+    </ul>
   </li>
+
   <li class="<?php if(!empty($sucursal)){ echo $sucursal; } ?>">
     <a href="<?= base_url() ?>sucursal">
       <i class="fa fa-building-o"></i> <span>Sucursales</span>
@@ -79,6 +87,11 @@
   <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
     <a href="<?= base_url() ?>timbrado">
       <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
+    </a>
+  </li>
+  <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
+    <a href="<?= base_url() ?>timbrado">
+      <i class="fa fa-pencil-square-o"></i> <span>Cortes</span>
     </a>
   </li>
   <li class="<?php if(!empty($config)){ echo $config; } ?>">

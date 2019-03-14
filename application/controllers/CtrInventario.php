@@ -23,6 +23,7 @@ class CtrInventario extends CI_Controller {
     {
         $pmenu = $this->permisos->menu();
         $data = array(
+            "rinventario" => "active",
             "inventario" => "active",
             "title"      => "Articulos",
             "subtitle"   => "Alta de inventario",
@@ -37,7 +38,24 @@ class CtrInventario extends CI_Controller {
             "articulos"  => $this->Modelo_articulos->get_articulos(),
             "marcas"     => $this->Modelo_inventario->get_marca(),
             "lineas"     => $this->Modelo_inventario->get_linea(),
-            "fabricantes"=> $this->Modelo_inventario->get_fabricante()
+            "fabricantes"=> $this->Modelo_inventario->get_fabricante(),
+            "tabla"      => $this->load->view('admin/inventario/tabla_inventario',null,true),
+        );
+        $this->load->view('universal/plantilla',$data);
+    }
+
+    public function hinventario()
+    {
+        $pmenu = $this->permisos->menu();
+        $data = array(
+            "rinventario" => "active",
+            "historial"   => "active",
+            "title"       => "Articulos",
+            "subtitle"    => "Alta de inventario",
+            "contenido"   => "admin/inventario/tabla_inventario",
+            "menu"        => $pmenu,
+            "articulos"   => $this->Modelo_articulos->get_articulos(),
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
         );
         $this->load->view('universal/plantilla',$data);
     }

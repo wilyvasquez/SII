@@ -27,6 +27,9 @@ class CtrLogin extends CI_Controller {
 			case 'caja':
 				redirect(base_url().'home');
 				break;
+			case 'refacciones':
+				redirect(base_url().'home');
+				break;
 			default: 
 				$data['titulo'] = 'Error, usuario o contraseña incorrecta.';
 				$this->load->view('login',$data);

@@ -2,8 +2,8 @@
   <div class="box-header">
     <h3 class="box-title">Documentos Timbrado</h3>
   </div>
-  <div class="box-body no-padding table-responsive" id="tabla_relacion">
-    <table id="example3" class="table table-bordered table-hover">
+  <div class="box-body table-responsive" id="tabla_relacion" style="padding: 5px">
+    <table id="example5" class="table table-bordered table-hover">
       <thead>
         <tr style="background: #4C9DBD; color: white">
           <th>#</th>
@@ -27,7 +27,7 @@
           <td><?= $uuid->serie ?> <?= $uuid->folio ?></td>
           <td><?= $uuid->tipo_comprobante ?></td>
           <td>
-            <a href="<?= base_url() ?>dfactura" class="btn btn-primary btn-xs">Docto</a>
+            <a href="<?= base_url() ?>dfactura/<?= $uuid->id_factura ?>" class="btn btn-primary btn-xs">Docto</a>
           </td>
         </tr>
       <?php $i++; } } ?>

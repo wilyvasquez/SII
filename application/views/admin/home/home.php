@@ -1,13 +1,13 @@
 <section class="content">
 	<div class="row">
-		<div class="col-md-12">
+		<!-- <div class="col-md-12"> -->
 			<?= $info ?>
 			<?= $grafica ?>
-		</div>
-		<div class="col-md-4">
+		<!-- </div> -->
+		<div class="row">
 			<?= $pastel ?>
-		</div>
-		<div class="col-md-8">
+		<!-- </div> -->
+		<!-- <div class="col-md-8"> -->
 			<?= $tareas ?>
 		</div>
 	</div>

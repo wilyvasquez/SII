@@ -19,6 +19,9 @@ class Permisos {
         if ($permiso == "admin") {
         	$pmenu = "admin/menu_admin";
         }
+        else if ($permiso == "refacciones") {
+            $pmenu = "admin/menu/menu_refacc";
+        }
         
         return $pmenu;
     }
@@ -27,7 +30,7 @@ class Permisos {
     {
         $CI =& get_instance();
         $permiso = $CI->session->userdata('permiso');
-        if($permiso == FALSE || ( $permiso != "admin" && $permiso != 'caja') )
+        if($permiso == FALSE || ( $permiso != "admin" && $permiso != 'caja' && $permiso != 'refacciones') )
         {
             redirect(base_url().'login');
         }

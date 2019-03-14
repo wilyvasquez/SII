@@ -54,6 +54,7 @@ $route['404_override']         = 'CtrUniversal/not_found';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['inventario']           = 'CtrInventario/inventario';
+$route['hinventario']          = 'CtrInventario/hinventario';
 $route['sucursal']             = 'CtrSucursal/sucursal';
 $route['cliente']              = 'CtrClientes/cliente';
 $route['usuario']              = 'CtrUsuarios/usuarios';
@@ -78,7 +79,9 @@ $route['rpagos/(:num)']        = 'CtrRecibosPago/recibo_pagos/$1';
 $route['home']                 = 'CtrUniversal/principal';
 $route['login']                = 'CtrLogin/login';
 $route['timbrado']             = 'CtrUniversal/get_allTimbrado';
-$route['dfactura']             = 'CtrUniversal/datos_factura';
+$route['dfactura/(:num)']      = 'CtrUniversal/datos_factura/$1';
+
+$route['cotizacion']      	   = 'CtrCotizacion';
 
 $route['session']              = 'CtrLogin/verificar';
 $route['cerrar']               = 'CtrLogin/logout_ci';

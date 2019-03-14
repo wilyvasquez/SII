@@ -65,16 +65,17 @@ class CtrClientes extends CI_Controller {
 			{
 				$ref = $this->input->post("ref");
 				$datos = array(
-					"cliente"   => $this->input->post("cliente"),
-					"rfc"       => $this->input->post("rfc"),
-					"uso_cfdi"  => $this->input->post("ucfdi"),
-					"telefono"  => $this->input->post("telefono"),
-					"correo"    => $this->input->post("correo"),
-					"direccion" => $this->input->post("direccion")
+					"cliente"      => $this->input->post("cliente"),
+					"rfc"          => $this->input->post("rfc"),
+					"uso_cfdi"     => $this->input->post("ucfdi"),
+					"telefono"     => $this->input->post("telefono"),
+					"correo"       => $this->input->post("correo"),
+					"direccion"    => $this->input->post("direccion"),
+					"alta_cliente" => date("Y-m-d H:i:s")
 				);
 				if ($ref == 1) 
 				{
-					$url = 'ajax_tcliente';
+					$url = "";
 				}else{ 
 					$url = 'ajax_scliente'; 
 				}
@@ -119,16 +120,17 @@ class CtrClientes extends CI_Controller {
 		}
 	}
 
-	function ajax_tcliente()
-	{
-		if(!$this->input->is_ajax_request())
-		{
-			$this->not_found->not_found();
-		}else{
-			$data['clientes']  = $this->Modelo_cliente->get_clientes();
-			$this->load->view('admin/cliente/ajax/ajax-tcliente',$data);
-		}
-	}
+	# AJAX TABLA DE CLIENTES FUE DESHABILITADA AUN EN PRUEBA
+	// function ajax_tcliente()
+	// {
+	// 	if(!$this->input->is_ajax_request())
+	// 	{
+	// 		$this->not_found->not_found();
+	// 	}else{
+	// 		$data['clientes']  = $this->Modelo_cliente->get_clientes();
+	// 		$this->load->view('admin/cliente/ajax/ajax-tcliente',$data);
+	// 	}
+	// }
 
 	function ajax_scliente()
 	{

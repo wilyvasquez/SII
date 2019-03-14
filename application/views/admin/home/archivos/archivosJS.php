@@ -20,7 +20,7 @@ $(function () {
   var salesChart       = new Chart(salesChartCanvas);
 
   var salesChartData = {
-    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels  : ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
     datasets: [
       {
         label               : 'Electronics',
@@ -31,6 +31,16 @@ $(function () {
         pointHighlightFill  : '#fff',
         pointHighlightStroke: 'rgb(220,220,220)',
         data                : [65, 59, 80, 81, 56, 55, 40]
+      },
+      {
+        label               : 'Digital Goods',
+        fillColor           : 'rgba(60,141,188,0.9)',
+        strokeColor         : 'rgba(60,141,188,0.8)',
+        pointColor          : '#3b8bba',
+        pointStrokeColor    : 'rgba(60,141,188,1)',
+        pointHighlightFill  : '#fff',
+        pointHighlightStroke: 'rgba(60,141,188,1)',
+        data                : [28, 48, 40, 19, 86, 27, 90]
       },
       {
         label               : 'Digital Goods',
@@ -111,28 +121,10 @@ $(function () {
       label    : 'IE'
     },
     {
-      value    : 400,
+      value    : 200,
       color    : '#f39c12',
       highlight: '#f39c12',
       label    : 'FireFox'
-    },
-    {
-      value    : 600,
-      color    : '#00c0ef',
-      highlight: '#00c0ef',
-      label    : 'Safari'
-    },
-    {
-      value    : 300,
-      color    : '#3c8dbc',
-      highlight: '#3c8dbc',
-      label    : 'Opera'
-    },
-    {
-      value    : 100,
-      color    : '#d2d6de',
-      highlight: '#d2d6de',
-      label    : 'Navigator'
     }
   ];
   var pieOptions     = {

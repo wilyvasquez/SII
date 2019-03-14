@@ -30,6 +30,16 @@ class Modelo_articulos extends CI_Model
         }
 	}
 
+	function get_articuloFacturado($id)
+	{
+		$query = $this->db->get_where('articulo_facturado', array('ref_factura' => $id));
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
 	function get_articulo($id)
 	{
 		$this->db->select("*")->from("articulo_preventa");

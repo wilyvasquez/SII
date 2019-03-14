@@ -286,11 +286,12 @@ class CtrUniversal extends CI_Controller {
     # VISTA PREDETERMINADA NOT FOUND EN EL ARCHIVO ROUTES
     public function not_found()
     {
+        $pmenu = $this->permisos->menu();
         $data = array(
             "title"     => "404 Error Pagina",
             "subtitle"  => "Error",
             "contenido" => "universal/not_found",
-            "menu"      => "admin/menu_admin",
+            "menu"      => $pmenu,
             "archivosJS"=> $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
         );
         $this->load->view('universal/plantilla',$data);
@@ -323,7 +324,7 @@ class CtrUniversal extends CI_Controller {
 
     public function get_allTimbrado()
     {
-        $pmenu = $this->permisos->menu();
+        $pmenu          = $this->permisos->menu();
         $datos["docto"] = $this->Modelo_cliente->get_allFacturas();
         $data = array(
             "doctos"      => "active",
@@ -331,21 +332,26 @@ class CtrUniversal extends CI_Controller {
             "subtitle"    => "Timbrado",
             "contenido"   => "admin/timbrado/timbrado",
             "menu"        => $pmenu,
-            "tabla"       => $this->load->view('admin/timbrado/tabla_timbrado',$datos,true)
+            "tabla"       => $this->load->view('admin/timbrado/tabla_timbrado',$datos,true),
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
         );
         $this->load->view('universal/plantilla',$data);
     }
 
-    public function datos_factura()
+    public function datos_factura($id)
     {   
-        $pmenu = $this->permisos->menu();
+        $pmenu             = $this->permisos->menu();
+        $dato["dato"]      = $this->Modelo_timbrado->search_factura($id);
+        $id_cliente        = $dato["dato"]->ref_cliente;
+        $dato["clientes"]  = $this->Modelo_cliente->obtener_cliente($id_cliente);
+        $dato["articulos"] = $this->Modelo_articulos->get_articuloFacturado($id);   
         $data = array(
             "doctos"      => "active",
-            "title"       => "NC, RP, Facturas",
-            "subtitle"    => "Timbrado",
+            "title"       => "INFORMACION DE DOCTO",
+            "subtitle"    => "Archivo",
             "contenido"   => "admin/timbrado/datos_factura",
             "menu"        => $pmenu,
-            "datos"       => $this->load->view('admin/timbrado/datos_factura',null,true)
+            "datos"       => $this->load->view('admin/timbrado/datos_factura',$dato,true)
         );
         $this->load->view('universal/plantilla',$data);
     }
