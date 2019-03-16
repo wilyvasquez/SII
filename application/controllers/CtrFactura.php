@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CtrFactura extends CI_Controller {
 
-	function __construct(){
+	function __construct() {
 		parent::__construct();
 		$this->load->library('Funciones');
 		$this->load->library('Permisos');
@@ -170,7 +170,7 @@ class CtrFactura extends CI_Controller {
         $data['facturas']    = $this->Modelo_cliente->get_facturas();
         $data['trelacion']   = $this->Modelo_sat->get_tipoRelacion();
 
-        # CONSULTA PRA OBTENER LOS UUID VINCULADOS
+        # CONSULTA PARA OBTENER LOS UUID VINCULADOS
         $data['tuuid']       = $this->Modelo_timbrado->get_relacion($id);
 
         # CONSULTA PARA VER LAS COTIZACIONES PARA CAJA

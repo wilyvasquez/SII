@@ -130,11 +130,8 @@ $(function(){
     .done(function(res)
     {
     	$("#ntf-dcotizaciones").html(res);
-    	console.log(res);
-      // var json = $.parseJSON(res);
-      // $("#ntf-dcotizacion").html(json.msg).delay(2000).hide(0);
       // setTimeout(function(){ 
-      //   $("#ntf-dcotizacion").html("").delay(0).show(0);
+      //   $("#ntf-dcotizaciones").html("").delay(0).show(0);
       // },1000);
     });
   });

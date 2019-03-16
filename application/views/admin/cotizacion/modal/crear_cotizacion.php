@@ -11,11 +11,11 @@
           <div class="box-body">
           	<div class="form-group">
             	<label for="cliente" style="font-weight: normal;">Nombre Cliente</label>
-            	<input type="text" class="form-control" id="cliente" name="cliente">
+            	<input type="text" class="form-control" id="cliente" name="cliente" required>
           	</div>
           	<div class="form-group ">
             	<label for="telefono" style="font-weight: normal;">Telefono</label>
-            	<input type="text" class="form-control" id="telefono" name="telefono">
+            	<input type="text" class="form-control" id="telefono" name="telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
           	</div>
             <div id="ntf-dcotizaciones"></div>
           </div>

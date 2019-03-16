@@ -203,7 +203,9 @@ class CtrUniversal extends CI_Controller {
                 $costo     = $this->input->post("costo");
                 $cantidad  = $this->input->post("cantidad");
                 $descuento = $this->input->post("descuento");
-                $importe   = $costo * $cantidad;
+                $importe   = $costo * $cantidad; # MULTIPLICAMOS EL COSTO POR LA CANTIDAD PARA OBTENER EL IMPORTE
+
+                $descuento = $importe * ( $descuento / 100 ); # CONVERTIMOS EL PORCENTAJE EN PESOS
 
                 if ($descuento <= $importe) 
                 {
@@ -232,7 +234,7 @@ class CtrUniversal extends CI_Controller {
                     echo json_encode($this->funciones->resultado($peticion = false, $url, $msg,null));
                 }
             }else{
-                $msg = "Error, No se han actualizado los datossss";
+                $msg = "Error, No se han actualizado los datos";
                 echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg,null));
             }
         }

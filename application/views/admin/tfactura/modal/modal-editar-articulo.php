@@ -23,12 +23,12 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="descuento" style="font-weight: normal;">Descuento <strong>(Cantidad en pesos)</strong></label>                
+              <label for="descuento" style="font-weight: normal;">Descuento <strong>(Cantidad en porcentaje)</strong></label>                
               <div class="row">
                 <div class="col-md-12">
                   <div class="input-group">
                     <div class="input-group-addon">
-                      <i class="fa fa-dollar"></i>
+                      <i>%</i>
                     </div>                    
                       <input type="number" class="form-control" id="descuento" name="descuento" min="0" step="any" <?= $permiso ?> >
                   </div>

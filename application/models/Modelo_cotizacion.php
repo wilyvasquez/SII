@@ -38,15 +38,15 @@ class Modelo_cotizacion extends CI_Model
         }
 	}
 
-	function get_cotizacion($id)
-	{
-		$query = $this->db->get_where('cotizacion', array('ref_usuario' => $id));
-		if ($query->num_rows() > 0) {
-			return $query;
-		}else{ 
-			return false;
-		}
-	}
+	// function get_cotizacion($id)
+	// {
+	// 	$query = $this->db->get_where('cotizacion', array('ref_usuario' => $id,'ref_dcotizacion' => '0'));
+	// 	if ($query->num_rows() > 0) {
+	// 		return $query;
+	// 	}else{ 
+	// 		return false;
+	// 	}
+	// }
 
 	function get_numCotizacion()
 	{

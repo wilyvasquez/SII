@@ -38,7 +38,6 @@ class CtrCotizacion extends CI_Controller {
             "eliminar"    => $this->load->view('admin/cotizacion/modal/eliminar_acotizacion',null,true),
             "crear"       => $this->load->view('admin/cotizacion/modal/crear_cotizacion',null,true),
         );
-
 		$this->load->view('universal/plantilla',$data);
 	}
 
@@ -87,23 +86,24 @@ class CtrCotizacion extends CI_Controller {
             if ($this->input->post("activo")) 
             {
                 $id        = $this->session->userdata('id');
-                $articulos = $this->Modelo_cotizacion->get_cotizacion($id);
-                $num       = $this->Modelo_cotizacion->get_numCotizacion();
-                if (!empty($num)) {
-                    $ultimo = $num->num_cotizacion + 1;
-                }else{
-                    $ultimo = 1;
-                }
-
-                $datos = array(
-                    'cliente'          => $this->input->post("cliente"), 
-                    'telefono'         => $this->input->post("telefono"), 
-                    'num_cotizacion'   => $ultimo,
-                    'alta_dcotizacion' => date("Y-m-d H:i:s"), 
-                );
-                $resul = $this->Modelo_cotizacion->agregar_dcotizacion($datos);
+                $articulos = $this->Modelo_cotizacion->obtener_cotizacion($id);
 
                 if (!empty($articulos)) {
+                    $num       = $this->Modelo_cotizacion->get_numCotizacion();
+                    if (!empty($num)) {
+                        $ultimo = $num->num_cotizacion + 1;
+                    }else{
+                        $ultimo = 1;
+                    }
+
+                    $datos = array(
+                        'cliente'          => $this->input->post("cliente"), 
+                        'telefono'         => $this->input->post("telefono"), 
+                        'num_cotizacion'   => $ultimo,
+                        'alta_dcotizacion' => date("Y-m-d H:i:s"), 
+                    );
+                    $resul = $this->Modelo_cotizacion->agregar_dcotizacion($datos);
+
                     foreach ($articulos -> result() as $articulo) {
                         $id_articulo = $articulo->id_cotizacion;
                         $data = array(
@@ -111,8 +111,12 @@ class CtrCotizacion extends CI_Controller {
                         );
                         $this->Modelo_cotizacion->update_dcotizacion($data,$id_articulo);
                     }
+                    echo "<a href='".base_url()."dcotizacion' target='_blank'>Descargar Cotizacion</a>";
+                }else{
+                    echo '<div class="alert alert-danger" role="alert">Error, Sin articulos para cotizar.</div>'; # MOSTRAR VISTA ERROR    
                 }
-                echo "<a href='".base_url()."dcotizacion' target='_blank'>Descargar Cotizacion</a>";
+            }else{
+                echo '<div class="alert alert-danger" role="alert">Error, al validar la cotizacion.</div>'; # MOSTRAR VISTA ERROR
             }
         }
     }
