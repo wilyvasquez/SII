@@ -332,3 +332,56 @@ $(function(){
     });
   });
 });
+
+function viewCotizacion()
+{
+  var id = document.getElementById('cotizaciones').value;
+  console.log("DATOS DEL LA COTIZACION");
+  var par = 
+  {
+    "id"  : id,
+  };
+  $.ajax({
+    url: "../CtrCotizacion/get_datosCotizacion",
+    type: "post",
+    dataType: "html",
+    data: par,
+  })
+  .done(function(response) {
+    var json = $.parseJSON(response);
+    $("#cliente").val(json.cliente);
+    $("#telefono").val(json.telefono);
+    $("#fecha").val(json.fecha);
+    $("#midc").val(json.id);
+    $('#btn-up').attr("disabled", false);
+  });
+}
+
+// FUNCION PARA ACTUALIZAR DATOS DEL CLIENTE
+$(function(){
+  $("#agregarCotizacionF").on("submit", function(e){
+    e.preventDefault();
+    console.log("AGREGAR ARTICULOS PARA FACTURACION");
+    var formData = new FormData(document.getElementById("agregarCotizacionF"));
+    $.ajax({
+      url: "../CtrCotizacion/agregar_ArticuloFacturacion",
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function(res){
+     var json = $.parseJSON(res);
+      $("#ntf-datos").html(json.msg).delay(2000).hide(0);
+      var dato = json.num ;
+      console.log(json.msg);
+      if (json.url) {
+        par = { "ids" : dato }
+        ajax_tarticulos(json,par);
+        ajax_precios(par);        
+      }
+    });
+  });
+});

@@ -5,7 +5,8 @@
       Opciones <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" style="border-color: #67A6E5">
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Editar Pre-Factura</a></li>
+      <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Editar Pre-Factura</a></li> -->
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-toggle="modal" data-target=".agregarCotizacion">Agregar Cotizacion</a></li>
       <li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-toggle="modal" data-target=".timbrar">Vincular Facturas <strong>(UUID)</strong></a></li>
 
       <li role="presentation" class="divider"></li>

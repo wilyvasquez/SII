@@ -142,11 +142,11 @@ class CtrRecibosPago extends CI_Controller {
                     $this->load->view('admin/trpagos/ajax/ajax_trpagos',$data);
                 }else{
                     $msg = "Error, El saldo restante es $ ".number_format($cantidad,2);
-                    echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                    echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
                 }
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -178,7 +178,7 @@ class CtrRecibosPago extends CI_Controller {
                  $msg = "error"; 
                  $parcialidad = 0;
             }
-            echo json_encode($this->resultadosPagos($parcialidad,$saldoRestante,$msg));
+            echo json_encode($this->resultadosPagos($parcialidad,$saldoRestante,$msg,null));
         }
     }
 
@@ -209,7 +209,7 @@ class CtrRecibosPago extends CI_Controller {
                 $this->load->view('admin/trpagos/ajax/ajax_trpagos',$data);
             }else{
                 $msg = "Error, No se han eliminado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }

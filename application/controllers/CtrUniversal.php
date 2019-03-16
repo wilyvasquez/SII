@@ -41,11 +41,11 @@ class CtrUniversal extends CI_Controller {
                 $peticion = $this->Modelo_articulos->put_articulo($data);
                 if ($peticion) {
                     $url  = "ajax_tarticulos";
-                    echo json_encode($this->funciones->resultado($peticion,$url,$msg = null));
+                    echo json_encode($this->funciones->resultado($peticion,$url,$msg = null,null));
                 }
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -84,7 +84,7 @@ class CtrUniversal extends CI_Controller {
                 }
             }else{
                 $msg = "Error, No se han eliminado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -108,11 +108,11 @@ class CtrUniversal extends CI_Controller {
                 {
                     $url      = "ajax_tuuid";
                     $msg      = "Exito, Agregado correctamente";
-                    echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+                    echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
                 }
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -183,10 +183,10 @@ class CtrUniversal extends CI_Controller {
                 $this->Modelo_articulos->delete_articulo($id);
                 $url      = "ajax_tarticulos";
                 $msg      = "Exito, Articulo eliminado correctamente";
-                echo json_encode($this->funciones->resultado($peticion = true, $url, $msg));
+                echo json_encode($this->funciones->resultado($peticion = true, $url, $msg,null));
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg));
+                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg,null));
             }
         }
     }
@@ -224,16 +224,16 @@ class CtrUniversal extends CI_Controller {
                     if ($peticion) {
                         $url      = "ajax_tarticulos";
                         $msg      = "Exito, Descuento aplicado correctamente";
-                        echo json_encode($this->funciones->resultado($peticion, $url, $msg));
+                        echo json_encode($this->funciones->resultado($peticion, $url, $msg,null));
                     }
                 }else{
                     $url      = "ajax_tarticulos";
                     $msg      = "Error, descuento mayor que total";
-                    echo json_encode($this->funciones->resultado($peticion = false, $url, $msg));
+                    echo json_encode($this->funciones->resultado($peticion = false, $url, $msg,null));
                 }
             }else{
                 $msg = "Error, No se han actualizado los datossss";
-                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg));
+                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg,null));
             }
         }
     }

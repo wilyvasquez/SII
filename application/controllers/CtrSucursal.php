@@ -54,11 +54,11 @@ class CtrSucursal extends CI_Controller {
                 if($peticion) {
                     $url = "ajax_sucursal";
                     $msg = "Exito, Sucursal agregado correctamente";
-                    echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+                    echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
                 }
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -91,10 +91,10 @@ class CtrSucursal extends CI_Controller {
             $peticion = $this->Modelo_sucursal->update_sucursal($id,$data);
             if ($peticion) {
                 $msg = "Exito, Actualizado correctamente";
-                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg));
+                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg,null));
             }else{
                 $msg = "Error, Accion no ejecutada";
-                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg));
+                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg,null));
             }
         }
     }

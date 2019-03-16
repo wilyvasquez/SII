@@ -27,7 +27,7 @@
     </a>
     <ul class="treeview-menu">
       <li class="<?php if(!empty($gcotizacion)){ echo $gcotizacion; } ?>"><a href="<?= base_url() ?>cotizacion"><i class="fa fa-circle-o"></i> Generar</a></li>
-      <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>Cinventario"><i class="fa fa-circle-o"></i> Historial</a></li>
+      <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>chistorial"><i class="fa fa-circle-o"></i> Historial</a></li>
     </ul>
   </li>
   <li class="<?php if(!empty($cliente)){ echo $cliente; } ?>">

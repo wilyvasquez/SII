@@ -56,14 +56,14 @@ class CtrUsuarios extends CI_Controller {
                 $peticion = $this->Modelo_usuarios->put_usuarios($data);
                 if ($peticion) {
                     $msg = "Exito, Cliente agregado correctamente";
-                    echo json_encode($this->funciones->resultado($peticion,$url = "",$msg));
+                    echo json_encode($this->funciones->resultado($peticion,$url = "",$msg,null));
                 }else{
                     $msg = "Error, No se agrego el cliente";
-                    echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg));
+                    echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg,null));
                 }
             }else{
                 $msg = "Error, No se agrego el cliente";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg,null));
             }
         }
     }
@@ -88,14 +88,14 @@ class CtrUsuarios extends CI_Controller {
                 $peticion = $this->Modelo_usuarios->update_usuarios($id,$data);
                 if ($peticion) {
                     $msg = "Exito, Usuario actualizado correctamente";
-                    echo json_encode($this->funciones->resultado($peticion,$url = "",$msg));
+                    echo json_encode($this->funciones->resultado($peticion,$url = "",$msg,null));
                 }else{
                     $msg = "Error, No se actualizo el usuario";
-                    echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg));
+                    echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg,null));
                 }
             }else{
                 $msg = "Error, No se actualizo el usuario";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = "",$msg,null));
             }
         }
     }

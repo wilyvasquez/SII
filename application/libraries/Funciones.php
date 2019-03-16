@@ -37,14 +37,15 @@ class Funciones {
       	 return array($subtotal,$iva,$descuento,$total);
     }
 
-    function resultado($peticion,$url,$msg)
+    function resultado($peticion,$url,$msg,$num)
 	{
 		if($peticion)
 		{
 			$result = array(
 				'respuesta' => 'correcto',
 				'msg'       => '<div class="alert alert-success" role="alert">'.$msg.'</div>',
-				'url'		=> $url
+				'url'		=> $url,
+                'num'       => $num
 			);
 		}else{
 			$result = array(

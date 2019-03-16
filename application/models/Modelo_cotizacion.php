@@ -79,4 +79,34 @@ class Modelo_cotizacion extends CI_Model
             return false;
         }
 	}
+
+	function obtener_cotizaciones()
+	{
+		$query = $this->db->get('datos_cotizacion');
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function obtener_datosCotizacion($id)
+	{
+		$query = $this->db->get_where('datos_cotizacion', array('id_dcotizacion' => $id));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
+	function obtener_articulosCotizacion($id)
+	{
+		$query = $this->db->get_where('cotizacion', array('ref_dcotizacion' => $id));
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
 }

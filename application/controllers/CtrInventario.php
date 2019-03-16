@@ -89,10 +89,10 @@ class CtrInventario extends CI_Controller {
                 $url      = "";
                 $peticion = $this->Modelo_inventario->put_inventario($data);
                 $msg      = "Exito, Articulo agregado correctamente";
-                echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+                echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
             }else{
                 $msg      = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -114,11 +114,11 @@ class CtrInventario extends CI_Controller {
                 if ($peticion) {
                     $url      = "ajax_marca";
                     $msg      = "Exito, Marca agregado correctamente";
-                    echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+                    echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
                 }
             }else{
                 $msg      = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -151,11 +151,11 @@ class CtrInventario extends CI_Controller {
                 if ($peticion) {
                     $url      = "ajax_linea";
                     $msg      = "Exito, Linea agregado correctamente";
-                    echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+                    echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
                 }
             }else{
                 $msg      = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -190,11 +190,11 @@ class CtrInventario extends CI_Controller {
                 if ($peticion) {
                     $url      = "ajax_fabricante";
                     $msg      = "Exito, Fabricante agregado correctamente";
-                    echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+                    echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
                 }
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
             }
         }
     }
@@ -227,10 +227,10 @@ class CtrInventario extends CI_Controller {
             $peticion = $this->Modelo_articulos->update_articulo($id,$data);
             if ($peticion) {
                 $msg = "Exito, Actualizado correctamente";
-                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg));
+                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg,null));
             }else{
                 $msg = "Error, Accion no ejecutada";
-                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg));
+                echo json_encode($this->funciones->resultado($peticion, $url = "", $msg,null));
             }
         }
     }
