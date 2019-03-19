@@ -41,9 +41,9 @@ $(function(){
 $(function(){
   $("#addmarca").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("addmarca"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: "CtrInventario/agregar_marca",
         type: "post",
@@ -79,9 +79,9 @@ $(function(){
 $(function(){
   $("#addlinea").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("addlinea"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: "CtrInventario/agregar_linea",
         type: "post",
@@ -117,9 +117,9 @@ $(function(){
 $(function(){
   $("#addfabricante").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("addfabricante"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: "CtrInventario/agregar_fabricante",
         type: "post",
@@ -154,9 +154,9 @@ $(function(){
 $(function(){
   $("#upInventario").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("upInventario"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: "CtrInventario/up_inventario",
         type: "post",
@@ -195,12 +195,19 @@ $(function(){
         processData: false
       })
       .done(function(res){
-        // console.log(res);
         var json = $.parseJSON(res);
-        $("#ntf-cIventario").html(json.msg).delay(2000).hide(0);
-        setTimeout(function(){ 
-          $("#ntf-cIventario").html("").delay(0).show(0);
-        },1000);
+        console.log(json.msg);
+        if (json.num == 1) {
+          $("#ntf-cIventario").html(json.url);
+          $('#btn-guardarInventario').attr("disabled", true);
+          $('#btn-gcotizacion').attr("disabled", true);          
+        }else{
+          console.log("entree");
+          $("#ntf-cIventario").html(json.msg).delay(2000).hide(0);
+          setTimeout(function(){ 
+            $("#ntf-cIventario").html("").delay(0).show(0);
+          },1000);          
+        }
       });
   });
 });

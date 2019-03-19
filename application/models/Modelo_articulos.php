@@ -136,5 +136,25 @@ class Modelo_articulos extends CI_Model
             return false;
         }	
 	}
+
+	function get_datosFacturacion($id)
+	{
+		$query = $this->db->get_where('datos_facturacion', array('id_dfacturacion' => $id));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
+	function obtenerArticulosFactura($id)
+	{
+		$query = $this->db->get_where('articulo', array('ref_dfacturacion' => $id));
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
 }
 ?>

@@ -122,6 +122,59 @@ class Modelo_inventario extends CI_Model
 		return $retornar;
 	}
 
+	function get_inventarioTabla($start,$length,$search)
+	{
+		$srch = "";
+		if ($search) {
+			$srch = "WHERE (p.articulo like '%".$search."%' OR 
+							p.codigo_interno like '%".$search."%' OR 
+							p.cantidad like '%".$search."%' OR 
+							p.costo like '%".$search."%' OR 
+							p.codigo_sat like '%".$search."%')";
+		}
+
+		$qnr = "SELECT count(1) cant FROM articulo p ".$srch;
+		$qnr = $this->db->query($qnr);
+		$qnr = $qnr->row();
+		$qnr = $qnr->cant;
+
+		$q = "SELECT p.id_articulo, p.articulo, p.codigo_interno, p.cantidad, p.costo, p.codigo_sat, p.ref_dfacturacion 
+		FROM articulo p ".$srch." limit $start, $length";
+		$r = $this->db->query($q);
+
+		$retornar = array(
+			'numDataTotal' => $qnr,
+			'datos' => $r, 
+		);
+
+		return $retornar;
+	}
+
+	function get_ifacturas($start,$length,$search)
+	{
+		$srch = "";
+		if ($search) {
+			$srch = "WHERE (p.proveedor like '%".$search."%' OR 
+							p.factura like '%".$search."%' OR 
+							p.alta_dfacturacion like '%".$search."%')";
+		}
+
+		$qnr = "SELECT count(1) cant FROM datos_facturacion p ".$srch;
+		$qnr = $this->db->query($qnr);
+		$qnr = $qnr->row();
+		$qnr = $qnr->cant;
+
+		$q = "SELECT p.id_dfacturacion, p.proveedor, p.factura, p.alta_dfacturacion FROM datos_facturacion p ".$srch." limit $start, $length";
+		$r = $this->db->query($q);
+
+		$retornar = array(
+			'numDataTotal' => $qnr,
+			'datos' => $r, 
+		);
+
+		return $retornar;
+	}
+
 	function get_inventarios()
 	{
 		$this->db->select('p.id_articulo, p.articulo, p.codigo_interno, p.cantidad, p.costo, p.codigo_sat');

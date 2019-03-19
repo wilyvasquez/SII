@@ -52,6 +52,7 @@ class Funciones {
 				'respuesta' => 'error',
 				'msg'       => '<div class="alert alert-danger" role="alert">'.$msg.'</div>',
 				'url'		=> $url,
+                'num'       => $num,
 			);
 		}
 		return $result;

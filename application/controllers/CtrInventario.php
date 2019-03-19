@@ -26,7 +26,7 @@ class CtrInventario extends CI_Controller {
             "rinventario" => "active",
             "inventario" => "active",
             "title"      => "Articulos",
-            "subtitle"   => "Alta de inventario <strong>(F7 cerrar inventario)</strong>",
+            "subtitle"   => "Alta de inventario",
             "contenido"  => "admin/inventario/inventario",
             "menu"       => $pmenu,
             "modal_f"    => $this->load->view('admin/inventario/modal/modal-fabricante',null,true), # AGREGAR NUEVO FABRICANTE
@@ -53,7 +53,24 @@ class CtrInventario extends CI_Controller {
             "historial"   => "active",
             "title"       => "Articulos",
             "subtitle"    => "Alta de inventario",
-            "contenido"   => "admin/inventario/tabla_inventario",
+            "contenido"   => "admin/inventario/tablaInventario",
+            "modal_i"     => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
+            "menu"        => $pmenu,
+            // "articulos"   => $this->Modelo_articulos->get_articulos(),
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+        );
+        $this->load->view('universal/plantilla',$data);
+    }
+
+    public function ifacturas()
+    {
+        $pmenu = $this->permisos->menu();
+        $data = array(
+            "rinventario" => "active",
+            "ifacturas"   => "active",
+            "title"       => "Articulos",
+            "subtitle"    => "Alta de inventario",
+            "contenido"   => "admin/inventario/tabla_ifacturas",
             "menu"        => $pmenu,
             "articulos"   => $this->Modelo_articulos->get_articulos(),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
@@ -270,6 +287,72 @@ class CtrInventario extends CI_Controller {
         echo json_encode($json_data);
     }
 
+    public function getTablaInventario()
+    {
+        $start      = $this->input->post("start");
+        $length     = $this->input->post("length");
+        $search     = $this->input->post("search")['value'];
+        
+        $result     = $this->Modelo_inventario->get_inventarioTabla($start,$length,$search);
+        $resultado  = $result['datos'];
+        $totalDatos = $result['numDataTotal'];
+
+        $datos = array();
+        foreach ($resultado->result_array() as $row) {
+            $array = array();
+            $array['id_articulo']    = $row['id_articulo'];
+            $array['articulo']       = $row['articulo'];
+            $array['codigo_interno'] = $row['codigo_interno'];
+            $array['cantidad']       = $row['cantidad'];
+            $array['costo']          = $row['costo'];
+            $array['codigo_sat']     = $row['codigo_sat'];
+
+            $datos[] = $array;
+        }
+
+        $totalDatoObtenido = $resultado->num_rows();
+
+        $json_data = array(
+            'draw'            => intval($this->input->post('draw')), 
+            'recordsTotal'    => intval($totalDatoObtenido),
+            'recordsFiltered' => intval($totalDatos),
+            'data'            => $datos
+        );
+        echo json_encode($json_data);
+    }
+
+    public function getIFacturas()
+    {
+        $start      = $this->input->post("start");
+        $length     = $this->input->post("length");
+        $search     = $this->input->post("search")['value'];
+        
+        $result     = $this->Modelo_inventario->get_ifacturas($start,$length,$search);
+        $resultado  = $result['datos'];
+        $totalDatos = $result['numDataTotal'];
+
+        $datos = array();
+        foreach ($resultado->result_array() as $row) {
+            $array = array();
+            $array['id_dfacturacion']   = $row['id_dfacturacion'];
+            $array['proveedor']         = $row['proveedor'];
+            $array['factura']           = $row['factura'];
+            $array['alta_dfacturacion'] = $row['alta_dfacturacion'];
+
+            $datos[] = $array;
+        }
+
+        $totalDatoObtenido = $resultado->num_rows();
+
+        $json_data = array(
+            'draw'            => intval($this->input->post('draw')), 
+            'recordsTotal'    => intval($totalDatoObtenido),
+            'recordsFiltered' => intval($totalDatos),
+            'data'            => $datos
+        );
+        echo json_encode($json_data);
+    }
+
     public function cerrar_dinventario()
     {
         if ($this->input->post("activo") == "on") 
@@ -290,19 +373,19 @@ class CtrInventario extends CI_Controller {
                     $peticion = $this->Modelo_articulos->update_articulo($resul->id_articulo,$data);
                 }
                 if ($peticion) {
-                    $url  = "";
-                    $msg  = "Exito, Factura creada";
-                    echo json_encode($this->funciones->resultado($peticion, $url, $msg, null));
+                    $url  = "<a href='rdfacturas/".$id."' target='_blank'><u>Descargar factura</u></a>";
+                    $msg  = $id;
+                    echo json_encode($this->funciones->resultado($peticion, $url, $msg, 1));
                 }
             }else{
                 $url  = "";
                 $msg  = "Error, sin articulos";
-                echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, null));
+                echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, 0));
             }
         }else{
             $url  = "";
             $msg  = "Error, verificar datos";
-            echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, null));
+            echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, 0));
         }
     }
 }

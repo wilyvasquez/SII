@@ -42,6 +42,8 @@
 <!-- funciones -->
 <?= $archivosJS ?>
 <script src="<?= base_url() ?>assets/js/inventario/tablas_inventario.js"></script>
+<script src="<?= base_url() ?>assets/js/inventario/tablaInventario.js"></script>
+<script src="<?= base_url() ?>assets/js/inventario/tablas_ifacturas.js"></script>
 <script src="<?= base_url() ?>assets/js/cliente/tabla_clientes.js"></script>
  <script src="<?= base_url() ?>assets/js/inventario/funcion_inventario.js"></script>
 <script src="<?= base_url() ?>assets/js/sucursales/sucursales.js"></script>

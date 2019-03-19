@@ -54,6 +54,7 @@ $route['404_override']         = 'CtrUniversal/not_found';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['inventario']           = 'CtrInventario/inventario';
+$route['ifacturas']            = 'CtrInventario/ifacturas';
 $route['hinventario']          = 'CtrInventario/hinventario';
 $route['sucursal']             = 'CtrSucursal/sucursal';
 $route['cliente']              = 'CtrClientes/cliente';
@@ -84,6 +85,7 @@ $route['dfactura/(:num)']      = 'CtrUniversal/datos_factura/$1';
 $route['cotizacion']      	   = 'CtrCotizacion';
 $route['dcotizacion']      	   = 'CtrReportes/reporte';
 $route['chistorial']      	   = 'CtrCotizacion/historial_cotizacion';
+$route['rdfacturas/(:num)']	   = 'CtrReportes/reporte_inventario/$1';
 
 $route['session']              = 'CtrLogin/verificar';
 $route['cerrar']               = 'CtrLogin/logout_ci';

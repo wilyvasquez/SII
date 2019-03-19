@@ -1,5 +1,4 @@
 <!-- VISTA DE CLIENTES -->
-c
   <div class="col-md-4">
     <div class="box box-primary">
       <div class="box-header with-border">

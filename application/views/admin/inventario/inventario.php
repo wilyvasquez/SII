@@ -3,13 +3,13 @@
   <div class="col-md-4">
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">Subir Articulo</h3>
+        <h3 class="box-title">Subir Articulo <strong>(F7 cerrar inventario)</strong></h3>
       </div>
       <form role="form" id="addinventario">
         <div class="box-body">
           <div class="form-group">
             <label for="articulo">Nombre Articulo</label>
-            <input type="text" class="form-control" name="articulo" placeholder="Nombre Articulo" required>
+            <input type="text" class="form-control" name="articulo" placeholder="Nombre del articulo" required>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
@@ -24,31 +24,33 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Clave (SAT)</label>
-              <input type="text" class="form-control" name="clave" placeholder="Nombre Articulo" minlength="8" maxlength="8" required>
+              <input type="text" class="form-control" name="clave" placeholder="Clave del SAT" minlength="8" maxlength="8" required>
             </div>
             <div class="form-group col-md-6">
               <label for="cantidad">Cantidad</label>
               <input type="number" class="form-control" name="cantidad" placeholder="Cantidad" min="0" required>
             </div>
           </div>
-          <div class="form-group">
-            <label>Unidad</label>
-            <select class="form-control select2" style="width: 100%;" name="unidad" data-placeholder="Selecciona" required>
-              <?php if (!empty($clave)) {
-              foreach ($clave ->result() as $claves) { ?>
-                <option value="<?= $claves->id_clave ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
-              <?php } } ?>
-            </select>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Unidad</label>
+              <select class="form-control select2" style="width: 100%;" name="unidad" data-placeholder="Selecciona" required>
+                <?php if (!empty($clave)) {
+                foreach ($clave ->result() as $claves) { ?>
+                  <option value="<?= $claves->id_clave ?>"><?= $claves->c_ClaveUnidad ?> - <?= $claves->clave ?></option>
+                <?php } } ?>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label>Tipo</label>
+              <select class="form-control select2" style="width: 100%;" name="tipo" data-placeholder="Selecciona" required>
+                  <option value="Refacciones">Refacciones</option>
+                  <option value="Motocicletas">Motocicletas</option>
+                  <option value="Accesorios">Accesorios</option>
+                  <option value="Taller">Taller</option>
+              </select>
+            </div>             
           </div>
-          <div class="form-group">
-            <label>Tipo</label>
-            <select class="form-control select2" style="width: 100%;" name="tipo" data-placeholder="Selecciona" required>
-                <option value="Refacciones">Refacciones</option>
-                <option value="Motocicletas">Motocicletas</option>
-                <option value="Accesorios">Accesorios</option>
-                <option value="Taller">Taller</option>
-            </select>
-          </div>  
           <div class="form-group">
             <label>Marca</label>
             <div id="ajax-marca">
@@ -92,15 +94,15 @@
             <label for="descripcion">Descripcion</label>
             <textarea class="form-control" rows="3" placeholder="Descripcion ..." name="descripcion" required></textarea>
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="imagen">Imagen</label>
             <input type="file" id="imagen" class="form-control">
             <p class="help-block">Formato jpg, png, maximo 514 kb.</p>
-          </div>
+          </div> -->
           <div id="ntf-cliente"></div>
         </div>
         <div class="box-footer">
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="submit" class="btn btn-primary" id="btn-guardarInventario">Guardar</button>
         </div>
       </form>
     </div>
