@@ -1,3 +1,15 @@
+<script language="javascript">
+function PulsarTecla(event)
+{
+    tecla = event.keyCode;
+    if(tecla==118)
+    {
+      console.log("modal");
+      $("#cerrarInventario").modal();
+    }
+}
+window.onkeydown=PulsarTecla;
+</script>
 <div class="box box-primary">
   <div class="box-body table-responsive">
     <table id="tblInventario" class="table table-bordered table-striped">

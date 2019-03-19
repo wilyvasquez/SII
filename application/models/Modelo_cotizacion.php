@@ -109,4 +109,14 @@ class Modelo_cotizacion extends CI_Model
 			return false;
 		}
 	}
+
+	function eliminarCotizacion($id)
+	{
+		$this->db->where("id_dcotizacion", $id)->delete("datos_cotizacion");
+        if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
+	}
 }

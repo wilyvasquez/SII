@@ -17,13 +17,13 @@
               <input type="number" class="form-control" name="costo" placeholder="Costo" required>
             </div>
             <div class="form-group col-md-6">
-              <label for="codigoi">Codigo interno</label>
+              <label for="codigoi">Codigo</label>
               <input type="text" class="form-control" name="codigoi" placeholder="Codigo Interno" required>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
-              <label>Clave</label>
+              <label>Clave (SAT)</label>
               <input type="text" class="form-control" name="clave" placeholder="Nombre Articulo" minlength="8" maxlength="8" required>
             </div>
             <div class="form-group col-md-6">
@@ -114,4 +114,5 @@
   <?= $modal_l ?>
   <?= $modal_m ?>
   <?= $modal_i ?>
+  <?= $modal_c ?>
 </div>

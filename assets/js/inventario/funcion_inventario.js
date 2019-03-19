@@ -175,3 +175,32 @@ $(function(){
       });
   });
 });
+
+
+/**
+ * Cerrar inventario
+ */
+$(function(){
+  $("#cerrarInventarioDatos").on("submit", function(e){
+    e.preventDefault();
+    console.log("CERRAR INVENTARIO");
+    var formData = new FormData(document.getElementById("cerrarInventarioDatos"));
+    $.ajax({
+        url: "CtrInventario/cerrar_dinventario",
+        type: "post",
+        dataType: "html",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false
+      })
+      .done(function(res){
+        // console.log(res);
+        var json = $.parseJSON(res);
+        $("#ntf-cIventario").html(json.msg).delay(2000).hide(0);
+        setTimeout(function(){ 
+          $("#ntf-cIventario").html("").delay(0).show(0);
+        },1000);
+      });
+  });
+});

@@ -25,7 +25,7 @@
 		      <input type="checkbox" class="success" id="activo" name="activo">
 		      <span class="slider round"></span>
 		    </label>
-          <button type="submit" class="btn btn-primary" id="btn-actualizar">Generar</button>
+          <button type="submit" class="btn btn-primary" id="btn-gcotizacion">Generar</button>
         </div>
       </form>
     </div>

@@ -114,5 +114,27 @@ class Modelo_articulos extends CI_Model
 			return false;
 		}
 	}
+
+	function get_articulosInventario()
+	{
+		$query = $this->db->get_where('articulo', array('ref_dfacturacion' => '0'));
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function insertarDatosFactura($datos)
+	{
+		$this->db->insert('datos_facturacion', $datos);
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }
+        else {
+            return false;
+        }	
+	}
 }
 ?>

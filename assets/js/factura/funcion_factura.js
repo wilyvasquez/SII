@@ -373,15 +373,17 @@ $(function(){
       processData: false
     })
     .done(function(res){
-     var json = $.parseJSON(res);
+      var json = $.parseJSON(res);
       $("#ntf-datos").html(json.msg).delay(2000).hide(0);
       var dato = json.num ;
-      console.log(json.msg);
       if (json.url) {
         par = { "ids" : dato }
         ajax_tarticulos(json,par);
         ajax_precios(par);        
       }
+      setTimeout(function(){ 
+        $("#ntf-datos").html("").delay(0).show(0);
+      },1000);
     });
   });
 });

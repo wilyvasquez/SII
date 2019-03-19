@@ -115,7 +115,7 @@ $(function(){
 $(function(){
   $("#generarCotizacion").on("submit", function(e){
     e.preventDefault();
-    $('#btn-articulo').attr("disabled", true);
+    // $('#btn-articulo').attr("disabled", true);
     console.log("GENERAR COTIZACION");
     var formData = new FormData(document.getElementById("generarCotizacion"));
     $.ajax({
@@ -130,6 +130,8 @@ $(function(){
     .done(function(res)
     {
     	$("#ntf-dcotizaciones").html(res);
+      $('#btn-gcotizacion').attr("disabled", true);
+      $('#activo').attr("disabled", false);
       // setTimeout(function(){ 
       //   $("#ntf-dcotizaciones").html("").delay(0).show(0);
       // },1000);

@@ -281,3 +281,13 @@ CREATE TABLE datos_cotizacion
     alta_dcotizacion datetime,
     PRIMARY KEY (id_dcotizacion)
 )
+
+
+CREATE TABLE datos_facturacion
+(
+    id_dfacturacion serial not null AUTO_INCREMENT,
+    proveedor     varchar(80),
+    factura    varchar(50),
+    alta_dfacturacion datetime,
+    PRIMARY KEY (id_dfacturacion)
+)

@@ -107,7 +107,7 @@ class CtrCotizacion extends CI_Controller {
                     foreach ($articulos -> result() as $articulo) {
                         $id_articulo = $articulo->id_cotizacion;
                         $data = array(
-                            'ref_dcotizacion' => $ultimo, 
+                            'ref_dcotizacion' => $resul, 
                         );
                         $this->Modelo_cotizacion->update_dcotizacion($data,$id_articulo);
                     }
@@ -166,6 +166,7 @@ class CtrCotizacion extends CI_Controller {
         {
             $id_dcotizacion = $this->input->post("midc");  # ID DE LOS DATOS DE LA COTIZACION
             $factura        = $this->input->post("factura"); # FACTURA EN PROCESO
+            $error          = 0;
             $articulos      = $this->Modelo_cotizacion->obtener_articulosCotizacion($id_dcotizacion);
             if (!empty($articulos)) {
                 foreach ($articulos -> result() as $articulo) {
@@ -178,17 +179,32 @@ class CtrCotizacion extends CI_Controller {
                         'ref_articulo'         => $articulo->ref_articulo,
                         'ref_preventa'         => $factura,
                     );
-                    $peticion = $this->Modelo_articulos->put_articulo($data);
+                    $validacion = $this->Modelo_articulos->obtener_articulo($articulo->ref_articulo);
+                    $cantidad   = $validacion->cantidad;
+                    if ($articulo->cantidad <= $cantidad) 
+                    {
+                        $peticion   = $this->Modelo_articulos->put_articulo($data);
+                        $this->Modelo_cotizacion->eliminarArticuloCotizacion($articulo->id_cotizacion);                    
+                    }else{
+                        $error ++;
+                        $peticion = true;
+                    }
+                }
+                $msg  = "Exito, Datos agregados correctamente.";
+                if ($error > 0) {
+                    $msg =  "Algunos articulos superaban la existencia en almacen.";   
+                }else{
+                    $this->Modelo_cotizacion->eliminarCotizacion($id_dcotizacion);                    
                 }
                 if ($peticion) {
                     $url  = "ajax_tarticulos";
-                    $msg  = "Exito, Datos agregados correctamente";
+                    $msg  = $msg;
                     echo json_encode($this->funciones->resultado($peticion, $url, $msg, $factura));
                 }
             }
         }else{
             $url  = "";
-            $msg  = "Error, validad datos";
+            $msg  = "Error, validar datos";
             echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, null));
         }
     }

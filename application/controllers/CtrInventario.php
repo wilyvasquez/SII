@@ -26,13 +26,14 @@ class CtrInventario extends CI_Controller {
             "rinventario" => "active",
             "inventario" => "active",
             "title"      => "Articulos",
-            "subtitle"   => "Alta de inventario",
+            "subtitle"   => "Alta de inventario <strong>(F7 cerrar inventario)</strong>",
             "contenido"  => "admin/inventario/inventario",
             "menu"       => $pmenu,
             "modal_f"    => $this->load->view('admin/inventario/modal/modal-fabricante',null,true), # AGREGAR NUEVO FABRICANTE
             "modal_l"    => $this->load->view('admin/inventario/modal/modal-linea',null,true), # AGREGAR NUEVA LINEA
             "modal_m"    => $this->load->view('admin/inventario/modal/modal-marca',null,true), # AGREGAR NUNEVA MARCA
             "modal_i"    => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
+            "modal_c"    => $this->load->view('admin/inventario/modal/modal_cerrar_inventario',null,true), # AGREGAR NUNEVA MARCA
             "archivosJS" => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
             "clave"      => $this->Modelo_sat->get_claveSat(),
             "articulos"  => $this->Modelo_articulos->get_articulos(),
@@ -267,5 +268,41 @@ class CtrInventario extends CI_Controller {
             'data'            => $datos
         );
         echo json_encode($json_data);
+    }
+
+    public function cerrar_dinventario()
+    {
+        if ($this->input->post("activo") == "on") 
+        {
+            $articulos = $this->Modelo_articulos->get_articulosInventario();
+            if (!empty($articulos)) {
+                $data = array(
+                    'proveedor'         => $this->input->post("mproveedor"),
+                    'factura'           => $this->input->post("mfactura"),
+                    'alta_dfacturacion' => date("Y-m-d H:i:s")
+                );
+                $id = $this->Modelo_articulos->insertarDatosFactura($data);
+
+                foreach ($articulos ->result() as $resul) {
+                    $data = array( 
+                        'ref_dfacturacion' => $id, 
+                    );
+                    $peticion = $this->Modelo_articulos->update_articulo($resul->id_articulo,$data);
+                }
+                if ($peticion) {
+                    $url  = "";
+                    $msg  = "Exito, Factura creada";
+                    echo json_encode($this->funciones->resultado($peticion, $url, $msg, null));
+                }
+            }else{
+                $url  = "";
+                $msg  = "Error, sin articulos";
+                echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, null));
+            }
+        }else{
+            $url  = "";
+            $msg  = "Error, verificar datos";
+            echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, null));
+        }
     }
 }
