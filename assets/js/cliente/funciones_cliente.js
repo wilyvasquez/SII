@@ -7,7 +7,7 @@ $(function(){
     e.preventDefault();
     var formData = new FormData(document.getElementById("addcliente"));
     $.ajax({
-        url: "CtrClientes/agregar_cliente",
+        url: baseurl+"CtrClientes/agregar_cliente",
         type: "post",
         dataType: "html",
         data: formData,
@@ -40,9 +40,9 @@ $(function(){
 $(function(){
   $("#upDatosCliente").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("upDatosCliente"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: baseurl+"CtrClientes/update_cliente",
         type: "post",
@@ -69,11 +69,11 @@ $(function(){
 $(function(){
   $("#addFolioSeries").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("addFolioSeries"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrClientes/add_SerieFolios",
+        url: baseurl+"CtrClientes/add_SerieFolios",
         type: "post",
         dataType: "html",
         data: formData,
@@ -98,11 +98,11 @@ $(function(){
 $(function(){
   $("#updateSerie").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("updateSerie"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrClientes/update_SerieFolios",
+        url: baseurl+"CtrClientes/update_SerieFolios",
         type: "post",
         dataType: "html",
         data: formData,

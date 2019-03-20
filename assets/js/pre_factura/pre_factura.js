@@ -62,7 +62,7 @@ $(function(){
     e.preventDefault();
     var formData = new FormData(document.getElementById("generarPreFactura"));
     $.ajax({
-      url: "CtrFactura/push_prefactura",
+      url: baseurl+"CtrFactura/push_prefactura",
       type: "post",
       dataType: "html",
       data: formData,

@@ -44,7 +44,8 @@
       <div class="form-group">
         <label for="descripcion" style="font-weight: normal;">Descripción del producto o servicio</label>
         <textarea class="form-control" rows="3" placeholder="Descripcion ..." id="descripcion" name="descripcion" required disabled></textarea>
-      </div> 
+      </div>
+      <div id="ntf-cliente"></div> 
     </div>
     <!-- /.box-body -->
     <div class="box-footer">

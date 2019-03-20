@@ -9,7 +9,7 @@ $(function(){
     console.log("PRE RECIBOS DE PAGO");
     var formData = new FormData(document.getElementById("agregar_rpagos"));
     $.ajax({
-      url: "CtrRecibosPago/push_prepagos",
+      url: baseurl+"CtrRecibosPago/push_prepagos",
       type: "post",
       dataType: "html",
       data: formData,
@@ -34,7 +34,7 @@ $(function(){
     console.log("SUBIR DOCTOS RECIBO DE PAGOS");
     var formData = new FormData(document.getElementById("agregar_docto"));
     $.ajax({
-      url: "../CtrRecibosPago/agregar_docto",
+      url: baseurl+"CtrRecibosPago/agregar_docto",
       type: "post",
       dataType: "html",
       data: formData,
@@ -75,7 +75,7 @@ $(function(){
       "activo"  : document.getElementById('activos').checked,
     };
     $.ajax({
-      url: "../CtrTimbrarReciboPago/timbrado",
+      url: baseurl+"CtrTimbrarReciboPago/timbrado",
       type: "post",
       dataType: "html",
       data: par,
@@ -117,7 +117,7 @@ function valorParcialidad()
     "uuid"  : uuid,
   };
   $.ajax({
-    url: "../CtrRecibosPago/get_parcialidad",
+    url: baseurl+"CtrRecibosPago/get_parcialidad",
     type: "post",
     dataType: "html",
     data: par,
@@ -142,7 +142,7 @@ $(function(){
     e.preventDefault();
     var formData = new FormData(document.getElementById("deleteuuidrpagos"));
     $.ajax({
-      url: "../CtrRecibosPago/deleteUuidRecibosPago",
+      url: baseurl+"CtrRecibosPago/deleteUuidRecibosPago",
       type: "post",
       dataType: "html",
       data: formData,

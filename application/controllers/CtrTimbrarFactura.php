@@ -122,7 +122,7 @@ class CtrTimbrarFactura extends CI_Controller {
                 $d['Conceptos'][$i]['Cantidad']         = $cantidad; # numero de articulos
                 $d['Conceptos'][$i]['ClaveUnidad']      = $articulo->clave_sat; # Clave SAT
                 $d['Conceptos'][$i]['Unidad']           = $articulo->unidad; # Unidad de Medida
-                $d['Conceptos'][$i]['Descripcion']      = $articulo->articulo; #maximo 1000 caracteres
+                $d['Conceptos'][$i]['Descripcion']      = $articulo->descripcion; #maximo 1000 caracteres
                 $d['Conceptos'][$i]['ValorUnitario']    = round($articulo->costo,2); #costo de 1 articulo
                 $d['Conceptos'][$i]['Importe']          = round($articulo->importe + $articulo->descuento,2); # costo del total de todos los articulos
                 $d['Conceptos'][$i]['Descuento']        = round($articulo->descuento,2); # no se permiten valores negativos

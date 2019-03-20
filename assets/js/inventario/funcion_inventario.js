@@ -5,11 +5,11 @@
 $(function(){
   $("#addinventario").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("addinventario"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrInventario/put_inventario",
+        url: baseurl+"CtrInventario/put_inventario",
         type: "post",
         dataType: "html",
         data: formData,
@@ -45,7 +45,7 @@ $(function(){
     var formData = new FormData(document.getElementById("addmarca"));
     // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrInventario/agregar_marca",
+        url: baseurl+"CtrInventario/agregar_marca",
         type: "post",
         dataType: "html",
         data: formData,
@@ -83,7 +83,7 @@ $(function(){
     var formData = new FormData(document.getElementById("addlinea"));
     // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrInventario/agregar_linea",
+        url: baseurl+"CtrInventario/agregar_linea",
         type: "post",
         dataType: "html",
         data: formData,
@@ -121,7 +121,7 @@ $(function(){
     var formData = new FormData(document.getElementById("addfabricante"));
     // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrInventario/agregar_fabricante",
+        url: baseurl+"CtrInventario/agregar_fabricante",
         type: "post",
         dataType: "html",
         data: formData,
@@ -158,7 +158,7 @@ $(function(){
     var formData = new FormData(document.getElementById("upInventario"));
     // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrInventario/up_inventario",
+        url: baseurl+"CtrInventario/up_inventario",
         type: "post",
         dataType: "html",
         data: formData,
@@ -186,7 +186,7 @@ $(function(){
     console.log("CERRAR INVENTARIO");
     var formData = new FormData(document.getElementById("cerrarInventarioDatos"));
     $.ajax({
-        url: "CtrInventario/cerrar_dinventario",
+        url: baseurl+"CtrInventario/cerrar_dinventario",
         type: "post",
         dataType: "html",
         data: formData,

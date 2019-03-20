@@ -5,7 +5,7 @@
       <div class="box-header with-border">
         <div class="user-block">
           <img class="img-circle" src="<?= base_url()?>assets/img/user2-160x160.jpg" alt="User Image">
-          <span class="username"><a href="#"><?= $clientes->cliente ?>.</a></span>
+          <span class="username"><a href="<?= base_url() ?>pcliente/<?= $clientes->id_cliente ?>"><?= $clientes->cliente ?>.</a></span>
           <span class="description">RFC - <?= $clientes->rfc ?> - <?= $clientes->alta_cliente ?> </span>          
         </div>
         <!-- /.user-block -->

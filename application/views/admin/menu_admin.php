@@ -45,7 +45,7 @@
     <ul class="treeview-menu">
       <li class="<?php if(!empty($inventario)){ echo $inventario; } ?>"><a href="<?= base_url() ?>inventario"><i class="fa fa-circle-o"></i> Alta Inventario</a></li>
       <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>hinventario"><i class="fa fa-circle-o"></i> Inventario</a></li>
-      <li class="<?php if(!empty($ifacturas)){ echo $ifacturas; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas</a></li>
+      <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li>
     </ul>
   </li>
 
@@ -59,26 +59,6 @@
       <i class="fa fa-sort-alpha-asc"></i> <span>Folios y series</span>
     </a>
   </li>
-  <!-- <li class="treeview <?php if(!empty($sat)){ echo $sat; } ?>">
-    <a href="#">
-      <i class="icon-sat"></i><span style="margin-left: 8px"> Altas SAT</span>
-      <span class="pull-right-container">
-          <i class="fa fa-angle-left pull-right"></i>
-      </span>
-    </a>
-    <ul class="treeview-menu">
-      <li><a href="#"><i class="fa fa-circle-o"></i> Uso CFDI</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Claves Articulos</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Unidad de Medida</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Metodo de pago</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Formas de pago</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Tipos de relacion</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Tipo de documentos</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Regimen fiscal</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Condiciones de pagos</a></li>
-      <li><a href="#"><i class="fa fa-circle-o"></i> Claves de unidad</a></li>
-    </ul>
-  </li> -->
   <li class="<?php if(!empty($reporte)){ echo $reporte; } ?>">
     <a href="#">
       <i class="fa fa-clipboard"></i> <span>Reportes</span>
@@ -90,7 +70,7 @@
       <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
     </a>
   </li>
-  <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
+  <li class="<?php if(!empty($cortes)){ echo $cortes; } ?>">
     <a href="<?= base_url() ?>timbrado">
       <i class="fa fa-pencil-square-o"></i> <span>Cortes</span>
     </a>

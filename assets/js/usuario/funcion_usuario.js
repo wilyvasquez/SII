@@ -5,9 +5,9 @@
 $(function(){
   $("#addUsuario").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("addUsuario"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: baseurl+"CtrUsuarios/agregar_usuario",
         type: "post",
@@ -41,9 +41,9 @@ selUsuario =  function(id,nombre,telefono,correo,sucursal,direccion,estatus){
 $(function(){
   $("#upUsuario").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("upUsuario"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: baseurl+"CtrUsuarios/update_usuario",
         type: "post",

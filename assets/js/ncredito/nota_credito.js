@@ -7,7 +7,7 @@ $(function(){
     e.preventDefault();
     var formData = new FormData(document.getElementById("agregar_ncredito"));
     $.ajax({
-      url: "CtrNotaCredito/push_prencredito",
+      url: baseurl+"CtrNotaCredito/push_prencredito",
       type: "post",
       dataType: "html",
       data: formData,
@@ -37,7 +37,7 @@ $(function(){
       "ids" : ids
     }
     $.ajax({
-      url: "../CtrUniversal/agregar_uuid",
+      url: baseurl+"CtrUniversal/agregar_uuid",
       type: "post",
       dataType: "html",
       data: formData,
@@ -61,7 +61,7 @@ function ajax_tuuid(json,par)
 {
   console.log("AJAX TABLA UUID");
   $.ajax({
-    url: "../CtrUniversal/"+json.url,
+    url: baseurl+"CtrUniversal/"+json.url,
     type: "post",
     dataType: "html",
     data: par,
@@ -91,7 +91,7 @@ $(function(){
       "activo"  : document.getElementById('activos').checked,
     };
     $.ajax({
-      url: "../CtrTimbrarNotaCredito/timbrado",
+      url: baseurl+"CtrTimbrarNotaCredito/timbrado",
       type: "post",
       dataType: "html",
       data: par,

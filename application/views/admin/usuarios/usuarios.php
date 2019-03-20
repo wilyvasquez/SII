@@ -31,8 +31,9 @@
           <div class="form-group">
             <label for="direccion">Permisos</label>
             <select class="form-control select2" style="width: 100%;" id="direccion" name="direccion">
-              <option selected="selected" value="Caja">Caja</option>
-              <option value="Admin">Admin</option>
+              <option selected="selected" value="caja">Caja</option>
+              <option value="admin">Admin</option>
+              <option value="refacc">Refacciones</option>
             </select>
           </div>
           <div class="row">

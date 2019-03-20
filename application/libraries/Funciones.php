@@ -110,24 +110,34 @@ class Funciones {
             foreach ($articulos ->result() as $articulo) 
             {
                $data = array(
-                'cve_producto'     => $articulo->clave_sat,
-                'articulo'         => $articulo->articulo, 
-                'cantidad'         => $articulo->cantidad_venta, 
-                'cve_unidad'       => $articulo->unidad, 
-                'descripcion'      => $articulo->descripcion_preventa, 
-                'valor_unitario'   => $articulo->costo, 
-                'importe'          => $articulo->importe, 
-                'descuento'        => $articulo->descuento,
-                'ref_factura'   => $id
+                'cve_producto'   => $articulo->clave_sat,
+                'articulo'       => $articulo->articulo, 
+                'cantidad'       => $articulo->cantidad_venta, 
+                'cve_unidad'     => $articulo->unidad, 
+                'descripcion'    => $articulo->descripcion_preventa, 
+                'valor_unitario' => $articulo->costo, 
+                'importe'        => $articulo->importe, 
+                'descuento'      => $articulo->descuento,
+                'tipo'           => $articulo->tipo,
+                'ref_factura'    => $id
                 );
                 $CI->Modelo_articulos->insertarProductoFacturado($data);
+
+                # DATOS ARTICULO ACTUALES
+                $id_articulo = $articulo->id_articulo;
+                $cantidad    = $articulo->cantidad;
+                # DATOS FACTURADOS
+                $cantidadFac = $articulo->cantidad_venta; 
+                # NUEVOS DATOS
+                $nuevos = array(
+                    'cantidad' => $cantidad - $cantidadFac
+                );
+
+                $CI->Modelo_articulos->update_articulo($id_articulo,$nuevos);
             }            
         }
         $this->borrar_datos($factura->id_preventa);        
-
         return $id;
-        // $peticion = true;
-        // return json_encode($this->resultado($peticion,$uuid));
     }
 
     function borrar_datos($id)

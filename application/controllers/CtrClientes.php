@@ -82,11 +82,11 @@ class CtrClientes extends CI_Controller {
 				$peticion = $this->Modelo_cliente->put_cliente($datos);
 				if ($peticion) {
 					$msg = "Exito, Cliente agregado correctamente";
-					echo json_encode($this->funciones->resultado($peticion,$url,$msg));
+					echo json_encode($this->funciones->resultado($peticion, $url, $msg, null));
 				}
 			}else{
 				$msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
+                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
 			}
 		}
 	}
@@ -108,15 +108,15 @@ class CtrClientes extends CI_Controller {
 				$peticion = $this->Modelo_cliente->update_cliente($id,$datos);
 				if ($peticion) {
 					$msg = "Exito, Cliente actualizado correctamente";
-					echo json_encode($this->funciones->resultado($peticion,$url = null,$msg));
+					echo json_encode($this->funciones->resultado($peticion, $url = null, $msg, null));
 				}
 			}else{
 				$msg = "Error, No se han actualizado los datos";
-	            echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg));
+	            echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
 			}
 		}else{
 			$msg = "Error, Confirmar datos de envio";
-            echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
+            echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
 		}
 	}
 
@@ -192,10 +192,10 @@ class CtrClientes extends CI_Controller {
 			$peticion = $this->Modelo_cliente->agregar_serieFolio($datos);
 			if ($peticion) {
 				$msg = "Exito, Cliente actualizado correctamente";
-				echo json_encode($this->funciones->resultado($peticion,$url = null,$msg,null));
+				echo json_encode($this->funciones->resultado($peticion, $url = null, $msg, null));
 			}else{
 				$msg = "Error, No se agrego el registro";
-				echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
+				echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
 			}
 		}
     }
@@ -215,10 +215,10 @@ class CtrClientes extends CI_Controller {
 	    	$peticion = $this->Modelo_timbrado->update_serieFolio($id, $datos);
 			if ($peticion) {
 				$msg = "Exito, Folio actualizado correctamente";
-				echo json_encode($this->funciones->resultado($peticion,$url = null,$msg,null));
+				echo json_encode($this->funciones->resultado($peticion, $url = null, $msg, null));
 			}else{
 				$msg = "Error, No se agrego el registro";
-				echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
+				echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
 			}
 		}		
     }

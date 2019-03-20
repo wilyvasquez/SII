@@ -27,25 +27,33 @@ class CtrUniversal extends CI_Controller {
         }else{
             if ($this->input->post("cantidad") && $this->input->post("costo") && $this->input->post("codigo") && $this->input->post("ids")) 
             {
-                $cantidad = $this->input->post("cantidad");
-                $costo    = $this->input->post("costo");
-                $data = array(
-                    'cantidad_venta'       => $cantidad,
-                    'alta_apreventa'       => date("Y-m-d H:i:s"),
-                    'importe'              => $cantidad * $costo,
-                    'descuento'            => 0,
-                    'descripcion_preventa' => $this->input->post("descripcion"),
-                    'ref_articulo'         => $this->input->post("codigo"),
-                    'ref_preventa'         => $this->input->post("ids")
-                );
-                $peticion = $this->Modelo_articulos->put_articulo($data);
-                if ($peticion) {
-                    $url  = "ajax_tarticulos";
-                    echo json_encode($this->funciones->resultado($peticion,$url,$msg = null,null));
+                $cantidad    = $this->input->post("cantidad");
+                $costo       = $this->input->post("costo");
+                $id_articulo = $this->input->post("codigo");
+                $resul       = $this->Modelo_articulos->obtener_articulo($id_articulo);
+                $disponible  = $resul->cantidad;
+                if ($cantidad <= $disponible) {
+                    $data = array(
+                        'cantidad_venta'       => $cantidad,
+                        'alta_apreventa'       => date("Y-m-d H:i:s"),
+                        'importe'              => $cantidad * $costo,
+                        'descuento'            => 0,
+                        'descripcion_preventa' => $this->input->post("descripcion"),
+                        'ref_articulo'         => $this->input->post("codigo"),
+                        'ref_preventa'         => $this->input->post("ids")
+                    );
+                    $peticion = $this->Modelo_articulos->put_articulo($data);
+                    if ($peticion) {
+                        $url  = "ajax_tarticulos";
+                        echo json_encode($this->funciones->resultado($peticion, $url, $msg = null, null));
+                    }
+                }else{
+                    $msg = "Error, Cantidad no suficiente";
+                    echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));    
                 }
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
+                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
             }
         }
     }
@@ -226,16 +234,16 @@ class CtrUniversal extends CI_Controller {
                     if ($peticion) {
                         $url      = "ajax_tarticulos";
                         $msg      = "Exito, Descuento aplicado correctamente";
-                        echo json_encode($this->funciones->resultado($peticion, $url, $msg,null));
+                        echo json_encode($this->funciones->resultado($peticion, $url, $msg, null));
                     }
                 }else{
                     $url      = "ajax_tarticulos";
                     $msg      = "Error, descuento mayor que total";
-                    echo json_encode($this->funciones->resultado($peticion = false, $url, $msg,null));
+                    echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, null));
                 }
             }else{
                 $msg = "Error, No se han actualizado los datos";
-                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg,null));
+                echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
             }
         }
     }
@@ -264,10 +272,15 @@ class CtrUniversal extends CI_Controller {
         $rpagos           = $this->Modelo_cliente->get_doctoTipo('P');
         $total            = $this->Modelo_cliente->get_allFacturas();        
 
-        $datos["facturas"] = $facturas->num_rows();
-        $datos["ncredito"] = $ncredito->num_rows();
-        $datos["rpagos"]   = $rpagos->num_rows();
-        $datos["total"]    = $total->num_rows();
+        $datos["facturas"] = 0;
+        $datos["ncredito"] = 0;
+        $datos["rpagos"]   = 0;
+        $datos["total"]    = 0;
+
+        if (!empty($facturas)) { $datos["facturas"] = $facturas->num_rows(); }
+        if (!empty($ncredito)) { $datos["ncredito"] = $ncredito->num_rows(); }
+        if (!empty($rpagos)) { $datos["rpagos"]   = $rpagos->num_rows(); }
+        if (!empty($total)) { $datos["total"]    = $total->num_rows(); }
 
         $data = array(
             "home"          => "active",

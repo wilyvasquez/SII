@@ -52,7 +52,7 @@ class CtrInventario extends CI_Controller {
             "rinventario" => "active",
             "historial"   => "active",
             "title"       => "Articulos",
-            "subtitle"    => "Alta de inventario",
+            "subtitle"    => "Total Inventario",
             "contenido"   => "admin/inventario/tablaInventario",
             "modal_i"     => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
             "menu"        => $pmenu,
@@ -67,9 +67,9 @@ class CtrInventario extends CI_Controller {
         $pmenu = $this->permisos->menu();
         $data = array(
             "rinventario" => "active",
-            "ifacturas"   => "active",
-            "title"       => "Articulos",
-            "subtitle"    => "Alta de inventario",
+            "idfactura"   => "active",
+            "title"       => "Facturas",
+            "subtitle"    => "Facturas Inventario",
             "contenido"   => "admin/inventario/tabla_ifacturas",
             "menu"        => $pmenu,
             "articulos"   => $this->Modelo_articulos->get_articulos(),

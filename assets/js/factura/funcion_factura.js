@@ -11,7 +11,7 @@ $(function(){
       "ids" : document.getElementById('ids').value
     }
     $.ajax({
-      url: "../CtrUniversal/push_articulo",
+      url: baseurl+"CtrUniversal/push_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -22,9 +22,15 @@ $(function(){
     .done(function(res)
     {
       var json = $.parseJSON(res);
-      $("#ntf-cliente").html(json.msg).delay(2000).hide(0);
-      ajax_tarticulos(json,par);
-      ajax_precios(par);
+      if (json.url) {
+        ajax_tarticulos(json,par);
+        ajax_precios(par);        
+      }else{
+        $("#ntf-cliente").html(json.msg).delay(2000).hide(0);
+        setTimeout(function(){ 
+          $("#ntf-cliente").html("").delay(0).show(0);
+        },1000);
+      }
     });
   });
 });
@@ -108,7 +114,7 @@ function valorUnitario()
     "codigo"  : document.getElementById('codigo').value,
   };
   $.ajax({
-    url: "../CtrUniversal/get_valorUnitario",
+    url: baseurl+"CtrUniversal/get_valorUnitario",
     type: "post",
     dataType: "html",
     data: par,
@@ -134,7 +140,7 @@ function importe()
     "costo"   : document.getElementById('costo').value,
   };
   $.ajax({
-    url: "../CtrUniversal/get_importe",
+    url: baseurl+"CtrUniversal/get_importe",
     type: "post",
     dataType: "html",
     data: par,
@@ -199,7 +205,7 @@ $(function(){
       "ids" : document.getElementById('ids').value
     }
     $.ajax({
-      url: "../CtrUniversal/eliminar_articulo",
+      url: baseurl+"CtrUniversal/eliminar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -230,7 +236,7 @@ $(function(){
       "ids" : document.getElementById('ids').value
     }
     $.ajax({
-      url: "../CtrUniversal/editar_articulo",
+      url: baseurl+"CtrUniversal/editar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -255,7 +261,7 @@ function ajax_precios(par)
 {
   console.log("AJAX PRECIOS");
   $.ajax({
-    url: "../CtrUniversal/ajax_precios",
+    url: baseurl+"CtrUniversal/ajax_precios",
     type: "post",
     dataType: "html",
     data: par,
@@ -269,7 +275,7 @@ function ajax_tarticulos(json,par)
 {
   console.log("AJAX TABLA ARTICULOS");
   $.ajax({
-    url: "../CtrUniversal/"+json.url,
+    url: baseurl+"CtrUniversal/"+json.url,
     type: "post",
     dataType: "html",
     data: par,
@@ -291,7 +297,7 @@ $(function(){
     console.log("ELIMINAR UUID");
     var formData = new FormData(document.getElementById("deleteuuid"));
     $.ajax({
-      url: "../CtrUniversal/delete_uuid",
+      url: baseurl+"CtrUniversal/delete_uuid",
       type: "post",
       dataType: "html",
       data: formData,
@@ -315,7 +321,7 @@ $(function(){
     console.log("ACTUALIZAR CLIENTE");
     var formData = new FormData(document.getElementById("updateCliente"));
     $.ajax({
-      url: "../CtrClientes/update_cliente",
+      url: baseurl+"CtrClientes/update_cliente",
       type: "post",
       dataType: "html",
       data: formData,
@@ -342,7 +348,7 @@ function viewCotizacion()
     "id"  : id,
   };
   $.ajax({
-    url: "../CtrCotizacion/get_datosCotizacion",
+    url: baseurl+"CtrCotizacion/get_datosCotizacion",
     type: "post",
     dataType: "html",
     data: par,
@@ -364,7 +370,7 @@ $(function(){
     console.log("AGREGAR ARTICULOS PARA FACTURACION");
     var formData = new FormData(document.getElementById("agregarCotizacionF"));
     $.ajax({
-      url: "../CtrCotizacion/agregar_ArticuloFacturacion",
+      url: baseurl+"CtrCotizacion/agregar_ArticuloFacturacion",
       type: "post",
       dataType: "html",
       data: formData,

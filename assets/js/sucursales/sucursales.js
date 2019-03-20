@@ -5,9 +5,9 @@
 $(function(){
   $("#addsucursales").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("addsucursales"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
         url: "CtrSucursal/agregar_sucursal",
         type: "post",
@@ -39,11 +39,11 @@ $(function(){
 $(function(){
   $("#upSucursal").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("upSucursal"));
-    formData.append("dato", "valor");
+    // formData.append("dato", "valor");
     $.ajax({
-        url: "CtrSucursal/up_sucursal",
+        url: baseurl+"CtrSucursal/up_sucursal",
         type: "post",
         dataType: "html",
         data: formData,

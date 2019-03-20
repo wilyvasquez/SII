@@ -65,7 +65,7 @@ $(function(){
     console.log("AGREGAR ARTICULO COTIZACION");
     var formData = new FormData(document.getElementById("addCotizacion"));
     $.ajax({
-      url: "CtrCotizacion/agregar_articulo",
+      url: baseurl+"CtrCotizacion/agregar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -92,7 +92,7 @@ $(function(){
     console.log("ELIMINAR ARTICULO DE LA COTIZACION");
     var formData = new FormData(document.getElementById("deleteArticuloCotizacion"));
     $.ajax({
-      url: "CtrCotizacion/eliminar_articulo",
+      url: baseurl+"CtrCotizacion/eliminar_articulo",
       type: "post",
       dataType: "html",
       data: formData,
@@ -119,7 +119,7 @@ $(function(){
     console.log("GENERAR COTIZACION");
     var formData = new FormData(document.getElementById("generarCotizacion"));
     $.ajax({
-      url: "CtrCotizacion/generar_cotizacion",
+      url: baseurl+"CtrCotizacion/generar_cotizacion",
       type: "post",
       dataType: "html",
       data: formData,
