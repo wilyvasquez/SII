@@ -99,11 +99,11 @@ class Modelo_inventario extends CI_Model
 							p.codigo_interno like '%".$search."%' OR 
 							p.cantidad like '%".$search."%' OR 
 							p.costo like '%".$search."%' OR 
-							p.codigo_sat like '%".$search."%') AND
-							p.ref_dfacturacion = '0'";
-		}else{
-			$srch = "WHERE p.ref_dfacturacion = '0'";
+							p.codigo_sat like '%".$search."%')";
 		}
+		// else{
+		// 	$srch = "WHERE p.ref_dfacturacion = '0'";
+		// }
 
 		$qnr = "SELECT count(1) cant FROM articulo p ".$srch;
 		$qnr = $this->db->query($qnr);

@@ -224,4 +224,28 @@ class CtrReportes extends CI_Controller {
 		$this->pdf->Cell(5, 4,"$ ". number_format($total,2), 0 , 1);
 	    $this->pdf->Output("Cotizacion.pdf", 'I');
 	}
+
+	public function corte_caja()
+	{
+	    $this->pdf = new Pdf('P','mm','A5');
+	    $this->pdf->AddPage();
+	    $this->pdf->AddFont('agency_fb');
+	    $this->pdf->SetTitle("Cotizacion");
+
+	    $mesesfecha = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+		$fecha=date('d').' de '.$mesesfecha[date('n')-1]. ' de '.date('Y');
+		$this->pdf->SetFont('Arial','',10.5);
+
+		$this->pdf->SetXY(120, 50);
+		$this->pdf->Cell(5, 6,'Oaxaca de Juarez, Oaxaca,'.' '.$fecha, 0 , 1);
+		$this->pdf->Image('assets/img/logo_suzuki_2.png',20,120,170,90,'');
+		$this->pdf->Image('assets/img/logo_suzuki.jpg',140,10,60,30,'');
+		$this->pdf->Image('assets/img/nombre-atrum.jpg',20,20,100,10,'');
+		$this->pdf->Image('assets/img/direccion_oaxaca.jpg',50,275,120,13,'');
+
+		$this->pdf->SetXY(90, 64);
+		$this->pdf->Cell(26, 6,"CORTE CAJA",0, 1);
+
+	    $this->pdf->Output("Cotizacion.pdf", 'I');
+	}
 }

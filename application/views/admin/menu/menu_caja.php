@@ -31,8 +31,8 @@
       <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
     </a>
   </li>
-  <li class="<?php if(!empty($cortes)){ echo $cortes; } ?>">
-    <a href="<?= base_url() ?>timbrado">
+  <li class="<?php if(!empty($corte)){ echo $corte; } ?>">
+    <a href="<?= base_url() ?>cortes">
       <i class="fa fa-pencil-square-o"></i> <span>Cortes</span>
     </a>
   </li>

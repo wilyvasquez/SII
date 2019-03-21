@@ -203,8 +203,8 @@ class CtrTimbrarNotaCredito extends CI_Controller {
             }
 
             # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:
-            copy($url_PDF,$ruta_destino . $uuid . ".pdf");
-            copy($url_XML,$ruta_destino . $uuid . ".xml");
+            // copy($url_PDF,$ruta_destino . $uuid . ".pdf");
+            // copy($url_XML,$ruta_destino . $uuid . ".xml");
         }catch (Exception $e) {
             echo json_encode(
                 $result = array(

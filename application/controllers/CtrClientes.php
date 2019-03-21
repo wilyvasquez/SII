@@ -180,19 +180,25 @@ class CtrClientes extends CI_Controller {
     {
     	if(!$this->input->is_ajax_request())
 		{
-			$this->not_found->not_found();
+			// $this->not_found->not_found();
 		}else{
-	    	$datos = array(
-				"folio_inicial"    => $this->input->post("finicial"),
-				"serie"            => $this->input->post("serie"),
-				"tipo_comprobante" => $this->input->post("tcomprobante"),
-				"folio_siguiente"  => $this->input->post("fsiguiente")
-			);
+			if ($this->input->post("finicial") && $this->input->post("serie") && $this->input->post("tcomprobante") && $this->input->post("fsiguiente")) 
+			{
+		    	$datos = array(
+					"folio_inicial"    => $this->input->post("finicial"),
+					"serie"            => $this->input->post("serie"),
+					"tipo_comprobante" => $this->input->post("tcomprobante"),
+					"folio_siguiente"  => $this->input->post("fsiguiente")
+				);
 
-			$peticion = $this->Modelo_cliente->agregar_serieFolio($datos);
-			if ($peticion) {
-				$msg = "Exito, Cliente actualizado correctamente";
-				echo json_encode($this->funciones->resultado($peticion, $url = null, $msg, null));
+				$peticion = $this->Modelo_cliente->agregar_serieFolio($datos);
+				if ($peticion) {
+					$msg = "Exito, Cliente actualizado correctamente";
+					echo json_encode($this->funciones->resultado($peticion, $url = null, $msg, null));
+				}else{
+					$msg = "Error, No se agrego el registro";
+					echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
+				}
 			}else{
 				$msg = "Error, No se agrego el registro";
 				echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
@@ -204,18 +210,24 @@ class CtrClientes extends CI_Controller {
     {
     	if(!$this->input->is_ajax_request())
 		{
-			$this->not_found->not_found();
+			// $this->not_found->not_found();
 		}else{
-	    	$id = $this->input->post("ids");
-	    	$datos = array(
-				"folio_inicial"    => $this->input->post("mfinicial"),
-				"serie"            => $this->input->post("mserie"),
-				"folio_siguiente"  => $this->input->post("mfsiguiente")
-			);
-	    	$peticion = $this->Modelo_timbrado->update_serieFolio($id, $datos);
-			if ($peticion) {
-				$msg = "Exito, Folio actualizado correctamente";
-				echo json_encode($this->funciones->resultado($peticion, $url = null, $msg, null));
+			if ($this->input->post("ids") && $this->input->post("mfinicial") && $this->input->post("mserie") && $this->input->post("mfsiguiente")) 
+			{
+		    	$id = $this->input->post("ids");
+		    	$datos = array(
+					"folio_inicial"    => $this->input->post("mfinicial"),
+					"serie"            => $this->input->post("mserie"),
+					"folio_siguiente"  => $this->input->post("mfsiguiente")
+				);
+		    	$peticion = $this->Modelo_timbrado->update_serieFolio($id, $datos);
+				if ($peticion) {
+					$msg = "Exito, Folio actualizado correctamente";
+					echo json_encode($this->funciones->resultado($peticion, $url = null, $msg, null));
+				}else{
+					$msg = "Error, No se agrego el registro";
+					echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
+				}
 			}else{
 				$msg = "Error, No se agrego el registro";
 				echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));

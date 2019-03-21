@@ -17,7 +17,7 @@ class Modelo_cotizacion extends CI_Model
             return false;
         }		
 	}
-
+	
 	function obtener_cotizacion($id)
 	{
 		$query = $this->db->get_where('cotizacion', array('ref_usuario' => $id,'ref_dcotizacion' => '0'));
