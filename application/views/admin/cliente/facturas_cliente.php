@@ -29,10 +29,13 @@
     </p>
     <ul class="list-inline">
     <li>
-      <a href="<?= base_url() ?>descarga/<?= $facturas->uuid ?>.pdf" target="blank" class="link-black text-sm"><i class="fa fa-download margin-r-5"></i> Factura</a>
+      <!-- <a href="<?= base_url() ?>descarga/<?= $facturas->uuid ?>.pdf" target="blank" class="link-black text-sm"><i class="fa fa-download margin-r-5"></i> Factura</a> -->
+      <a href="<?= $facturas->pdf ?>" target="blank" class="link-black text-sm"><i class="fa fa-download margin-r-5"></i> Factura</a>
     </li>
     <li>
-      <a href="<?= base_url() ?>xml/<?= $facturas->uuid ?>.xml" target="blank" class="link-black text-sm">
+      <!-- <a href="<?= base_url() ?>xml/<?= $facturas->uuid ?>.xml" target="blank" class="link-black text-sm">
+      <i class="fa fa-file-code-o margin-r-5"></i> XML</a> -->
+      <a href="<?= $facturas->xml ?>" target="blank" class="link-black text-sm">
       <i class="fa fa-file-code-o margin-r-5"></i> XML</a>
     </li><br><br>
     <?php 
@@ -47,8 +50,14 @@
     ?>
       <ul style="margin-left: 20px">
         <li>
-          <a href="<?= base_url() ?>descarga/<?= $pagos->uuid ?>.pdf" target="blank" class="link-black text-sm" style="margin-right: 20px"><i class="fa fa-download margin-r-5"></i> Factura </a>
-          <a href="<?= base_url() ?>xml/<?= $pagos->uuid ?>.xml" target="blank" class="link-black text-sm">
+          <!-- <a href="<?= base_url() ?>descarga/<?= $pagos->uuid ?>.pdf" target="blank" class="link-black text-sm" style="margin-right: 20px"><i class="fa fa-download margin-r-5"></i> Factura </a> -->
+          <a href="<?= $pagos->pdf ?>" target="blank" class="link-black text-sm" style="margin-right: 20px"><i class="fa fa-download margin-r-5"></i> Factura </a>
+          <!-- <a href="<?= base_url() ?>xml/<?= $pagos->uuid ?>.xml" target="blank" class="link-black text-sm">
+            <i class="fa fa-file-code-o margin-r-5"></i> XML 
+            <small class="label" style="background-color: <?= $color ?>; font-size: 9px "><?= $tipo ?></small>
+            - <?= $pagos->uuid ?> <strong>(<?= $pagos->fecha_timbrado ?>)</strong>
+          </a> -->
+          <a href="<?= $pagos->xml ?>" target="blank" class="link-black text-sm">
             <i class="fa fa-file-code-o margin-r-5"></i> XML 
             <small class="label" style="background-color: <?= $color ?>; font-size: 9px "><?= $tipo ?></small>
             - <?= $pagos->uuid ?> <strong>(<?= $pagos->fecha_timbrado ?>)</strong>

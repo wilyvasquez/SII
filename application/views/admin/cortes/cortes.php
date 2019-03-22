@@ -5,20 +5,20 @@
       <div class="box-header with-border">
         <h3 class="box-title">Generar corte</h3>
       </div>
-      <form role="form" id="addFolioSeries">
+      <form role="form" id="cortesCaja">
         <div class="box-body">
           <div class="form-group">
             <label for="fecha">Fecha corte</label>
             <input type="text" class="form-control" name="fecha" id="fecha" placeholder="Fecha corte">
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="fecha">Tipo corte</label>
             <select class="form-control select2">
               <option>Corte X</option>
               <option>Corte Z</option>
             </select>
-          </div>
-          <div id="ajax-ntf"></div>
+          </div> -->
+          <!-- <div id="ajax-ntf"></div> -->
         </div>
         <div class="box-footer">
           <button type="submit" class="btn btn-primary pull-right">Guardar</button>

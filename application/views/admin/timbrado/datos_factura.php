@@ -87,8 +87,10 @@
       </div>
       <!-- /.box-header -->
       <div style="padding: 10px">
-        <a href="<?= base_url() ?>descarga/<?= $dato->uuid ?>" target="blank" class="link-black text-sm"><i class="fa fa-download margin-r-5"></i> Factura</a>
-        <a href="<?= base_url() ?>xml/<?= $dato->uuid ?>" target="blank" class="link-black text-sm" style="margin-left: 10px"><i class="fa fa-file-code-o margin-r-5"></i> XML</a>
+        <!-- <a href="<?= base_url() ?>descarga/<?= $dato->uuid ?>" target="blank" class="link-black text-sm"><i class="fa fa-download margin-r-5"></i> Factura</a> -->
+        <a href="<?= $dato->pdf ?>" target="blank" class="link-black text-sm"><i class="fa fa-download margin-r-5"></i> Factura</a>
+        <!-- <a href="<?= base_url() ?>xml/<?= $dato->uuid ?>" target="blank" class="link-black text-sm" style="margin-left: 10px"><i class="fa fa-file-code-o margin-r-5"></i> XML</a> -->
+        <a href="<?= $dato->xml ?>" target="blank" class="link-black text-sm" style="margin-left: 10px"><i class="fa fa-file-code-o margin-r-5"></i> XML</a>
         <ul>
           <li><?= $dato->uso_cfdi ?></li>
         </ul>

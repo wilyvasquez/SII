@@ -329,13 +329,62 @@ class Modelo_timbrado extends CI_Model
         }
 	}
 
-	function refaccionesFacturadas()
+	function refaccionesFacturadas($fecha)
 	{
-		$this->db->select("*")->from("factura");
-		$this->db->join('articulo_facturado', 'articulo_facturado.ref_factura = factura.id_factura', 'inner');
-		$this->db->join('cliente', 'cliente.id_cliente = factura.ref_cliente', 'inner');
-		// $this->db->where('articulo_facturado.tipo', 'refacciones');
+		$query = $this->db->query("SELECT * FROM factura 
+		INNER JOIN articulo_facturado ON articulo_facturado.ref_factura = factura.id_factura
+		INNER JOIN cliente ON cliente.id_cliente = factura.ref_cliente
+		WHERE factura.metodo_pago = 'PUE' AND factura.fecha_timbrado BETWEEN '$fecha 12:00:00' AND '$fecha 23:59:59'");
+
+		// $this->db->select("*")->from("factura");
+		// $this->db->join('articulo_facturado', 'articulo_facturado.ref_factura = factura.id_factura', 'inner');
+		// $this->db->join('cliente', 'cliente.id_cliente = factura.ref_cliente', 'inner');
+		// $this->db->where('factura.fecha_timbrado', '2019-03-21 18:15:18');
+		// $query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function facturasComprobantes($fecha)
+	{
+		$query = $this->db->query("SELECT * FROM factura 
+		-- INNER JOIN articulo_facturado ON articulo_facturado.ref_factura = factura.id_factura
+		INNER JOIN cliente ON cliente.id_cliente = factura.ref_cliente
+		WHERE factura.tipo_comprobante = 'P' AND factura.fecha_timbrado BETWEEN '$fecha 12:00:00' AND '$fecha 23:59:59'");
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_facturasCom($id)
+	{
+		$this->db->select("*")->from("relacion_factura");
+		$this->db->join('factura', 'relacion_factura.factura_hijo = factura.id_factura', 'inner');
+		$this->db->where('relacion_factura.factura_padre', $id);
 		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
+	function get_complementosPagos($id,$fecha)
+	{
+		$query = $this->db->query("SELECT * FROM relacion_factura 
+		INNER JOIN factura ON relacion_factura.factura_padre = factura.id_factura
+		WHERE relacion_factura.factura_hijo = $id AND factura.tipo_comprobante = 'P' AND factura.fecha_timbrado BETWEEN '$fecha 12:00:00' AND '$fecha 23:59:59'");
+
+		// $this->db->select("*")->from("relacion_factura");
+		// $this->db->join('factura', 'relacion_factura.factura_padre = factura.id_factura', 'inner');
+		// $this->db->where('relacion_factura.factura_hijo', $id);
+		// $this->db->where('factura.tipo_comprobante', 'P');
+		// $query = $this->db->get();
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 

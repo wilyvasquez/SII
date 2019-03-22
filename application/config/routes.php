@@ -88,7 +88,7 @@ $route['chistorial']      	   = 'CtrCotizacion/historial_cotizacion';
 $route['rdfacturas/(:num)']	   = 'CtrReportes/reporte_inventario/$1';
 
 $route['cortes']			   = 'CtrCortes/cortes';
-$route['corteCaja']			   = 'CtrReportes/corte_caja';
+$route['corteCaja/(:any)']     = 'CtrReportes/corte_caja/$1';
 
 $route['session']              = 'CtrLogin/verificar';
 $route['cerrar']               = 'CtrLogin/logout_ci';

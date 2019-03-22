@@ -76,3 +76,17 @@ $(function(){
     });
   });
 });
+
+
+
+// FUNCION PARA ACTUALIZAR DATOS DEL CLIENTE
+$(function(){
+  $("#cortesCaja").on("submit", function(e){
+    e.preventDefault();
+    console.log("GENERAR CORTES DE CAJA");
+    var formData = new FormData(document.getElementById("cortesCaja"));
+    var fecha = document.getElementById('fecha').value;
+    console.log(fecha);
+    window.open("corteCaja"+'/'+fecha);
+  });
+});
