@@ -230,7 +230,7 @@ class CtrReportes extends CI_Controller {
 	    $this->pdf = new Pdf('P','mm','A5');
 	    $this->pdf->AddPage();
 	    $this->pdf->AddFont('agency_fb');
-	    $this->pdf->SetTitle("Cotizacion");
+	    $this->pdf->SetTitle("Corte");
 
 	    $mesesfecha = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 		$fecha=date('d').' de '.$mesesfecha[date('n')-1]. ' de '.date('Y');
@@ -243,9 +243,126 @@ class CtrReportes extends CI_Controller {
 		$this->pdf->Image('assets/img/nombre-atrum.jpg',20,20,100,10,'');
 		$this->pdf->Image('assets/img/direccion_oaxaca.jpg',50,275,120,13,'');
 
-		$this->pdf->SetXY(90, 64);
+		$this->pdf->SetXY(90, 60);
 		$this->pdf->Cell(26, 6,"CORTE CAJA",0, 1);
 
-	    $this->pdf->Output("Cotizacion.pdf", 'I');
+		$this->pdf->SetFillColor(194, 195, 188);
+		$this->pdf->SetFont('Arial','B',10.5);
+		$this->pdf->Rect(10, 70, 190 , 6, ''); # ANTICIPOS
+		$this->pdf->SetXY(90, 70);
+		$this->pdf->Cell(26, 6,"TIMBRADO",0, 1);
+		$this->pdf->SetXY(20, 70);
+		$this->pdf->Cell(26, 6,"FECHA: ". date("Y-m-d"),0, 1);
+
+		$this->pdf->SetFont('Arial','',10);
+		$this->pdf->Rect(10, 76, 190 , 6, ''); # titulos
+		$this->pdf->Rect(10, 76, 25 , 6, ''); # recibo anticipo
+		$this->pdf->SetXY(16, 76);
+		$this->pdf->Cell(26, 6,"Factura",0, 1);
+		$this->pdf->Rect(35, 76, 22 , 6, ''); # factura
+		$this->pdf->SetXY(39, 76);
+		$this->pdf->Cell(26, 6,"Anticipo",0, 1);
+		$this->pdf->Rect(57, 76, 68 , 6, ''); # nombre
+		$this->pdf->SetXY(85, 76);
+		$this->pdf->Cell(26, 6,"Nombre",0, 1);
+		$this->pdf->SetXY(132, 76);
+		$this->pdf->Cell(26, 6,"Tipo",0, 1);
+		$this->pdf->Rect(150, 76, 15 , 6, ''); # forma de pago
+		$this->pdf->SetXY(152, 76);
+		$this->pdf->Cell(26, 6,"Forma",0, 1);
+		$this->pdf->Rect(165, 76, 15, 6, ''); # forma de pago
+		$this->pdf->SetXY(166, 76);
+		$this->pdf->Cell(26, 6,"Metodo",0, 1);
+		$this->pdf->SetXY(182, 76);
+		$this->pdf->Cell(26, 6,"Monto",0, 1);
+
+		$motocicletas = $this->Modelo_timbrado->refaccionesFacturadas();
+		$total = 0;
+		$credito = 0;
+		$caja = 0;
+		$cajaC = 0;
+		$motos = 0;
+		$motocicleta = 0;
+		$accesorios = 0;
+		$acces = 0;
+		$refacciones = 0;
+		$refacc = 0;
+		if (!empty($motocicletas)) {
+			$j = 82;
+			foreach ($motocicletas ->result() as $moto) {  
+				$this->pdf->SetXY(10, $j+1);
+				$this->pdf->Cell(24, 4,$moto->serie."-".$moto->folio,0, 1,"C",true);
+				$this->pdf->SetXY(58, $j);
+				$this->pdf->Cell(26, 6,substr($moto->cliente, 0, 50),0, 1);
+				$this->pdf->SetXY(128, $j);
+				$this->pdf->Cell(26, 6,$moto->tipo,0, 1);	
+				$this->pdf->SetXY(155, $j);
+				$this->pdf->Cell(26, 6,$moto->forma_pago,0, 1);
+				$this->pdf->SetFont('Arial','',7.5);
+				$this->pdf->SetXY(165, $j);
+				$this->pdf->Cell(26, 6,$moto->condicion_pago,0, 1);
+				$this->pdf->SetFont('Arial','',10);
+				$this->pdf->SetXY(180, $j);
+				$this->pdf->Cell(26, 6,"$ ".number_format($moto->total_factura,2),0, 1);
+
+				if ($moto->condicion_pago != "CREDITO") {
+					$total = $total + $moto->total_factura;
+					if ($moto->forma_pago == "01") {
+						$caja = $caja + $moto->total_factura;
+					}				
+					if ($moto->tipo == "refacciones") {
+						$refacciones = $refacciones + $moto->total_factura;
+					}
+					if ($moto->tipo == "accesorios") {
+						$accesorios = $accesorios + $moto->total_factura;
+					}
+					if ($moto->tipo == "motocicletas") {
+						$motocicleta = $motocicleta + $moto->total_factura;
+					}
+				}
+
+				$j = $j + 6;
+				$complemento = $this->Modelo_timbrado->get_comprobantesPagoTotal($moto->id_factura);
+				if (!empty($complemento)) {
+					foreach ($complemento ->result() as $comple) {  
+						$this->pdf->SetXY(35, $j);
+						$this->pdf->Cell(22, 4,$comple->serie."-".$comple->folio,0, 1,"C",true);
+						$this->pdf->SetXY(58, $j);
+						$this->pdf->Cell(26, 6,"Complemento",0, 1);
+						$this->pdf->SetXY(128, $j);
+						$this->pdf->Cell(26, 6,"",0, 1);
+						$this->pdf->SetXY(155, $j);
+						$this->pdf->Cell(26, 6,$comple->forma_pago,0, 1);
+						$this->pdf->SetFont('Arial','',7.5);
+						$this->pdf->SetXY(165, $j);
+						$this->pdf->Cell(26, 6,$comple->condicion_pago,0, 1);
+						$this->pdf->SetFont('Arial','',10);
+						$this->pdf->SetXY(180, $j);
+						$this->pdf->Cell(26, 6,"$ ".number_format($comple->total_factura,2),0, 1);
+						$credito = $credito + $comple->total_factura;
+						$refacc  = $refacc + $comple->total_factura;
+						$acces   = $acces + $comple->total_factura;
+						$motos   = $motos + $comple->total_factura;
+						if ($comple->forma_pago == "01") {
+							$cajaC = $cajaC + $comple->total_factura;
+						}
+						$j = $j + 6;
+					}
+				}
+			}
+			$this->pdf->SetXY(15, $j+10);
+			$this->pdf->Cell(26, 6,"Total: $ ".number_format($total + $credito,2),0, 1);
+			$this->pdf->SetXY(50, $j+10);
+			$this->pdf->Cell(26, 6,"Caja: $ ".number_format($caja + $cajaC,2),0, 1);
+			$this->pdf->SetXY(80, $j+10);
+			$this->pdf->Cell(26, 6,"Refacciones: $ ".number_format($refacciones + $refacc,2),0, 1);
+			$this->pdf->SetXY(120, $j+10);
+			$this->pdf->Cell(26, 6,"Accesorios: $ ".number_format($accesorios + $acces,2),0, 1);
+			$this->pdf->SetXY(160, $j+10);
+			$this->pdf->Cell(26, 6,"Motocicletas: $ ".number_format($motocicleta + $motos,2),0, 1);
+		}
+	
+
+	    $this->pdf->Output("Cortes.pdf", 'I');
 	}
 }

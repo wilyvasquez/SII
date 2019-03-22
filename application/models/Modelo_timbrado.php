@@ -328,4 +328,18 @@ class Modelo_timbrado extends CI_Model
             return null;
         }
 	}
+
+	function refaccionesFacturadas()
+	{
+		$this->db->select("*")->from("factura");
+		$this->db->join('articulo_facturado', 'articulo_facturado.ref_factura = factura.id_factura', 'inner');
+		$this->db->join('cliente', 'cliente.id_cliente = factura.ref_cliente', 'inner');
+		// $this->db->where('articulo_facturado.tipo', 'refacciones');
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
 }
