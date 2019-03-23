@@ -196,6 +196,8 @@ class CtrTimbrarNotaCredito extends CI_Controller {
                 );
                 $this->Modelo_timbrado->update_serieFolio($folioSerie->id_folios,$data);
 
+                $this->correo->correo_factura($cliente->correo,$cliente->cliente,$uuid);
+
                 if (!empty($r_uuid)) 
                 {
                     $this->funciones->relacion_factura($factura,$r_uuid);

@@ -47,6 +47,10 @@
         $tipo = "EGRESO";
         $color = "#BB3C3C";
       }
+      if ($pagos->tipo_comprobante == "I") {
+        $tipo = "INGRESO";
+        $color = "#29B019";
+      }
     ?>
       <ul style="margin-left: 20px">
         <li>

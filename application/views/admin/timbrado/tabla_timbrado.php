@@ -24,8 +24,20 @@
           <td><?= $uuid->uuid ?></td>
           <td><?= $uuid->fecha_timbrado ?></td>
           <td>$ <?= number_format($uuid->total_factura,2) ?></td>
-          <td><?= $uuid->serie ?> <?= $uuid->folio ?></td>
-          <td><?= $uuid->tipo_comprobante ?></td>
+          <td><?= $uuid->serie ?> - <?= $uuid->folio ?></td>
+          <?php if ($uuid->tipo_comprobante == "I") {
+            $tipo  = "INGRESO";
+            $color = "success";
+          }if ($uuid->tipo_comprobante == "E") {
+            $tipo  = "EGRESO";
+            $color = "warning";
+          }if ($uuid->tipo_comprobante == "P") {
+            $tipo  = "COMPROBANTE";
+            $color = "primary";
+          } ?>
+          <td>
+            <span class="label label-<?= $color ?>"><?= $tipo ?></span>
+          </td>
           <td>
             <a href="<?= base_url() ?>dfactura/<?= $uuid->id_factura ?>" class="btn btn-primary btn-xs">Docto</a>
           </td>
