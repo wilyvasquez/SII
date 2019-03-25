@@ -3,7 +3,7 @@
   <div class="col-md-4">
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">Subir Articulo <strong>(F7 cerrar inventario)</strong></h3>
+        <h3 class="box-title">Subir Articulo <strong>(F7 Cerrar)</strong></h3>
       </div>
       <form role="form" id="addinventario">
         <div class="box-body">
@@ -14,12 +14,16 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label for="costo">Costo</label>
-              <input type="number" class="form-control" name="costo" placeholder="Costo" required>
+              <input type="number" class="form-control" name="costo" placeholder="Costo Cliente" required>
             </div>
             <div class="form-group col-md-6">
-              <label for="codigoi">Codigo</label>
-              <input type="text" class="form-control" name="codigoi" placeholder="Codigo Interno" required>
+              <label for="costoProv">Costo Prov.</label>
+              <input type="number" class="form-control" name="costoProv" placeholder="Costo Proveedor" required>
             </div>
+          </div>
+          <div class="form-group">
+            <label for="codigoi">Codigo</label>
+            <input type="text" class="form-control" name="codigoi" placeholder="Codigo Interno" required>
           </div>
           <div class="row">
             <div class="form-group col-md-6">

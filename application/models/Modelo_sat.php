@@ -47,6 +47,17 @@ class Modelo_sat extends CI_Model
 		}
 	}
 
+	function get_metodoPagosRP()
+	{
+		// $query = $this->db->get('metodo_pago');
+		$query = $this->db->get_where('metodo_pago', array('c_metodoPago' => 'PUE')); 
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
 	function get_usoCfdi()
 	{
 		$query = $this->db->get('uso_cfdi');

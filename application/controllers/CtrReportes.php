@@ -299,7 +299,7 @@ class CtrReportes extends CI_Controller {
 
 				if ($moto->condicion_pago != "CREDITO") {
 					$total = $total + $moto->total_factura;
-					if ($moto->forma_pago == "01") {
+					if ($moto->forma_pago == "01" && $moto->tipo_comprobante == "I") {
 						$caja = $caja + $moto->total_factura;
 					}
 				}

@@ -334,7 +334,7 @@ class Modelo_timbrado extends CI_Model
 		$query = $this->db->query("SELECT * FROM factura 
 		INNER JOIN articulo_facturado ON articulo_facturado.ref_factura = factura.id_factura
 		INNER JOIN cliente ON cliente.id_cliente = factura.ref_cliente
-		WHERE factura.metodo_pago = 'PUE' AND factura.fecha_timbrado BETWEEN '$fecha 12:00:00' AND '$fecha 23:59:59'");
+		WHERE factura.metodo_pago = 'PUE' AND factura.fecha_timbrado BETWEEN '$fecha 01:00:00' AND '$fecha 23:59:59'");
 
 		// $this->db->select("*")->from("factura");
 		// $this->db->join('articulo_facturado', 'articulo_facturado.ref_factura = factura.id_factura', 'inner');

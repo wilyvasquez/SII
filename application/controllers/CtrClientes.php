@@ -13,7 +13,7 @@ class CtrClientes extends CI_Controller {
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
-        // $this->permisos->redireccion();
+        $this->permisos->redireccion();
         
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
@@ -46,7 +46,7 @@ class CtrClientes extends CI_Controller {
 			'cliente'   => "active",
 			'title'     => "Cliente",
 			'subtitle'  => "Datos del cliente", 
-			'contenido' => "admin/cliente/perfil-cliente",
+			'contenido' => "admin/cliente/perfil-cliente", 
 			'menu'      => $pmenu,
 			'facturas'  => $this->load->view('admin/cliente/facturas_cliente',$datos,true),
 			'ucliente'  => $this->load->view('admin/cliente/update-cliente',$datos,true),
@@ -233,12 +233,5 @@ class CtrClientes extends CI_Controller {
 				echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
 			}
 		}		
-    }
-
-    public function prueba_email()
-    {
-    	$data['nombre']  = "Pedro Lopez";
-		$data['mensaje'] = "Factura Generada";
-	    $this->load->view('admin/correo/correo_factura', $data);
     }
 }

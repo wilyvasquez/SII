@@ -343,7 +343,7 @@ class CtrUniversal extends CI_Controller {
         $datos["docto"] = $this->Modelo_cliente->get_allFacturas();
         $data = array(
             "doctos"      => "active",
-            "title"       => "NC, RP, Facturas",
+            "title"       => "Documentos Timbrado",
             "subtitle"    => "Timbrado",
             "contenido"   => "admin/timbrado/timbrado",
             "menu"        => $pmenu,

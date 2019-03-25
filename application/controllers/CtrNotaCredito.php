@@ -132,4 +132,34 @@ class CtrNotaCredito extends CI_Controller {
         $data["archivosJS"]  = $this->load->view('admin/tncredito/archivos/archivosJS',null,true);
         $this->load->view('universal/plantilla',$data);
     }
+
+    public function generar_notasCredito($id)
+    {
+        $pmenu = $this->permisos->menu();
+
+        $factura = $this->Modelo_timbrado->search_factura($id);
+        $datos = array(
+            'alta_preventa'    => date("Y-m-d H:i:s"),
+            'condicion_pago'   => $factura->condicion_pago,
+            'estatus_preventa' => "activo",
+            'ref_cliente'      => $factura->ref_cliente,
+            'forma_pago'       => $factura->forma_pago,
+            'metodo_pago'      => $factura->metodo_pago,
+            'uso_cfdi'         => $factura->uso_cfdi
+        );
+        $rid = $this->Modelo_timbrado->put_preventa($datos);
+
+        $data = array(
+            'timbrado'    => "active",
+            'ncredito'    => "active",
+            'title'       => "Nota Credito",
+            'subtitle'    => "Crear Nota Credito",
+            'contenido'   => "admin/ncredito/generar_ncredito",
+            'menu'        => $pmenu,
+            'rid'         => $rid
+        );
+        # ARCHIVOS JS
+        $data["archivosJS"] = $this->load->view('admin/ncredito/archivos/archivosJS',null,true);
+        $this->load->view('universal/plantilla',$data);
+    }
 }

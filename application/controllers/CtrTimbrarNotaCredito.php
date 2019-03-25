@@ -9,6 +9,7 @@ class CtrTimbrarNotaCredito extends CI_Controller {
         $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Permisos');
+        $this->load->library('Correo');
         
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_timbrado');
@@ -196,12 +197,11 @@ class CtrTimbrarNotaCredito extends CI_Controller {
                 );
                 $this->Modelo_timbrado->update_serieFolio($folioSerie->id_folios,$data);
 
-                $this->correo->correo_factura($cliente->correo,$cliente->cliente,$uuid);
-
                 if (!empty($r_uuid)) 
                 {
                     $this->funciones->relacion_factura($factura,$r_uuid);
                 }
+                $this->correo->correo_factura($cliente->correo,$cliente->cliente,$uuid);
             }
 
             # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:

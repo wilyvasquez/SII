@@ -94,6 +94,7 @@ class CtrInventario extends CI_Controller {
                     'codigo_sat'       => $this->input->post("clave"),
                     'descripcion'      => $this->input->post("descripcion"),
                     'costo'            => $this->input->post("costo"),
+                    'costo_proveedor'  => $this->input->post("costoProv"),
                     'tipo'             => $this->input->post("tipo"),
                     'unidad'           => $clave->clave,
                     'clave_sat'        => $clave->c_ClaveUnidad,
@@ -240,7 +241,7 @@ class CtrInventario extends CI_Controller {
                 'codigo_interno' => $this->input->post("mcodigo"),
                 'cantidad'       => $this->input->post("mcantidad"),
                 'costo'          => $this->input->post("mcosto"),
-                'clave_sat'      => $this->input->post("msat")
+                'codigo_sat'     => $this->input->post("msat")
             );
             $peticion = $this->Modelo_articulos->update_articulo($id,$data);
             if ($peticion) {

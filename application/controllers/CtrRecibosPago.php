@@ -32,7 +32,7 @@ class CtrRecibosPago extends CI_Controller {
             'mcliente'    => $this->load->view('admin/factura/modal/modal-cliente',null,true), # MODAL REGISTRAR CLIENTE NUEVO CLIENTE
             'clientes'    => $this->Modelo_cliente->get_clientes(), # OBTENER TODOS LOS CLIENTES
             'fpagos'      => $this->Modelo_sat->get_formaPagos(),   # OBTENER FORMAS DE PAGO
-            'mpagos'      => $this->Modelo_sat->get_metodoPagos(),  # OBTENER METODOS DE PAGO
+            'mpagos'      => $this->Modelo_sat->get_metodoPagosRP(),  # OBTENER METODOS DE PAGO
             'ucfdis'      => $this->Modelo_sat->get_usoCfdi()      # OBTENER USO DEL CFDI
         );
         $data['info']     = $this->load->view('admin/factura/info-cliente',$data,true); # VISTAS PARA OBTENER LOS DATOS DEL CLIENTE

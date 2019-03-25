@@ -9,6 +9,8 @@ class CtrTimbrarReciboPago extends CI_Controller {
         $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Permisos');
+        $this->load->library('Correo');
+
         
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_timbrado');
@@ -143,7 +145,7 @@ class CtrTimbrarReciboPago extends CI_Controller {
                 $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['NumParcialidad']   = $articulo->parcialidad;
                 $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpSaldoAnt']      = round($totalRestante,2); # ultimo saldo (antes de recibir este pago)
                 $d['Complemento']['Pagos'][0]['DoctoRelacionado'][$i]['ImpPagado']        = $articulo->monto; # importe pagado
-                $insoluto = round($totalRestante - $articulo->monto);
+                $insoluto = round($totalRestante - $articulo->monto,2);
                 if ($insoluto <= 0) {
                     $insoluto = number_format($totalRestante - $articulo->monto,2);
                 }
@@ -203,6 +205,7 @@ class CtrTimbrarReciboPago extends CI_Controller {
                 {
                     $this->funciones->relacion_factura($factura,$datos);
                 }
+                $this->correo->correo_factura($cliente->correo,$cliente->cliente,$uuid);
             }
 
             # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:

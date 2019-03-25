@@ -48,6 +48,18 @@
       <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li>
     </ul>
   </li>
+  <li class="treeview <?php if(!empty($cotizacion)){ echo $cotizacion; } ?>">
+    <a href="#">
+      <i class="fa fa-edit"></i> <span>Cotizacion</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li class="<?php if(!empty($gcotizacion)){ echo $gcotizacion; } ?>"><a href="<?= base_url() ?>cotizacion"><i class="fa fa-circle-o"></i> Generar</a></li>
+      <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>chistorial"><i class="fa fa-circle-o"></i> Historial</a></li>
+    </ul>
+  </li>
 
   <li class="<?php if(!empty($sucursal)){ echo $sucursal; } ?>">
     <a href="<?= base_url() ?>sucursal">
@@ -70,8 +82,8 @@
       <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
     </a>
   </li>
-  <li class="<?php if(!empty($cortes)){ echo $cortes; } ?>">
-    <a href="<?= base_url() ?>timbrado">
+  <li class="<?php if(!empty($corte)){ echo $corte; } ?>">
+    <a href="<?= base_url() ?>cortes">
       <i class="fa fa-pencil-square-o"></i> <span>Cortes</span>
     </a>
   </li>

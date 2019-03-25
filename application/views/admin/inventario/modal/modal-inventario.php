@@ -21,11 +21,11 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="mcantidad">Cantidad</label>
-                <input type="text" class="form-control" id="mcantidad" name="mcantidad" placeholder="Cantidad" required>
+                <input type="number" class="form-control" id="mcantidad" name="mcantidad" placeholder="Cantidad" required>
               </div>
               <div class="form-group col-md-6">
                 <label for="mcosto">Costo</label>
-                <input type="text" class="form-control" id="mcosto" name="mcosto" placeholder="Costo" required>
+                <input type="number" class="form-control" id="mcosto" name="mcosto" placeholder="Costo" required>
               </div>
               <div class="form-group col-md-6">
                 <label for="msat">Clave SAT</label>

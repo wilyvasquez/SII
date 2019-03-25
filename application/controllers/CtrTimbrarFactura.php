@@ -8,8 +8,8 @@ class CtrTimbrarFactura extends CI_Controller {
         parent::__construct();
         $this->load->library('Facturapi');
         $this->load->library('Funciones');
-        $this->load->library('Email');
         $this->load->library('Permisos');
+        $this->load->library('Correo');
         
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_timbrado');
@@ -201,8 +201,8 @@ class CtrTimbrarFactura extends CI_Controller {
                 {
                     $this->funciones->relacion_factura($factura,$r_uuid);
                 }
-
-                $this->email->email_prueba($cliente->cliente,$cliente->nombre,$uuid);
+                $this->correo->correo_factura($cliente->correo,$cliente->cliente,$uuid);
+                
                 # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:
                 // copy($url_PDF,$ruta_destino . $uuid . ".pdf");
                 // copy($url_XML,$ruta_destino . $uuid . ".xml");
@@ -219,5 +219,4 @@ class CtrTimbrarFactura extends CI_Controller {
         }
 
     }
-
 }
