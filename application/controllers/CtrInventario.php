@@ -389,4 +389,71 @@ class CtrInventario extends CI_Controller {
             echo json_encode($this->funciones->resultado($peticion = false, $url, $msg, 0));
         }
     }
+
+    public function xml_prueba()
+    {
+        $xml = base_url().'assets/xml/A52_B09FB5E6-E35F-4742-A784-BB45D9B16210.xml';
+        $xml = simplexml_load_file($xml);
+        $ns  = $xml->getNamespaces(true);
+        $xml->registerXPathNamespace('c', $ns['cfdi']);
+        $xml->registerXPathNamespace('t', $ns['tfd']);
+         
+        //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA 
+        foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante)
+        { 
+            // echo "Version: ".$cfdiComprobante['Version']; 
+            // echo "<br />"; 
+            // echo "Fecha: ".$cfdiComprobante['Fecha']; 
+            // echo "<br />"; 
+            // echo $cfdiComprobante['Sello']; 
+            echo "<br />"; 
+            echo "Total: ".$cfdiComprobante['Total']; 
+            echo "<br />"; 
+            echo "SubTotal: ".$cfdiComprobante['SubTotal']; 
+            echo "<br />"; 
+            // echo $cfdiComprobante['Certificado']; 
+            // echo "<br />"; 
+            // echo "Forma de Pago: ".$cfdiComprobante['FormaPago']; 
+            // echo "<br />"; 
+            // echo "Num Certificado: ".$cfdiComprobante['NoCertificado']; 
+            // echo "<br />"; 
+            // echo "Tipo comprobante: ".$cfdiComprobante['TipoDeComprobante']; 
+            // echo "<br />"; 
+        } 
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor)
+        { 
+           echo "RFC Emisor: ".$Emisor['Rfc']; 
+           echo "<br />"; 
+           echo "Nombre: ".$Emisor['Nombre']; 
+           echo "<br />"; 
+        }
+        // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor){ 
+        //    echo "<br />";
+        //    echo "RFC receptor: ".$Receptor['Rfc']; 
+        //    echo "<br />"; 
+        //    echo "Nombre: ".$Receptor['Nombre']; 
+        //    echo "<br />"; 
+        // } 
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto)
+        { 
+           echo "<br />"; 
+           echo "Unidad: ".$Concepto['Unidad']; 
+           echo "<br />"; 
+           echo "Importe: ".$Concepto['Importe']; 
+           echo "<br />"; 
+           echo "Cantidad: ".$Concepto['Cantidad']; 
+           echo "<br />"; 
+           echo "Clave Unidad: ".$Concepto['ClaveUnidad'];
+           echo "<br />"; 
+           echo "Clave Producto: ".$Concepto['ClaveProdServ'];
+           echo "<br />"; 
+           echo "Num Identificacion: ".$Concepto['NoIdentificacion']; 
+           echo "<br />"; 
+           echo "Descripcion: ".$Concepto['Descripcion']; 
+           echo "<br />"; 
+           echo "Valor Unitario: ".$Concepto['ValorUnitario']; 
+           echo "<br />";   
+           echo "<br />"; 
+        } 
+    }
 }

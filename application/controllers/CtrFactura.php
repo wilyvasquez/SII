@@ -174,7 +174,7 @@ class CtrFactura extends CI_Controller {
         $data['tuuid']       = $this->Modelo_timbrado->get_relacion($id);
 
         # CONSULTA PARA VER LAS COTIZACIONES PARA CAJA
-        $data['cotizacion']  = $this->Modelo_cotizacion->obtener_cotizaciones();
+        $data['cotizaciones']  = $this->Modelo_cotizacion->obtener_cotizaciones();
 
         # CONSULTA OBTENER DATOS DEL CLIENTE
 		$data["id"]          = $id;
@@ -201,7 +201,7 @@ class CtrFactura extends CI_Controller {
 			'mearticulo'  => $this->load->view('admin/tfactura/modal/modal-eliminar-articulo',null,true), # VISTA MODAL ELIMAR ARTICULO
 			'meuuid'      => $this->load->view('admin/tncredito/modal/modal-eliminar-uuid',$data,true),   # VISTA MODAL ELIMAR UUID
         	'mtimbrar'    => $this->load->view('admin/tncredito/modal/modal-timbrar',null,true), 		  # VISTA MODAL AGREGAR UUID
-        	'cotizacion'  => $this->load->view('admin/tfactura/modal/modal_agregar_cotizacion',null,true) 		  # VISTA MODAL AGREGAR UUID
+        	'cotizaciones'=> $this->load->view('admin/tfactura/modal/modal_agregar_cotizacion',null,true) 		  # VISTA MODAL AGREGAR UUID
 		);       		
 		# ARCHIVOS JS
         $data["archivosJS"]  = $this->load->view('admin/tfactura/archivos/archivosJS',null,true);

@@ -19,5 +19,5 @@
   <?= $mearticulo ?>
   <?= $mtimbrar ?>
   <?= $meuuid ?>
-  <?= $cotizacion ?>
+  <?= $cotizaciones ?>
 </div>
