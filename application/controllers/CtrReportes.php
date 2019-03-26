@@ -166,7 +166,7 @@ class CtrReportes extends CI_Controller {
 		$this->pdf->SetXY(183, 92);
 		$this->pdf->Cell(5, 4,"Importe", 0 , 1);
 
-		$this->pdf->SetFont('arial','',9);
+		$this->pdf->SetFont('arial','',7.5);
 		$j = 105; 
 		$total  = 0;
 		$precio_siva = 0;
@@ -177,12 +177,13 @@ class CtrReportes extends CI_Controller {
 				$this->pdf->Rect(10, $j, 30 , 8, ''); # CLAVE ARTICULO
 				$this->pdf->SetXY(10, $j+2);
 				$this->pdf->Cell(5, 4,$resul->codigo_interno, 0 , 1);
+				$this->pdf->SetFont('arial','',9);
 				$this->pdf->Rect(40, $j, 60 , 8, ''); #DESCRIPCION
 				$this->pdf->SetXY(40, $j+2);
 				$this->pdf->Cell(5, 4,substr($resul->descripcion, 0, 30), 0 , 1);
 				$this->pdf->Rect(100, $j, 20 , 8, ''); #p unitario
 				$this->pdf->SetXY(100, $j+2);
-				$this->pdf->Cell(5, 4,"$ ".number_format($resul->costo,2), 0 , 1);
+				$this->pdf->Cell(5, 4,"$ ".number_format($resul->costo_proveedor,2), 0 , 1);
 				$this->pdf->Rect(120, $j, 20 , 8, ''); #descuento
 				$this->pdf->SetXY(125, $j+2);
 				$this->pdf->Cell(5, 4,number_format($resul->cantidad), 0 , 1);
@@ -191,11 +192,11 @@ class CtrReportes extends CI_Controller {
 				$this->pdf->Cell(5, 4,number_format(16)." %", 0 , 1);
 				$this->pdf->Rect(160, $j, 20 , 8, ''); #precio con iva
 				$this->pdf->SetXY(160, $j+2);
-				$this->pdf->Cell(5, 4,"$ ".number_format($resul->costo * 1.16,2), 0 , 1);
+				$this->pdf->Cell(5, 4,"$ ".number_format($resul->costo_proveedor * 1.16,2), 0 , 1);
 				$this->pdf->SetXY(180, $j+2);
-				$this->pdf->Cell(5, 4,"$ ".number_format(($resul->costo * 1.16) * $resul->cantidad,2), 0 , 1);
-				$precio_siva = $precio_siva +$resul->costo * $resul->cantidad;
-				$total       = $total + ($resul->costo * 1.16) * $resul->cantidad;
+				$this->pdf->Cell(5, 4,"$ ".number_format(($resul->costo_proveedor * 1.16) * $resul->cantidad,2), 0 , 1);
+				$precio_siva = $precio_siva +$resul->costo_proveedor * $resul->cantidad;
+				$total       = $total + ($resul->costo_proveedor * 1.16) * $resul->cantidad;
 				$j = $j + 8;
 				if ($j > 270) {
 					$this->pdf->AddPage();

@@ -27,15 +27,16 @@ $(function () {
         "type":"POST",            
       },
       'columns': [
-        {data: 'id_articulo','sClass':'dt-body-center'},
+        // {data: 'id_articulo','sClass':'dt-body-center'},
         {data: 'articulo'},
         {data: 'codigo_interno'},
         {data: 'cantidad'},
         {data: 'costo'},
+        {data: 'costop'},
         {data: 'codigo_sat'},
         {"orderable": true,
           render:function(data, type, row){
-            return '<button type="button" class="btn btn-block btn-primary btn-xs" onclick="selInventario(\''+row.id_articulo+'\',\''+row.articulo+'\',\''+row.codigo_interno+'\',\''+row.cantidad+'\',\''+row.costo+'\',\''+row.codigo_sat+'\')" data-toggle="modal" data-target=".editarInventario">Editar</button>'
+            return '<button type="button" class="btn btn-block btn-primary btn-xs" onclick="selInventario(\''+row.id_articulo+'\',\''+row.articulo+'\',\''+row.codigo_interno+'\',\''+row.cantidad+'\',\''+row.costo+'\',\''+row.codigo_sat+'\',\''+row.descripcion+'\',\''+row.costop+'\')" data-toggle="modal" data-target=".editarInventario">Editar</button>'
           }
         }
       ],
@@ -43,11 +44,14 @@ $(function () {
   });
 });
 
-selInventario =  function(id,articulo,codigo_interno,cantidad,costo,codigo_sat){
+selInventario =  function(id,articulo,codigo_interno,cantidad,costo,codigo_sat,descripcion,costop){
   $('#mid').val(id);
   $('#marticulo').val(articulo);
   $('#mcodigo').val(codigo_interno);
   $('#mcantidad').val(cantidad);
   $('#mcosto').val(costo);
+  $('#mcostop').val(costop);
   $('#msat').val(codigo_sat);
+  $('#mtextos').val(articulo);
+  console.log("hola");
 }

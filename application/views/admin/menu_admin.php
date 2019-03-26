@@ -44,6 +44,7 @@
     </a>
     <ul class="treeview-menu">
       <li class="<?php if(!empty($inventario)){ echo $inventario; } ?>"><a href="<?= base_url() ?>inventario"><i class="fa fa-circle-o"></i> Alta Inventario</a></li>
+      <li class="<?php if(!empty($axml)){ echo $axml; } ?>"><a href="<?= base_url() ?>altaXml"><i class="fa fa-circle-o"></i> Alta (XML)</a></li>
       <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>hinventario"><i class="fa fa-circle-o"></i> Inventario</a></li>
       <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li>
     </ul>

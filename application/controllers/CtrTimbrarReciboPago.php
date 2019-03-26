@@ -205,7 +205,7 @@ class CtrTimbrarReciboPago extends CI_Controller {
                 {
                     $this->funciones->relacion_factura($factura,$datos);
                 }
-                $this->correo->correo_factura($cliente->correo,$cliente->cliente,$uuid);
+                // $this->correo->correo_factura($cliente->correo,$cliente->cliente,$uuid);
             }
 
             # El PDF y el XML se pueden bajar mediante PHP a tu servidor local, utilizando la siguiente función:

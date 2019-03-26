@@ -54,6 +54,7 @@ $route['404_override']         = 'CtrUniversal/not_found';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['inventario']           = 'CtrInventario/inventario';
+$route['altaXml']              = 'CtrInventario/alta_xml';
 $route['ifacturas']            = 'CtrInventario/ifacturas';
 $route['hinventario']          = 'CtrInventario/hinventario';
 $route['sucursal']             = 'CtrSucursal/sucursal';

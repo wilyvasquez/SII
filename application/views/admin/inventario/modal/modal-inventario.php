@@ -25,11 +25,19 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="mcosto">Costo</label>
-                <input type="number" class="form-control" id="mcosto" name="mcosto" placeholder="Costo" required>
+                <input type="number" class="form-control" id="mcosto" name="mcosto" placeholder="Costo" step="any" required>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="mcostop">Costo Proveedor</label>
+                <input type="number" class="form-control" id="mcostop" name="mcostop" step="any" placeholder="Costo" required>
               </div>
               <div class="form-group col-md-6">
                 <label for="msat">Clave SAT</label>
                 <input type="text" class="form-control" id="msat" name="msat" placeholder="Clave SAT" required>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="">Descripcion</label>
+                <textarea class="form-control" rows="4" id="mtextos" name="mtextos"></textarea>
               </div>
             </div>
             <div id="ajax-ntf"></div>

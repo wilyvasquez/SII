@@ -237,11 +237,13 @@ class CtrInventario extends CI_Controller {
         }else{
             $id = $this->input->post("mid");
             $data = array(
-                'articulo'       => $this->input->post("marticulo"),
-                'codigo_interno' => $this->input->post("mcodigo"),
-                'cantidad'       => $this->input->post("mcantidad"),
-                'costo'          => $this->input->post("mcosto"),
-                'codigo_sat'     => $this->input->post("msat")
+                'articulo'        => $this->input->post("marticulo"),
+                'codigo_interno'  => $this->input->post("mcodigo"),
+                'cantidad'        => $this->input->post("mcantidad"),
+                'costo'           => $this->input->post("mcosto"),
+                'costo_proveedor' => $this->input->post("mcostop"),
+                'codigo_sat'      => $this->input->post("msat"),
+                'descripcion'     => $this->input->post("mtextos")
             );
             $peticion = $this->Modelo_articulos->update_articulo($id,$data);
             if ($peticion) {
@@ -272,7 +274,9 @@ class CtrInventario extends CI_Controller {
             $array['codigo_interno'] = $row['codigo_interno'];
             $array['cantidad']       = $row['cantidad'];
             $array['costo']          = $row['costo'];
+            $array['costop']         = $row['costo_proveedor'];
             $array['codigo_sat']     = $row['codigo_sat'];
+            $array['descripcion']    = $row['descripcion'];
 
             $datos[] = $array;
         }
@@ -306,7 +310,9 @@ class CtrInventario extends CI_Controller {
             $array['codigo_interno'] = $row['codigo_interno'];
             $array['cantidad']       = $row['cantidad'];
             $array['costo']          = $row['costo'];
+            $array['costop']         = $row['costo_proveedor'];
             $array['codigo_sat']     = $row['codigo_sat'];
+            $array['descripcion']    = $row['descripcion'];
 
             $datos[] = $array;
         }
@@ -390,70 +396,80 @@ class CtrInventario extends CI_Controller {
         }
     }
 
-    public function xml_prueba()
+    public function alta_xml()
     {
-        $xml = base_url().'assets/xml/A52_B09FB5E6-E35F-4742-A784-BB45D9B16210.xml';
+        $pmenu = $this->permisos->menu();
+        $data = array(
+            "rinventario" => "active",
+            "axml"        => "active",
+            "title"       => "Facturas",
+            "subtitle"    => "Facturas Inventario",
+            "contenido"   => "admin/inventario/alta_xml",
+            "menu"        => $pmenu,
+            "modal_i"     => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
+            "modal_c"     => $this->load->view('admin/inventario/modal/modal_cerrar_inventario',null,true), # AGREGAR NUNEVA MARCA
+            "articulos"   => $this->Modelo_articulos->get_articulos(),
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+            "tabla"       => $this->load->view('admin/inventario/tabla_inventario',null,true),
+        );
+        $this->load->view('universal/plantilla',$data);
+    }
+
+    public function subir_xml()
+    {
+        if (!empty($_FILES["file"])) {
+            if ($_FILES["file"]["error"] > 0 ){
+
+            } else {
+                $permitidos = array("text/xml");
+                $limite_kb = 1000;
+                if (in_array($_FILES['file']['type'], $permitidos) && $_FILES['file']['size'] <= $limite_kb * 1024){
+                    $file = "assets/xml/".$_FILES['file']['name'];
+
+                    if (!file_exists($file)){
+
+                        $file = @move_uploaded_file($_FILES["file"]["tmp_name"], $file);
+
+                        if ($file){
+                            $nombre = $_FILES['file']['name'];
+                            $xml = base_url().'assets/xml/'.$nombre;
+                            $this->xml_prueba($xml);
+                            unlink('assets/xml/'.$nombre);
+                        }
+                    }
+                } 
+            } 
+        }
+    }
+
+    public function xml_prueba($xml)
+    {
         $xml = simplexml_load_file($xml);
         $ns  = $xml->getNamespaces(true);
         $xml->registerXPathNamespace('c', $ns['cfdi']);
         $xml->registerXPathNamespace('t', $ns['tfd']);
          
-        //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA 
-        foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante)
-        { 
-            // echo "Version: ".$cfdiComprobante['Version']; 
-            // echo "<br />"; 
-            // echo "Fecha: ".$cfdiComprobante['Fecha']; 
-            // echo "<br />"; 
-            // echo $cfdiComprobante['Sello']; 
-            echo "<br />"; 
-            echo "Total: ".$cfdiComprobante['Total']; 
-            echo "<br />"; 
-            echo "SubTotal: ".$cfdiComprobante['SubTotal']; 
-            echo "<br />"; 
-            // echo $cfdiComprobante['Certificado']; 
-            // echo "<br />"; 
-            // echo "Forma de Pago: ".$cfdiComprobante['FormaPago']; 
-            // echo "<br />"; 
-            // echo "Num Certificado: ".$cfdiComprobante['NoCertificado']; 
-            // echo "<br />"; 
-            // echo "Tipo comprobante: ".$cfdiComprobante['TipoDeComprobante']; 
-            // echo "<br />"; 
-        } 
-        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor)
-        { 
-           echo "RFC Emisor: ".$Emisor['Rfc']; 
-           echo "<br />"; 
-           echo "Nombre: ".$Emisor['Nombre']; 
-           echo "<br />"; 
-        }
-        // foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Receptor') as $Receptor){ 
-        //    echo "<br />";
-        //    echo "RFC receptor: ".$Receptor['Rfc']; 
-        //    echo "<br />"; 
-        //    echo "Nombre: ".$Receptor['Nombre']; 
-        //    echo "<br />"; 
-        // } 
+        //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA  
         foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto)
         { 
-           echo "<br />"; 
-           echo "Unidad: ".$Concepto['Unidad']; 
-           echo "<br />"; 
-           echo "Importe: ".$Concepto['Importe']; 
-           echo "<br />"; 
-           echo "Cantidad: ".$Concepto['Cantidad']; 
-           echo "<br />"; 
-           echo "Clave Unidad: ".$Concepto['ClaveUnidad'];
-           echo "<br />"; 
-           echo "Clave Producto: ".$Concepto['ClaveProdServ'];
-           echo "<br />"; 
-           echo "Num Identificacion: ".$Concepto['NoIdentificacion']; 
-           echo "<br />"; 
-           echo "Descripcion: ".$Concepto['Descripcion']; 
-           echo "<br />"; 
-           echo "Valor Unitario: ".$Concepto['ValorUnitario']; 
-           echo "<br />";   
-           echo "<br />"; 
+           $data = array(
+            'codigo_sat'     => $Concepto['ClaveProdServ'],
+            'articulo'       => 'Motocicleta Bajaj', 
+            'tipo'           => 'motocicletas',
+            'descripcion'    => $Concepto['Descripcion'],
+            'costo'          => 0,
+            'costo_proveedor'=> $Concepto['Importe'],
+            'unidad'         => $Concepto['Unidad'],
+            'clave_sat'      => $Concepto['ClaveUnidad'],
+            'codigo_interno' => $Concepto['NoIdentificacion'],
+            'cantidad'       => $Concepto['Cantidad'],
+            );
+           $peticion = $this->Modelo_inventario->put_inventario($data);
+           if ($peticion) {
+               echo '<div class="alert alert-success" role="alert">Exito, XML subido con exito</div>';
+           }else{
+                echo '<div class="alert alert-danger" role="alert">Error de XML, datos no subidos</div>';
+           }
         } 
     }
 }

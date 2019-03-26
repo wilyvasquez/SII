@@ -211,3 +211,27 @@ $(function(){
       });
   });
 });
+
+/**
+ * 
+ */
+$(function(){
+  $("#altaXml").on("submit", function(e){
+    e.preventDefault();
+    var f = $(this);
+    var formData = new FormData(document.getElementById("altaXml"));
+    // formData.append("dato", "valor");
+    $.ajax({
+      url: baseurl+"CtrInventario/subir_xml",
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+    .done(function(res){
+        $("#mensaje").html(res);
+    });
+  });
+});
