@@ -239,4 +239,9 @@ class CtrFactura extends CI_Controller {
 	        echo '<div style="text-align:center;padding:50px;background-color: #F19C9C;">Error, XML no encontrado</div>';            	
         }
 	}
+
+	public function prueba()
+	{
+		
+	}
 }
