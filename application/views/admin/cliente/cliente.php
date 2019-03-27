@@ -51,7 +51,7 @@
     <div class="box box-primary">
       <div class="box-header">
       </div>
-      <div class="box-body" id="ajax-cliente">
+      <div class="box-body table-responsive" id="ajax-cliente">
         <?= $tabla ?>
       </div>
     </div>
