@@ -123,3 +123,13 @@ $(function(){
     })
   });
 });
+
+$(function(){
+  function generarNotaCredito()
+  {
+    setTimeout(function(){ 
+      $("#btn-texto").hide(0);
+      $("#btn-entrar").show(0);
+    },3000);
+  }generarNotaCredito();
+});

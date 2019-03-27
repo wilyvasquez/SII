@@ -32,7 +32,7 @@ $(function () {
         {data: 'codigo_interno'},
         {data: 'cantidad'},
         {data: 'costo'},
-        {data: 'costop'},
+        // {data: 'costop'},
         {data: 'codigo_sat'},
         {"orderable": true,
           render:function(data, type, row){
