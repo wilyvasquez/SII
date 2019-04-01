@@ -23,6 +23,7 @@ class CtrUsuarios extends CI_Controller {
 	{
         $pmenu = $this->permisos->menu();
         $data = array(
+            "madmin"    => "active",
     		"user"      => "active",
     		"title"     => "Usuarios",
     		"subtitle"  => "Alta de usuarios",

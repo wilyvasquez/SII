@@ -30,11 +30,11 @@
       <i class="fa fa-users"></i> <span>Clientes</span>
     </a>
   </li>
-  <li class="<?php if(!empty($user)){ echo $user; } ?>">
+  <!-- <li class="<?php if(!empty($user)){ echo $user; } ?>">
     <a href="<?= base_url() ?>usuario">
       <i class="fa fa-user-plus"></i> <span>Usuarios y Roles</span>
     </a>
-  </li>
+  </li> -->
   <li class="treeview <?php if(!empty($rinventario)){ echo $rinventario; } ?>">
     <a href="#">
       <i class="fa fa-archive"></i> <span>Inventario</span>
@@ -44,7 +44,7 @@
     </a>
     <ul class="treeview-menu">
       <li class="<?php if(!empty($inventario)){ echo $inventario; } ?>"><a href="<?= base_url() ?>inventario"><i class="fa fa-circle-o"></i> Alta Inventario</a></li>
-      <li class="<?php if(!empty($axml)){ echo $axml; } ?>"><a href="<?= base_url() ?>altaXml"><i class="fa fa-circle-o"></i> Alta (XML)</a></li>
+      <li class="<?php if(!empty($axml)){ echo $axml; } ?>"><a href="<?= base_url() ?>altaXml"><i class="fa fa-circle-o"></i> Alta Inventario (XML)</a></li>
       <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>hinventario"><i class="fa fa-circle-o"></i> Inventario</a></li>
       <!-- <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li> -->
     </ul>
@@ -62,21 +62,35 @@
     </ul>
   </li>
 
-  <li class="<?php if(!empty($sucursal)){ echo $sucursal; } ?>">
+  <li class="treeview <?php if(!empty($madmin)){ echo $madmin; } ?>">
+    <a href="#">
+      <i class="fa fa-user"></i> <span>Administrador</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li class="<?php if(!empty($user)){ echo $user; } ?>"><a href="<?= base_url() ?>usuario"><i class="fa fa-circle-o"></i> Usuarios y Roles</a></li>
+      <li class="<?php if(!empty($folios)){ echo $folios; } ?>"><a href="<?= base_url() ?>folios"><i class="fa fa-circle-o"></i> Folios y series</a></li>
+      <li class="<?php if(!empty($sucursal)){ echo $sucursal; } ?>"><a href="<?= base_url() ?>sucursal"><i class="fa fa-circle-o"></i> Sucursales</a></li>
+    </ul>
+  </li>
+
+  <!-- <li class="<?php if(!empty($sucursal)){ echo $sucursal; } ?>">
     <a href="<?= base_url() ?>sucursal">
       <i class="fa fa-building-o"></i> <span>Sucursales</span>
     </a>
-  </li>
-  <li class="<?php if(!empty($folios)){ echo $folios; } ?>">
+  </li> -->
+  <!-- <li class="<?php if(!empty($folios)){ echo $folios; } ?>">
     <a href="<?= base_url() ?>folios">
       <i class="fa fa-sort-alpha-asc"></i> <span>Folios y series</span>
     </a>
-  </li>
-  <li class="<?php if(!empty($reporte)){ echo $reporte; } ?>">
+  </li> -->
+  <!-- <li class="<?php if(!empty($reporte)){ echo $reporte; } ?>">
     <a href="#">
       <i class="fa fa-clipboard"></i> <span>Reportes</span>
     </a>
-  </li>
+  </li> -->
   <li class="header">OTROS</li>
 
   <li class="treeview <?php if(!empty($global)){ echo $global; } ?>">
@@ -99,7 +113,7 @@
   </li> -->
   <li class="<?php if(!empty($corte)){ echo $corte; } ?>">
     <a href="<?= base_url() ?>cortes">
-      <i class="fa fa-pencil-square-o"></i> <span>Cortes</span>
+      <i class="fa fa-clipboard"></i> <span>Cortes</span>
     </a>
   </li>
   <li class="<?php if(!empty($config)){ echo $config; } ?>">

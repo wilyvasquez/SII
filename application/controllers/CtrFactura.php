@@ -29,6 +29,7 @@ class CtrFactura extends CI_Controller {
 		$pmenu = $this->permisos->menu();
 		$datos["serieFolio"] = $this->Modelo_cliente->get_serieFolio();
 		$data = array(
+			"madmin"      => "active",
 			"folios"      => "active",
 			"title"       => "Folios y Series",
 			"subtitle"    => "Alta de folios",

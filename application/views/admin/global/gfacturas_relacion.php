@@ -1,9 +1,9 @@
 <div class="row">
 	<div class="col-md-12">    
 		<div class="box box-primary">
-			<div class="box-header with-border">
-              <h3 class="box-title">Quick Example</h3>
-            </div>
+			<!-- <div class="box-header with-border">
+              <h3 class="box-title">Documentos Timbrados</h3>
+            </div> -->
             <div class="box-body">
             	<div class="active tab-pane" id="activity">
 				  <?php if (!empty($ifacturas)) {
@@ -49,9 +49,11 @@
 				      <i class="fa fa-file-code-o margin-r-5"></i> XML</a> -->
 				      <a href="<?= $facturas->xml ?>" target="blank" class="link-black text-sm">
 				      <i class="fa fa-file-code-o margin-r-5"></i> XML</a>
-				    </li><br><br>
+				    </li>
 				    <?php 
-				    if (!empty($cpagos)) {
+				    if (!empty($cpagos)) { ?>
+				    <br><br>
+				    <?php 
 				    foreach ($cpagos ->result() as $pagos) {
 				      $tipo = "COMPLEMENTO";
 				      $color = "#3CACBB";
@@ -81,7 +83,7 @@
 				            - <?= $pagos->uuid ?> <strong>(<?= $pagos->fecha_timbrado ?>)</strong>
 				          </font>
 				        </li>
-				        <br>
+				        <!-- <br> -->
 				      </ul>
 				    <?php } } ?>
 				  </div>

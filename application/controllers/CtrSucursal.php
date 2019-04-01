@@ -21,6 +21,7 @@ class CtrSucursal extends CI_Controller {
     {
         $pmenu = $this->permisos->menu();
         $data = array(
+            "madmin"     => "active",
             "sucursal"   => "active",
             "title"      => "Sucursal",
             "subtitle"   => "Alta de sucursal",
