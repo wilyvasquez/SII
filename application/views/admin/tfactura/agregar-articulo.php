@@ -17,7 +17,7 @@
         </select>
       </div>
       <div class="form-group">
-       <label for="costo" style="font-weight: normal;">Costo</label>
+       <label for="costo" style="font-weight: normal;">Costo <strong>(C/IVA)</strong></label>
         <div class="row">
           <div class="col-md-12">
             <div class="input-group">

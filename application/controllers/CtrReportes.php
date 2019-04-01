@@ -165,14 +165,14 @@ class CtrReportes extends CI_Controller {
 		$this->pdf->Cell(5, 4,"P. con IVA", 0 , 1);
 		$this->pdf->SetXY(183, 92);
 		$this->pdf->Cell(5, 4,"Importe", 0 , 1);
-
-		$this->pdf->SetFont('arial','',7.5);
+		
 		$j = 105; 
 		$total  = 0;
 		$precio_siva = 0;
 		$resta = 0;
 		if (!empty($articulos)) {
 			foreach ($articulos ->result() as $resul) {  
+				$this->pdf->SetFont('arial','',7.5);
 				$this->pdf->Rect(10, $j, 190 , 8, '');
 				$this->pdf->Rect(10, $j, 30 , 8, ''); # CLAVE ARTICULO
 				$this->pdf->SetXY(10, $j+2);
@@ -194,15 +194,17 @@ class CtrReportes extends CI_Controller {
 				$this->pdf->SetXY(160, $j+2);
 				$this->pdf->Cell(5, 4,"$ ".number_format($resul->costo_proveedor * 1.16,2), 0 , 1);
 				$this->pdf->SetXY(180, $j+2);
-				$this->pdf->Cell(5, 4,"$ ".number_format(($resul->costo_proveedor * 1.16) * $resul->cantidad,2), 0 , 1);
-				$precio_siva = $precio_siva +$resul->costo_proveedor * $resul->cantidad;
-				$total       = $total + ($resul->costo_proveedor * 1.16) * $resul->cantidad;
+				$costoIVA = $resul->costo_proveedor  * 1.16;
+				$importe  = ( $costoIVA * $resul->cantidad) - ($resul->desc_proveedor * 1.16);
+				$this->pdf->Cell(5, 4,"$ ".number_format($importe,2), 0 , 1);
+				$precio_siva = $precio_siva + ($resul->costo_proveedor * $resul->cantidad);
+				$total       = $total + $importe;
 				$j = $j + 8;
 				if ($j > 270) {
 					$this->pdf->AddPage();
 					$j=5;
 				}
-				$resta       = $total - $precio_siva;
+				$resta = $total - $precio_siva;
 			}
 		}
 		$this->pdf->SetFont('arial','B',9);

@@ -13,7 +13,7 @@ class CtrClientes extends CI_Controller {
         $this->load->model('Modelo_cliente');
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_sat');
-        $this->permisos->redireccion();
+        // $this->permisos->redireccion();
         
         $this->load->helper('date');
         date_default_timezone_set('America/Monterrey');
@@ -233,5 +233,11 @@ class CtrClientes extends CI_Controller {
 				echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
 			}
 		}		
+    }
+
+    public function prueba_correo()
+    {
+    	$pass = "Administrador";
+    	echo md5($pass);
     }
 }

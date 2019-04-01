@@ -9,7 +9,7 @@
         <div class="box-body">
           <div class="form-group">
             <label for="file">SUBIR XML</label>
-            <input type="file" class="form-control" id="file" name="file" required>
+            <input type="file" class="form-control" id="file" name="file" accept="text/xml" required>
           </div>
           <div id="mensaje"></div>
         </div>
@@ -20,10 +20,6 @@
     </div>
   </div>
   <div class="col-md-8">
-  	<?= $tabla ?>
+    <?= $tabla_xml ?>
   </div>
-</div>
-<div>
-	<?= $modal_i ?>
-	<?= $modal_c ?>
 </div>

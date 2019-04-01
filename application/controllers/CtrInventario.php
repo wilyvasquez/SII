@@ -408,6 +408,7 @@ class CtrInventario extends CI_Controller {
             "menu"        => $pmenu,
             "modal_i"     => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
             "modal_c"     => $this->load->view('admin/inventario/modal/modal_cerrar_inventario',null,true), # AGREGAR NUNEVA MARCA
+            "tabla_xml"   => $this->load->view('admin/inventario/tabla_subidaXML',null,true), # AGREGAR NUNEVA MARCA
             "articulos"   => $this->Modelo_articulos->get_articulos(),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
             "tabla"       => $this->load->view('admin/inventario/tabla_inventario',null,true),
@@ -450,26 +451,65 @@ class CtrInventario extends CI_Controller {
         $xml->registerXPathNamespace('t', $ns['tfd']);
          
         //EMPIEZO A LEER LA INFORMACION DEL CFDI E IMPRIMIRLA  
+        foreach ($xml->xpath('//cfdi:Comprobante') as $cfdiComprobante){ 
+            // echo "<br />";
+            // echo $cfdiComprobante['Serie']; 
+            // echo "<br />"; 
+            // echo $cfdiComprobante['Folio']; 
+            // echo "<br />"; 
+            $factura = $cfdiComprobante['Serie']."-".$cfdiComprobante['Folio'];
+        } 
+        foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){ 
+           // echo $Emisor['Rfc']; 
+           // echo "<br />"; 
+           $nombre = $Emisor['Nombre']; 
+           // echo "<br />"; 
+        }
+
+        $datos = array(
+            'proveedor'         => $nombre,
+            'factura'           => $factura,
+            'alta_dfacturacion' => date("Y-m-d H:i:s")
+        );
+        $id = $this->Modelo_articulos->insertarDatosFactura($datos);
+
         foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto)
         { 
-           $data = array(
-            'codigo_sat'     => $Concepto['ClaveProdServ'],
-            'articulo'       => 'Motocicleta Bajaj', 
-            'tipo'           => 'motocicletas',
-            'descripcion'    => $Concepto['Descripcion'],
-            'costo'          => 0,
-            'costo_proveedor'=> $Concepto['Importe'],
-            'unidad'         => $Concepto['Unidad'],
-            'clave_sat'      => $Concepto['ClaveUnidad'],
-            'codigo_interno' => $Concepto['NoIdentificacion'],
-            'cantidad'       => $Concepto['Cantidad'],
+            $codigo = $Concepto['NoIdentificacion'];
+            $data = array(
+                'codigo_sat'       => $Concepto['ClaveProdServ'],
+                'articulo'         => $Concepto['Descripcion'], 
+                'tipo'             => 'motocicletas',
+                'descripcion'      => $Concepto['Descripcion'],
+                'costo'            => 0,
+                'costo_proveedor'  => $Concepto['ValorUnitario'],
+                'desc_proveedor'   => $Concepto['Descuento'],
+                'unidad'           => $Concepto['Unidad'],
+                'clave_sat'        => $Concepto['ClaveUnidad'],
+                'codigo_interno'   => $codigo,
+                'cantidad'         => $Concepto['Cantidad'],
+                'ref_dfacturacion' => $id
             );
-           $peticion = $this->Modelo_inventario->put_inventario($data);
-           if ($peticion) {
-               echo '<div class="alert alert-success" role="alert">Exito, XML subido con exito</div>';
-           }else{
-                echo '<div class="alert alert-danger" role="alert">Error de XML, datos no subidos</div>';
-           }
+            $producto = $this->Modelo_articulos->buscarArticulo($codigo);
+            # SI EL ARTICULO YA EXISTE ACTUALIZA EL INVENTARIO
+            if (!empty($producto)) {
+               $id_articulo = $producto->id_articulo;
+               $enviar = array(
+                    'cantidad'        => $Concepto['Cantidad'] + $producto->cantidad, 
+                    'descripcion'     => $Concepto['Descripcion'],
+                    'costo_proveedor' => $Concepto['ValorUnitario'],
+                    'desc_proveedor'  => $Concepto['Descuento'],
+                );
+                $peticion = $this->Modelo_articulos->update_articulo($id_articulo,$enviar);
+            }else{
+                $peticion = $this->Modelo_inventario->put_inventario($data);
+            }
         } 
+        if ($peticion) {
+            echo "<a href='rdfacturas/".$id."' target='_blank'><u>Descargar comprobante</u></a>";
+           // echo '<div class="alert alert-success" role="alert">Exito, XML subido con exito</div>';
+        }else{
+            echo '<div class="alert alert-danger" role="alert">Error de XML, datos no subidos</div>';
+        }
     }
 }

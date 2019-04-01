@@ -82,6 +82,7 @@ $route['rpagos/(:num)']        = 'CtrRecibosPago/recibo_pagos/$1';
 $route['home']                 = 'CtrUniversal/principal';
 $route['login']                = 'CtrLogin/login';
 $route['timbrado']             = 'CtrUniversal/get_allTimbrado';
+$route['gtimbrado']            = 'CtrUniversal/global_rfactura';
 $route['dfactura/(:num)']      = 'CtrUniversal/datos_factura/$1';
 
 $route['cotizacion']      	   = 'CtrCotizacion';

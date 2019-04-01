@@ -165,6 +165,17 @@ class Modelo_cliente extends CI_Model
 		}
 	}
 
+	function global_facturas()
+	{
+		// $query = $this->db->get_where('factura', array('ref_cliente' => $id,'tipo_comprobante' => 'I'));
+		$query = $this->db->query("SELECT * FROM `factura` WHERE tipo_comprobante = 'I' ORDER BY id_factura DESC");
+		if ($query->num_rows() > 0) {
+			return $query;
+		}else{ 
+			return false;
+		}
+	}
+
 	function agregar_serieFolio($datos)
 	{
 		$this->db->insert('folios_series', $datos);

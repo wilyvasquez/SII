@@ -28,7 +28,7 @@ class CtrUniversal extends CI_Controller {
             if ($this->input->post("cantidad") && $this->input->post("costo") && $this->input->post("codigo") && $this->input->post("ids")) 
             {
                 $cantidad    = $this->input->post("cantidad");
-                $costo       = $this->input->post("costo");
+                $costo       = $this->input->post("costo") / 1.16;
                 $id_articulo = $this->input->post("codigo");
                 $resul       = $this->Modelo_articulos->obtener_articulo($id_articulo);
                 $disponible  = $resul->cantidad;
@@ -212,7 +212,7 @@ class CtrUniversal extends CI_Controller {
                 $cantidad  = $this->input->post("cantidad");
                 $descuento = $this->input->post("descuento");
                 $importe   = $costo * $cantidad; # MULTIPLICAMOS EL COSTO POR LA CANTIDAD PARA OBTENER EL IMPORTE
-
+                $importe   = $importe * 1.16;
                 $descuento = $importe * ( $descuento / 100 ); # CONVERTIMOS EL PORCENTAJE EN PESOS
 
                 if ($descuento <= $importe) 
@@ -221,7 +221,7 @@ class CtrUniversal extends CI_Controller {
 
                     $data = array(
                         'cantidad_venta' => $cantidad,
-                        'importe'        => $total,
+                        'importe'        => $total / 1.16,
                         'descuento'      => $descuento,
                     );
                     $this->Modelo_timbrado->up_articuloTimbrado($id,$data);
@@ -342,10 +342,28 @@ class CtrUniversal extends CI_Controller {
         $pmenu          = $this->permisos->menu();
         $datos["docto"] = $this->Modelo_cliente->get_allFacturas();
         $data = array(
+            "global"      => "active",
             "doctos"      => "active",
             "title"       => "Documentos Timbrado",
             "subtitle"    => "Timbrado",
             "contenido"   => "admin/timbrado/timbrado",
+            "menu"        => $pmenu,
+            "tabla"       => $this->load->view('admin/timbrado/tabla_timbrado',$datos,true),
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
+        );
+        $this->load->view('universal/plantilla',$data);
+    }
+
+    public function global_rfactura()
+    {
+        $pmenu          = $this->permisos->menu();
+        $datos['ifacturas'] = $this->Modelo_cliente->global_facturas();
+        $data = array(
+            "global"      => "active",
+            "gfacturas"   => "active",
+            "title"       => "Documentos Timbrado",
+            "subtitle"    => "Timbrado",
+            "contenido"   => "admin/global/gfacturas_relacion",
             "menu"        => $pmenu,
             "tabla"       => $this->load->view('admin/timbrado/tabla_timbrado',$datos,true),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS

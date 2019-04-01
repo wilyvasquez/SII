@@ -125,12 +125,12 @@ class CtrTimbrarNotaCredito extends CI_Controller {
                 $d['Conceptos'][$i]['Cantidad']         = $cantidad; # numero de articulos
                 $d['Conceptos'][$i]['ClaveUnidad']      = $articulo->clave_sat; # Clave SAT
                 $d['Conceptos'][$i]['Unidad']           = $articulo->unidad; # Unidad de Medida
-                $d['Conceptos'][$i]['Descripcion']      = $articulo->articulo; #maximo 1000 caracteres
-                $d['Conceptos'][$i]['ValorUnitario']    = round($articulo->costo,2); #costo de 1 articulo
+                $d['Conceptos'][$i]['Descripcion']      = $articulo->descripcion_preventa; #maximo 1000 caracteres
+                $d['Conceptos'][$i]['ValorUnitario']    = round($articulo->importe / $cantidad,2); #costo de 1 articulo
                 $d['Conceptos'][$i]['Importe']          = round($articulo->importe + $articulo->descuento,2); # costo del total de todos los articulos# costo del total de todos los articulos
                 $d['Conceptos'][$i]['Descuento']        = round($articulo->descuento,2); # no se permiten valores negativos
 
-                $base      = round(($articulo->costo * $cantidad) - $articulo->descuento,2); #precio del articulo sin IVA menos descuento
+                $base      = round($articulo->importe - $articulo->descuento,2); #precio del articulo sin IVA menos descuento
                 $importe   = round($base * 0.16,2); # IVA de un articulo 
                 $subtotal  = round($subtotal + $base,2); # suma de todos los articulos sin IVA, menos su descuento
                 $descuento = round($descuento + $articulo->descuento,2); # suma total del descuento

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Suzuki Motos</title>
+  <title>ERP CODE</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -37,7 +37,7 @@
 </div>
 <div class="login-box">
   <div class="login-logo">
-    <a href="<?= base_url()?>atrum"><b>CODE</b> </a>
+    <a href="<?= base_url()?>atrum"><b>FACTURACION</b> </a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">

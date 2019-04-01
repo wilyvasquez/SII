@@ -122,7 +122,7 @@ function valorUnitario()
   .done(function(response)
   {
     var json = $.parseJSON(response);
-    $("#costo").val(json.importe);
+    $("#costo").val(json.importe * 1.16);
     $("#descripcion").val(json.msg);
   });
 }

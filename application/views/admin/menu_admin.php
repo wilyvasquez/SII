@@ -46,7 +46,7 @@
       <li class="<?php if(!empty($inventario)){ echo $inventario; } ?>"><a href="<?= base_url() ?>inventario"><i class="fa fa-circle-o"></i> Alta Inventario</a></li>
       <li class="<?php if(!empty($axml)){ echo $axml; } ?>"><a href="<?= base_url() ?>altaXml"><i class="fa fa-circle-o"></i> Alta (XML)</a></li>
       <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>hinventario"><i class="fa fa-circle-o"></i> Inventario</a></li>
-      <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li>
+      <!-- <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li> -->
     </ul>
   </li>
   <li class="treeview <?php if(!empty($cotizacion)){ echo $cotizacion; } ?>">
@@ -78,11 +78,25 @@
     </a>
   </li>
   <li class="header">OTROS</li>
-  <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
+
+  <li class="treeview <?php if(!empty($global)){ echo $global; } ?>">
+    <a href="#">
+      <i class="fa fa-globe"></i> <span>Global</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>"><a href="<?= base_url() ?>timbrado"><i class="fa fa-circle-o"></i> Doctos Timbrado</a></li>
+      <li class="<?php if(!empty($gfacturas)){ echo $gfacturas; } ?>"><a href="<?= base_url() ?>gtimbrado"><i class="fa fa-circle-o"></i> Relacion Facturas</a></li>
+    </ul>
+  </li>
+
+  <!-- <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
     <a href="<?= base_url() ?>timbrado">
       <i class="fa fa-file-text"></i> <span>Doctos Timbrado</span>
     </a>
-  </li>
+  </li> -->
   <li class="<?php if(!empty($corte)){ echo $corte; } ?>">
     <a href="<?= base_url() ?>cortes">
       <i class="fa fa-pencil-square-o"></i> <span>Cortes</span>

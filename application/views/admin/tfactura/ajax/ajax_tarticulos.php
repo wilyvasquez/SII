@@ -15,9 +15,9 @@
     <td><?= $articulo->codigo_interno ?></td>
     <td><center><?= $articulo->cantidad_venta ?></center></td>
     <td><?= $articulo->articulo ?></td>
-    <td>$<?= number_format($articulo->costo,2) ?></td>
+    <td>$<?= number_format($articulo->costo * 1.16,2) ?></td>
     <td>$<?= number_format($articulo->descuento,2) ?></td>
-    <td>$<?= number_format($articulo->importe,2) ?></td>
+    <td>$<?= number_format($articulo->importe * 1.16,2) ?></td>
     <td>
       <button type="button" data-toggle="modal" class="btn btn-primary open-Editar btn-xs" data-target=".addarticulo" data-idar="<?= $articulo->id_apreventa ?>" data-cant="<?= $articulo->cantidad_venta ?>" data-cod="<?= $articulo->codigo_interno ?>" data-des="<?= $articulo->descripcion ?>" data-costo="<?= $articulo->costo ?>" data-arti="<?= $articulo->ref_articulo ?>" data-descu="<?= $articulo->descuento ?>">Editar</button>
     </td>

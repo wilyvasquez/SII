@@ -156,5 +156,15 @@ class Modelo_articulos extends CI_Model
 			return false;
 		}
 	}
+
+	function buscarArticulo($id)
+	{
+		$query = $this->db->get_where('articulo', array('codigo_interno' => $id));
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
 }
 ?>
