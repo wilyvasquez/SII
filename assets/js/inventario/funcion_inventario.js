@@ -218,7 +218,7 @@ $(function(){
 $(function(){
   $("#altaXml").on("submit", function(e){
     e.preventDefault();
-    var f = $(this);
+    // var f = $(this);
     var formData = new FormData(document.getElementById("altaXml"));
     // formData.append("dato", "valor");
     $.ajax({
@@ -228,7 +228,10 @@ $(function(){
       data: formData,
       cache: false,
       contentType: false,
-      processData: false
+      processData: false,
+      beforeSend: function(){
+        $("#mensaje").html("Subiendo articulos, espere...");
+      }
     })
     .done(function(res){
         $("#mensaje").html(res);

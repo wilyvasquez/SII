@@ -433,8 +433,9 @@ class CtrInventario extends CI_Controller {
 
                         if ($file){
                             $nombre = $_FILES['file']['name'];
-                            $xml = base_url().'assets/xml/'.$nombre;
-                            $this->xml_prueba($xml);
+                            $xml    = base_url().'assets/xml/'.$nombre;
+                            $tipo   = $this->input->post("tipo");
+                            $this->xml_prueba($xml,$tipo);
                             unlink('assets/xml/'.$nombre);
                         }
                     }
@@ -443,7 +444,7 @@ class CtrInventario extends CI_Controller {
         }
     }
 
-    public function xml_prueba($xml)
+    public function xml_prueba($xml,$tipo)
     {
         $xml = simplexml_load_file($xml);
         $ns  = $xml->getNamespaces(true);
@@ -479,7 +480,7 @@ class CtrInventario extends CI_Controller {
             $data = array(
                 'codigo_sat'       => $Concepto['ClaveProdServ'],
                 'articulo'         => $Concepto['Descripcion'], 
-                'tipo'             => 'motocicletas',
+                'tipo'             => $tipo,
                 'descripcion'      => $Concepto['Descripcion'],
                 'costo'            => 0,
                 'costo_proveedor'  => $Concepto['ValorUnitario'],
@@ -488,17 +489,20 @@ class CtrInventario extends CI_Controller {
                 'clave_sat'        => $Concepto['ClaveUnidad'],
                 'codigo_interno'   => $codigo,
                 'cantidad'         => $Concepto['Cantidad'],
-                'ref_dfacturacion' => $id
+                'ref_dfacturacion' => $id,
+                'estatus_articulo' => "Activo"
             );
             $producto = $this->Modelo_articulos->buscarArticulo($codigo);
             # SI EL ARTICULO YA EXISTE ACTUALIZA EL INVENTARIO
             if (!empty($producto)) {
                $id_articulo = $producto->id_articulo;
                $enviar = array(
-                    'cantidad'        => $Concepto['Cantidad'] + $producto->cantidad, 
-                    'descripcion'     => $Concepto['Descripcion'],
-                    'costo_proveedor' => $Concepto['ValorUnitario'],
-                    'desc_proveedor'  => $Concepto['Descuento'],
+                    'cantidad'         => $Concepto['Cantidad'] + $producto->cantidad, 
+                    'descripcion'      => $Concepto['Descripcion'],
+                    'costo_proveedor'  => $Concepto['ValorUnitario'],
+                    'desc_proveedor'   => $Concepto['Descuento'],
+                    'estatus_articulo' => "Activo",
+                    'tipo'             => $tipo,
                 );
                 $peticion = $this->Modelo_articulos->update_articulo($id_articulo,$enviar);
             }else{

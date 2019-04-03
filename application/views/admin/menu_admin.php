@@ -49,7 +49,7 @@
       <!-- <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li> -->
     </ul>
   </li>
-  <li class="treeview <?php if(!empty($cotizacion)){ echo $cotizacion; } ?>">
+  <!-- <li class="treeview <?php if(!empty($cotizacion)){ echo $cotizacion; } ?>">
     <a href="#">
       <i class="fa fa-edit"></i> <span>Cotizacion</span>
       <span class="pull-right-container">
@@ -60,7 +60,7 @@
       <li class="<?php if(!empty($gcotizacion)){ echo $gcotizacion; } ?>"><a href="<?= base_url() ?>cotizacion"><i class="fa fa-circle-o"></i> Generar</a></li>
       <li class="<?php if(!empty($historial)){ echo $historial; } ?>"><a href="<?= base_url() ?>chistorial"><i class="fa fa-circle-o"></i> Historial</a></li>
     </ul>
-  </li>
+  </li> -->
 
   <li class="treeview <?php if(!empty($madmin)){ echo $madmin; } ?>">
     <a href="#">

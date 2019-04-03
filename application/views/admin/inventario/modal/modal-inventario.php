@@ -11,32 +11,32 @@
           <div class="box-body">
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="marticulo">Articulo</label>
+                <label for="marticulo">ARTICULO :</label>
                 <input type="text" class="form-control" id="marticulo" name="marticulo" placeholder="Articulo" required>
                 <input type="hidden" class="form-control" id="mid" name="mid" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mcodigo">Codigo</label>
+                <label for="mcodigo">CODIGO :</label>
                 <input type="text" class="form-control" id="mcodigo" name="mcodigo" placeholder="Codigo" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mcantidad">Cantidad</label>
+                <label for="mcantidad">CANTIDAD :</label>
                 <input type="number" class="form-control" id="mcantidad" name="mcantidad" placeholder="Cantidad" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mcosto">Costo</label>
+                <label for="mcosto">COSTO CLIENTE : </label>
                 <input type="number" class="form-control" id="mcosto" name="mcosto" placeholder="Costo" step="any" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mcostop">Costo Proveedor</label>
+                <label for="mcostop">COSTO PROVEEDOR :</label>
                 <input type="number" class="form-control" id="mcostop" name="mcostop" step="any" placeholder="Costo" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="msat">Clave SAT</label>
+                <label for="msat">CLAVE SAT :</label>
                 <input type="text" class="form-control" id="msat" name="msat" placeholder="Clave SAT" required>
               </div>
               <div class="form-group col-md-12">
-                <label for="">Descripcion</label>
+                <label for="">DESCRIPCION :</label>
                 <textarea class="form-control" rows="4" id="mtextos" name="mtextos"></textarea>
               </div>
             </div>

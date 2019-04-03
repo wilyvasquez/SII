@@ -145,6 +145,7 @@ class CtrFactura extends CI_Controller {
 					'metodo_pago'      => $this->input->post("metodo"),
 					'uso_cfdi'         => $this->input->post("cfdi"),
 					'ref_cliente'      => $this->input->post("cliente"),
+					'tipo_preventa'    => "Factura",
 				);
 				$id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE NOTA DE CREDITO
 				if($id){

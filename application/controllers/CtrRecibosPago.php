@@ -68,7 +68,8 @@ class CtrRecibosPago extends CI_Controller {
                     'forma_pago'       => $this->input->post("forma"),
                     'metodo_pago'      => $this->input->post("metodo"),
                     'uso_cfdi'         => $this->input->post("cfdi"),
-                    'ref_cliente'      => $this->input->post("cliente")
+                    'ref_cliente'      => $this->input->post("cliente"),
+                    'tipo_preventa'    => "ReciboPago",
                 );
                 $id = $this->Modelo_timbrado->put_preventa($data); # GUADAR DATOS DE PRE RECIBO DE PAGO
                 if($id){
