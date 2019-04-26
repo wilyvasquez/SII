@@ -52,7 +52,6 @@
       </div>
     </div><br>
     <form action="<?= base_url() ?>session" method="post">
-      <!-- <?php echo form_open('session'); ?> -->
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="Usuario" id="username" name="username" pattern="[A-Za-z0-9._]{1,20}" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>

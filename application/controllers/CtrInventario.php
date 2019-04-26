@@ -9,6 +9,7 @@ class CtrInventario extends CI_Controller {
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
+        $this->load->library('Ireporte');
         
         $this->load->model('Modelo_articulos');
         $this->load->model('Modelo_inventario');
@@ -66,7 +67,7 @@ class CtrInventario extends CI_Controller {
     {
         $pmenu = $this->permisos->menu();
         $data = array(
-            "rinventario" => "active",
+            "tfacturas"   => "active",
             "idfactura"   => "active",
             "title"       => "Facturas",
             "subtitle"    => "Facturas Inventario",
@@ -108,7 +109,8 @@ class CtrInventario extends CI_Controller {
                 $url      = "";
                 $peticion = $this->Modelo_inventario->put_inventario($data);
                 $msg      = "Exito, Articulo agregado correctamente";
-                echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
+                $this->load->view('admin/inventario/ajax/ajax_tablaInventario',null);
+                // echo json_encode($this->funciones->resultado($peticion,$url,$msg,null));
             }else{
                 $msg      = "Error, No se han actualizado los datos";
                 echo json_encode($this->funciones->resultado($peticion = false,$url = null,$msg,null));
@@ -190,6 +192,29 @@ class CtrInventario extends CI_Controller {
         }
     }
 
+    public function get_datosArticulo()
+    {
+        if(!$this->input->is_ajax_request())
+        {
+            $this->not_found->not_found();
+        }else{
+            $id     = $this->input->post("id");
+            $resul  = $this->Modelo_articulos->obtener_articulo($id);
+            echo json_encode(
+                $result = array(
+                    'costo'        => $resul->costo,
+                    'costo_provee' => $resul->costo_proveedor,
+                    'codigo'       => $resul->codigo_interno,
+                    'clave'        => $resul->clave_sat,
+                    'cantidad'     => $resul->cantidad,
+                    'unidad'       => $resul->unidad,
+                    'tipo'         => $resul->tipo,
+                    'descripcion'  => $resul->descripcion
+                )
+            );
+        }
+    }
+
     public function agregar_fabricante()
     {
         if(!$this->input->is_ajax_request())
@@ -247,6 +272,7 @@ class CtrInventario extends CI_Controller {
             );
             $peticion = $this->Modelo_articulos->update_articulo($id,$data);
             if ($peticion) {
+                // $this->load->view('admin/inventario/ajax/ajax_tablaInventario',null);
                 $msg = "Exito, Actualizado correctamente";
                 echo json_encode($this->funciones->resultado($peticion, $url = "", $msg,null));
             }else{
@@ -254,6 +280,28 @@ class CtrInventario extends CI_Controller {
                 echo json_encode($this->funciones->resultado($peticion, $url = "", $msg,null));
             }
         }
+    }
+
+    public function compras()
+    {
+        $pmenu = $this->permisos->menu();
+        $data = array(
+            "rinventario" => "active",
+            "compras"     => "active",
+            "title"       => "Articulos",
+            "subtitle"    => "Alta de inventario",
+            "contenido"   => "admin/inventario/compras/compras",
+            "menu"        => $pmenu,
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+            "acompras"    => $this->Modelo_articulos->get_compras(),
+            "articulos"   => $this->Modelo_articulos->get_articulos(),
+            // "marcas"      => $this->Modelo_inventario->get_marca(),
+            // "lineas"      => $this->Modelo_inventario->get_linea(),
+            // "fabricantes" => $this->Modelo_inventario->get_fabricante(),
+            // "tabla"       => $this->load->view('admin/inventario/compras/tabla_compras',null,true),
+        );
+        $data["tabla"] = $this->load->view('admin/inventario/compras/tabla_compras',$data,true);
+        $this->load->view('universal/plantilla',$data);
     }
 
     public function getInventario()
@@ -345,6 +393,7 @@ class CtrInventario extends CI_Controller {
             $array['proveedor']         = $row['proveedor'];
             $array['factura']           = $row['factura'];
             $array['alta_dfacturacion'] = $row['alta_dfacturacion'];
+            $array['pdf']               = $row['pdf'];
 
             $datos[] = $array;
         }
@@ -364,7 +413,7 @@ class CtrInventario extends CI_Controller {
     {
         if ($this->input->post("activo") == "on") 
         {
-            $articulos = $this->Modelo_articulos->get_articulosInventario();
+            $articulos = $this->Modelo_articulos->get_articulosCompra();
             if (!empty($articulos)) {
                 $data = array(
                     'proveedor'         => $this->input->post("mproveedor"),
@@ -372,15 +421,34 @@ class CtrInventario extends CI_Controller {
                     'alta_dfacturacion' => date("Y-m-d H:i:s")
                 );
                 $id = $this->Modelo_articulos->insertarDatosFactura($data);
-
-                foreach ($articulos ->result() as $resul) {
-                    $data = array( 
-                        'ref_dfacturacion' => $id, 
-                    );
-                    $peticion = $this->Modelo_articulos->update_articulo($resul->id_articulo,$data);
+                foreach ($articulos ->result() as $articulo) 
+                { 
+                    $codigo   = $articulo->codigo;
+                    $producto = $this->Modelo_articulos->buscarArticulo($codigo);
+                    # SI EL ARTICULO YA EXISTE ACTUALIZA EL INVENTARIO
+                    if (!empty($producto)) {
+                       // $id_articulo = $producto->id_articulo;
+                       $enviar = array(
+                            'cantidad'         => $articulo->cantidad + $producto->cantidad, 
+                            'descripcion'      => $articulo->descripcion,
+                            'costo_proveedor'  => $articulo->costo_proveedor,
+                            'desc_proveedor'   => 0,
+                            'estatus_articulo' => "Activo",
+                            'tipo'             => "default",
+                        );
+                        $peticion = $this->Modelo_articulos->update_articulo($producto->id_articulo,$enviar);
+                    }
                 }
+                # FUNCION DONDE GENERA EL PDF
+                $nombre = $this->ireporte->reporte_compra($id,$articulos);
+                $subir = array(
+                    'pdf' => $nombre, 
+                );
+                $peticion = $this->Modelo_articulos->updateDatosFactura($subir,$id);
+                $this->Modelo_articulos->delate_compras();
+
                 if ($peticion) {
-                    $url  = "<a href='rdfacturas/".$id."' target='_blank'><u>Descargar factura</u></a>";
+                    $url  = "<a href='spdf/".$nombre."' target='_blank'><u>Descargar factura</u></a>";
                     $msg  = $id;
                     echo json_encode($this->funciones->resultado($peticion, $url, $msg, 1));
                 }
@@ -411,7 +479,7 @@ class CtrInventario extends CI_Controller {
             "tabla_xml"   => $this->load->view('admin/inventario/tabla_subidaXML',null,true), # AGREGAR NUNEVA MARCA
             "articulos"   => $this->Modelo_articulos->get_articulos(),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
-            "tabla"       => $this->load->view('admin/inventario/tabla_inventario',null,true),
+            // "tabla"       => $this->load->view('admin/inventario/tabla_inventario',null,true),
         );
         $this->load->view('universal/plantilla',$data);
     }
@@ -458,7 +526,13 @@ class CtrInventario extends CI_Controller {
             // echo "<br />"; 
             // echo $cfdiComprobante['Folio']; 
             // echo "<br />"; 
-            $factura = $cfdiComprobante['Serie']."-".$cfdiComprobante['Folio'];
+            $serie   = $cfdiComprobante['Serie'];
+            $folio   = $cfdiComprobante['Folio'];
+            $guion = "";
+            if (!empty($serie)) {
+                $guion = "-";
+            }
+            $factura = $serie.$guion.$folio;
         } 
         foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){ 
            // echo $Emisor['Rfc']; 
@@ -476,22 +550,12 @@ class CtrInventario extends CI_Controller {
 
         foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto)
         { 
-            $codigo = $Concepto['NoIdentificacion'];
-            $data = array(
-                'codigo_sat'       => $Concepto['ClaveProdServ'],
-                'articulo'         => $Concepto['Descripcion'], 
-                'tipo'             => $tipo,
-                'descripcion'      => $Concepto['Descripcion'],
-                'costo'            => 0,
-                'costo_proveedor'  => $Concepto['ValorUnitario'],
-                'desc_proveedor'   => $Concepto['Descuento'],
-                'unidad'           => $Concepto['Unidad'],
-                'clave_sat'        => $Concepto['ClaveUnidad'],
-                'codigo_interno'   => $codigo,
-                'cantidad'         => $Concepto['Cantidad'],
-                'ref_dfacturacion' => $id,
-                'estatus_articulo' => "Activo"
-            );
+            $descuento  = 0;
+            $Concepto['Descuento'];
+            if (!empty($Concepto['Descuento'])) {
+                $descuento = $Concepto['Descuento'];
+            }
+            $codigo   = $Concepto['NoIdentificacion'];
             $producto = $this->Modelo_articulos->buscarArticulo($codigo);
             # SI EL ARTICULO YA EXISTE ACTUALIZA EL INVENTARIO
             if (!empty($producto)) {
@@ -500,20 +564,67 @@ class CtrInventario extends CI_Controller {
                     'cantidad'         => $Concepto['Cantidad'] + $producto->cantidad, 
                     'descripcion'      => $Concepto['Descripcion'],
                     'costo_proveedor'  => $Concepto['ValorUnitario'],
-                    'desc_proveedor'   => $Concepto['Descuento'],
+                    'desc_proveedor'   => $descuento,
                     'estatus_articulo' => "Activo",
                     'tipo'             => $tipo,
                 );
                 $peticion = $this->Modelo_articulos->update_articulo($id_articulo,$enviar);
             }else{
+                $data = array(
+                    'codigo_sat'       => $Concepto['ClaveProdServ'],
+                    'articulo'         => $Concepto['Descripcion'], 
+                    'tipo'             => $tipo,
+                    'descripcion'      => $Concepto['Descripcion'],
+                    'costo'            => 0,
+                    'costo_proveedor'  => $Concepto['ValorUnitario'],
+                    'desc_proveedor'   => $descuento,
+                    'unidad'           => $Concepto['Unidad'],
+                    'clave_sat'        => $Concepto['ClaveUnidad'],
+                    'codigo_interno'   => $codigo,
+                    'cantidad'         => $Concepto['Cantidad'],
+                    'ref_dfacturacion' => $id,
+                    'estatus_articulo' => "Activo"
+                );
                 $peticion = $this->Modelo_inventario->put_inventario($data);
             }
         } 
         if ($peticion) {
-            echo "<a href='rdfacturas/".$id."' target='_blank'><u>Descargar comprobante</u></a>";
-           // echo '<div class="alert alert-success" role="alert">Exito, XML subido con exito</div>';
+
+            $nombre = $this->ireporte->reporte($id,$xml);
+            $subir = array(
+                'pdf' => $nombre, 
+            );
+            $this->Modelo_articulos->updateDatosFactura($subir,$id);
+            // echo "<a href='spdf/".$nombre."' target='_blank'><u>Descargar comprobante</u></a>";
+            $json_data = array(
+                'descarga' => "<a href='spdf/".$nombre."' target='_blank'><u>Descargar comprobante</u></a>", 
+                'tabla'    => $this->load->view('admin/inventario/ajax/ajax_tablaInventario',null,true),
+            );
+            echo json_encode($json_data);
         }else{
-            echo '<div class="alert alert-danger" role="alert">Error de XML, datos no subidos</div>';
+            $json_data = array(
+                'descarga' => '<div class="alert alert-danger" role="alert">Error de XML, datos no subidos</div>', 
+                'tabla'    => $this->load->view('admin/inventario/ajax/ajax_tablaInventario',null,true),
+            );
+            echo json_encode($json_data);            
         }
+    }
+
+    public function agregar_compra()
+    {
+        $data = array(
+            "articulo"        => $this->input->post("articulo"),
+            "costo"           => $this->input->post("costo"),
+            "costo_proveedor" => $this->input->post("costoProv"),
+            "codigo"          => $this->input->post("codigoi"),
+            "clave"           => $this->input->post("clave"),
+            "cantidad"        => $this->input->post("cantidad"),
+            "unidad"          => $this->input->post("unidad"),
+            "tipo"            => $this->input->post("tipo"),
+            "descripcion"     => $this->input->post("descripcion"),
+        );
+        $id               = $this->Modelo_articulos->insertar_compra($data);
+        $data["acompras"] = $this->Modelo_articulos->get_articulosCompra();
+        $this->load->view('admin/inventario/compras/ajax/ajax_tablaCompras',$data);
     }
 }

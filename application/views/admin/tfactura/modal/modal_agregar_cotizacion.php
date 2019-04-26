@@ -11,7 +11,7 @@
           <div class="box-body">
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="cantidad" style="font-weight: normal;">Cotizacion</label>
+                <label for="cantidad">COTIZACION :</label>
                 <select class="form-control select2" style="width: 100%;" id="cotizaciones" onchange="viewCotizacion()" data-placeholder="Selecciona" required>
                 	<option value="">Selecciona</option>
                 	<?php if (!empty($cotizacion)) {
@@ -21,7 +21,7 @@
                 </select>
               </div>
               <div class="form-group col-md-6">
-                <label for="cliente" style="font-weight: normal;">Cliente</label>
+                <label for="cliente">CLIENTE :</label>
                 <input type="text" class="form-control" id="cliente" name="cliente" required>
                 <input type="hidden" name="midc" id="midc">
                 <input type="hidden" name="factura" id="factura" value="<?= $id ?>">
@@ -29,11 +29,11 @@
             </div>
             <div class="row">
 	            <div class="form-group col-md-6">
-	                <label for="telefono" style="font-weight: normal;">Telefono</label>
-	                <input type="text" class="form-control" id="telefono" name="telefono" required>
+	                <label for="telefono">TELEFONO :</label>
+	                <input type="text" class="form-control" id="telefono" name="telefono" data-inputmask='"mask": "(999) 999-9999"' data-mask required>
 	            </div>
 	            <div class="form-group col-md-6">
-	              <label for="fecha" style="font-weight: normal;">Fecha</label>
+	              <label for="fecha">FECHA :</label>
 	              <input type="text" class="form-control" id="fecha" name="fecha" required>
 	            </div>            	
             </div>

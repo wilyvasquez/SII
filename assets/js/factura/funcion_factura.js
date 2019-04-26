@@ -122,8 +122,18 @@ function valorUnitario()
   .done(function(response)
   {
     var json = $.parseJSON(response);
-    $("#costo").val(json.importe * 1.16);
+    $("#costo").val(json.importe);
     $("#descripcion").val(json.msg);
+    console.log(json.permiso);
+    if (json.permiso == "") {
+      document.getElementById('costo').removeAttribute('onfocus');  
+      // document.getElementById("costo").setAttribute("onfocus", "this.blur()");
+      // document.getElementById("costo").blur();
+    }else{
+      // document.getElementById('costo').setAttribute('disabled',json.permiso); 
+      document.getElementById("costo").setAttribute("onfocus", "this.blur()");
+      // document.getElementById("costo").blur();
+    }
   });
 }
 /*FIN VALOR UNITARIO*/
@@ -167,8 +177,15 @@ $(document).on("click", ".open-Editar", function () {
   $(".modal-body #articulo").val( articulo );
   var codigo = $(this).data('cod');
   $(".modal-body #codigo").val( codigo );
+
+  // Costo total del articulo
+  var costo = $(this).data('costo');
+  $(".modal-body #costo").val( costo );
+  // Descuento
   var descuento = $(this).data('descu');
-  $(".modal-body #descuento").val( descuento );
+  var porcentaje    = ((descuento / costo) *  100);
+  $(".modal-body #descuento").val( porcentaje );
+
 
   if (document.getElementById("codigos")) 
   {
@@ -180,8 +197,8 @@ $(document).on("click", ".open-Editar", function () {
   var idArticulo = $(this).data('arti');
   $(".modal-body #idArticulo").val( idArticulo );
 
-  var costo = $(this).data('costo');
-  $(".modal-body #costo").val( costo );
+
+
 });
 
 // INICIO DE LOS MODALES ELIMINAR Y EDITAR

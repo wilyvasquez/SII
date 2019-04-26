@@ -1,3 +1,18 @@
+CREATE TABLE tabla_compras
+(
+    id_tcompras int not null AUTO_INCREMENT,
+    articulo varchar (100),
+    costo double,
+    costo_proveedor double,
+    codigo varchar(30),
+    clave varchar(20),
+    cantidad int,
+    unidad varchar(30),
+    tipo varchar(30),
+    descripcion text,
+    PRIMARY KEY (id_tcompras)
+);
+
 CREATE TABLE clave_sat
 (
     id_clave int not null AUTO_INCREMENT,

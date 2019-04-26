@@ -6,17 +6,17 @@
 
         <h3 class="profile-username text-center"><?= $icliente->cliente ?></h3>
 
-        <p class="text-muted text-center">Software Engineer</p>
+        <p class="text-muted text-center"><?= $icliente->alta_cliente ?></p>
 
         <ul class="list-group list-group-unbordered">
           <li class="list-group-item">
-            <b>Correo</b> <a class="pull-right"><?= $icliente->correo ?></a>
+            <b>CORREO :</b> <a class="pull-right"><?= $icliente->correo ?></a>
           </li>
           <li class="list-group-item">
-            <b>Telefono</b> <a class="pull-right"><?= $icliente->telefono ?></a>
+            <b>TELEFONO :</b> <a class="pull-right"><?= $icliente->telefono ?></a>
           </li>
           <li class="list-group-item">
-            <b>RFC</b> <a class="pull-right"><?= $icliente->rfc ?></a>
+            <b>RFC :</b> <a class="pull-right"><?= $icliente->rfc ?></a>
           </li>
         </ul>
       </div>

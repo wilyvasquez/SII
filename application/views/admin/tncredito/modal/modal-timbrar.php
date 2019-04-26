@@ -9,7 +9,7 @@
       <form role="form" id="agregar_uuid">
         <div class="box-body">
           <div class="form-group">
-            <label for="uuid" style="font-weight: normal;">UUID</label>
+            <label for="uuid">UUID :</label>
             <input type="hidden" class="form-control" id="ids" name="ids" value="<?= $id ?>" required>
             <select class="form-control select2" style="width: 100%;" id="uuid" name="uuid" data-placeholder="Selecciona" required>
               <option value="">Selecciona</option>
@@ -20,7 +20,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="relacion" style="font-weight: normal;">Tipo relacion</label>
+            <label for="relacion">TIPO RELACION :</label>
             <select class="form-control select2" style="width: 100%;" id="relacion" name="relacion" data-placeholder="Selecciona" required>
               <option value="">Selecciona</option>
               <?php if (!empty($trelacion)) {

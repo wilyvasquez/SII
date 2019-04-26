@@ -122,3 +122,32 @@ function datosCliente()
     $('#btn-up').attr("disabled", false);
   });
 }
+
+function datosArticulo()
+{
+  var id = document.getElementById('articulo').value;
+  console.log("DATOS DEL ARTICULO");
+  var par = 
+  {
+    "id"  : id,
+  };
+  $.ajax({
+    url: "CtrInventario/get_datosArticulo",
+    type: "post",
+    dataType: "html",
+    data: par,
+  })
+  .done(function(response)
+  {
+    var json = $.parseJSON(response);
+    $("#costo").val(json.costo);
+    $("#costoProv").val(json.costo_provee);
+    $("#codigoi").val(json.codigo);
+    $("#clave").val(json.clave);
+    $("#cantidad").val(json.cantidad);
+    $("#unidad").val(json.unidad);
+    $("#tipo").val(json.tipo);
+    $("#descripcion").val(json.descripcion);
+    // $('#btn-up').attr("disabled", false);
+  });
+}

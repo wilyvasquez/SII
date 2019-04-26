@@ -18,9 +18,9 @@ $(function(){
         processData: false
       })
       .done(function(res){
-        // $("#ntf-cliente").html(res);
-        var json = $.parseJSON(res);
-        $("#ntf-cliente").html(json.msg).delay(2000).hide(0);
+        $("#ntf-inventario").html(res);
+        // var json = $.parseJSON(res);
+        // $("#ntf-cliente").html(json.msg).delay(2000).hide(0);
         // $.ajax({
         //   url: "CtrFactura/"+json.url,
         //   type: "post",
@@ -196,13 +196,12 @@ $(function(){
       })
       .done(function(res){
         var json = $.parseJSON(res);
-        console.log(json.msg);
+        // console.log(json.msg);
         if (json.num == 1) {
           $("#ntf-cIventario").html(json.url);
           $('#btn-guardarInventario').attr("disabled", true);
           $('#btn-gcotizacion').attr("disabled", true);          
         }else{
-          console.log("entree");
           $("#ntf-cIventario").html(json.msg).delay(2000).hide(0);
           setTimeout(function(){ 
             $("#ntf-cIventario").html("").delay(0).show(0);
@@ -234,7 +233,38 @@ $(function(){
       }
     })
     .done(function(res){
-        $("#mensaje").html(res);
+      var json = $.parseJSON(res);
+      $("#mensaje").html(json.descarga);
+      $("#xmlAlta").html(json.tabla);
+        // $("#mensaje").html(res);
+    });
+  });
+});
+
+/**
+ * 
+ */
+$(function(){
+  $("#addCompras").on("submit", function(e){
+    e.preventDefault();
+    var formData = new FormData(document.getElementById("addCompras"));
+    $.ajax({
+      url: baseurl+"CtrInventario/agregar_compra",
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      beforeSend: function(){
+        $("#mensaje").html("Subiendo articulos, espere...");
+      }
+    })
+    .done(function(res){
+      // var json = $.parseJSON(res);
+      // $("#mensaje").html(json.descarga);
+      // $("#xmlAlta").html(json.tabla);
+      $("#ntf-inventario").html(res);
     });
   });
 });

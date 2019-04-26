@@ -115,9 +115,18 @@ class Modelo_articulos extends CI_Model
 		}
 	}
 
-	function get_articulosInventario()
+	// function get_articulosInventario()
+	// {
+	// 	$query = $this->db->get_where('articulo', array('ref_dfacturacion' => '0'));
+	// 	if ($query->num_rows() > 0) {
+	// 		return $query;
+	// 	}else{ 
+	// 		return false;
+	// 	}
+	// }
+	function get_articulosCompra()
 	{
-		$query = $this->db->get_where('articulo', array('ref_dfacturacion' => '0'));
+		$query = $this->db->get('tabla_compras');
 		if ($query->num_rows() > 0) {
 			return $query;
 		}else{ 
@@ -133,6 +142,21 @@ class Modelo_articulos extends CI_Model
             return $id;
         }
         else {
+            return false;
+        }	
+	}
+
+	function delate_compras()
+	{
+		$query = $this->db->query("DELETE FROM tabla_compras");
+	}
+
+	function updateDatosFactura($data,$id)
+	{
+		$this->db->set($data)->where("id_dfacturacion", $id)->update("datos_facturacion");
+		if ($this->db->trans_status() === true) {
+            return true;
+        } else {
             return false;
         }	
 	}
@@ -162,6 +186,28 @@ class Modelo_articulos extends CI_Model
 		$query = $this->db->get_where('articulo', array('codigo_interno' => $id));
 		if ($query->num_rows() > 0) {
 			return $query->row();
+		}else{ 
+			return false;
+		}
+	}
+
+	function insertar_compra($datos)
+	{
+		$this->db->insert('tabla_compras', $datos);
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }
+        else {
+            return false;
+        }	
+	}
+
+	function get_compras()
+	{
+		$query = $this->db->get('tabla_compras');
+		if ($query->num_rows() > 0) {
+			return $query;
 		}else{ 
 			return false;
 		}

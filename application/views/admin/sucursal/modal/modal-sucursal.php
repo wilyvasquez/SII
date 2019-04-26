@@ -11,24 +11,24 @@
           <div class="box-body">
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="rsocial">Razon Social</label>
+                <label for="rsocial">RAZON SOCIAL :</label>
                 <input type="text" class="form-control" id="rsocial" name="rsocial" placeholder="Razon Social" required>
                 <input type="hidden" class="form-control" id="mid" name="mid" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mrfc">RFC</label>
+                <label for="mrfc">RFC :</label>
                 <input type="text" class="form-control" id="mrfc" name="mrfc" placeholder="RFC" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mcorreo">Correo</label>
+                <label for="mcorreo">CORREO :</label>
                 <input type="text" class="form-control" id="mcorreo" name="mcorreo" placeholder="Correo" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mtelefono">Telefono</label>
+                <label for="mtelefono">TELEFONO :</label>
                 <input type="text" class="form-control" id="mtelefono" name="mtelefono" placeholder="Telefono" required>
               </div>
               <div class="form-group col-md-6">
-                <label for="mestatus">Estatus</label>
+                <label for="mestatus">STATUS:</label>
                 <input type="text" class="form-control" id="mestatus" name="mestatus" placeholder="Estatus" required>
               </div>
             </div>

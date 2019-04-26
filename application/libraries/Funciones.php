@@ -26,13 +26,13 @@ class Funciones {
 		if (!empty($articulos)) {
 	      	foreach ($articulos ->result() as $articulo) 
 	      	{
-	      		$importe = $importe + $articulo->importe;
-	      		$descuento = $descuento + $articulo->descuento;
+                $importe   = $importe + $articulo->importe;
+                $descuento = $descuento + $articulo->descuento;
 	      	}
-			$subtotal  = $importe;
-			$iva       = $subtotal * 0.16;
-			$total     = $importe + $iva;
+			$subtotal  = $importe; # SUMA DE LOS ARTICULOS SIN IVA
+			$iva       = ($importe - $descuento) * 0.16; #SUMA TOTAL MENOS EL DESCUENTO
 			$descuento = $descuento;
+			$total     = ($importe + $iva) - $descuento;
       	}
       	 return array($subtotal,$iva,$descuento,$total);
     }

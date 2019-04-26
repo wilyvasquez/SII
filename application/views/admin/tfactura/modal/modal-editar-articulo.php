@@ -30,7 +30,7 @@
                     <div class="input-group-addon">
                       <i>%</i>
                     </div>                    
-                      <input type="number" class="form-control" id="descuento" name="descuento" min="0" step="any" <?= $permiso ?> >
+                      <input type="number" class="form-control" id="descuento" name="descuento" min="0" max="100" step="any" <?= $permiso ?> >
                   </div>
                 </div>          
               </div>

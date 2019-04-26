@@ -1,4 +1,4 @@
-<script language="javascript">
+<!-- <script language="javascript">
 function PulsarTecla(event)
 {
     tecla = event.keyCode;
@@ -9,7 +9,7 @@ function PulsarTecla(event)
     }
 }
 window.onkeydown=PulsarTecla;
-</script>
+</script> -->
 <div class="box box-primary">
   <div class="box-body table-responsive">
     <table id="tblInventario" class="table table-bordered table-striped">
@@ -20,8 +20,8 @@ window.onkeydown=PulsarTecla;
           <th>CODIGO</th>
           <th>CANTIDAD</th>
           <th>COSTO</th>
-          <th>COSTO PROV.</th>
-          <th>CLAVE SAT</th>
+          <th>COSTO_PROV.</th>
+          <th>CLAVE</th>
           <th>ACCION</th>
         </tr>
       </thead>

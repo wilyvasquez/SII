@@ -28,7 +28,7 @@ class CtrUniversal extends CI_Controller {
             if ($this->input->post("cantidad") && $this->input->post("costo") && $this->input->post("codigo") && $this->input->post("ids")) 
             {
                 $cantidad    = $this->input->post("cantidad");
-                $costo       = $this->input->post("costo") / 1.16;
+                $costo       = round($this->input->post("costo") / 1.16,2);
                 $id_articulo = $this->input->post("codigo");
                 $resul       = $this->Modelo_articulos->obtener_articulo($id_articulo);
                 $disponible  = $resul->cantidad;
@@ -52,7 +52,7 @@ class CtrUniversal extends CI_Controller {
                     echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));    
                 }
             }else{
-                $msg = "Error, No se han actualizado los datos";
+                $msg = "Error, No se agrego el articulo";
                 echo json_encode($this->funciones->resultado($peticion = false, $url = null, $msg, null));
             }
         }
@@ -140,6 +140,22 @@ class CtrUniversal extends CI_Controller {
         }
     }
 
+    function codigos_permisos($codigo)
+    {
+        $permiso = "";
+        if ($this->session->userdata('permiso') == "admin") 
+        {
+            return $permiso;
+        }else{
+            $codigos = array("84101702", "84101704", "84111506");
+            if (in_array($codigo, $codigos)) {
+                return $permiso;
+            }else{
+                return "readonly";
+            }            
+        }
+    }
+
     public function get_valorUnitario()
     {
         if(!$this->input->is_ajax_request())
@@ -150,9 +166,16 @@ class CtrUniversal extends CI_Controller {
             {
                 $codigo   = $this->input->post("codigo");
                 $articulo = $this->Modelo_timbrado->get_importe($codigo);
+                $permiso = $this->codigos_permisos($articulo->codigo_sat);
+                // if ($articulo->codigo_sat == "84101702") {
+                //     $permiso = "";
+                // }else{
+                //     $permiso = "disabled";
+                // }
                 $result = array(
-                    'importe' => $articulo->costo,
+                    'importe' => round($articulo->costo * 1.16,2),
                     'msg'     => $articulo->descripcion,
+                    'permiso' => $permiso,
                 );
                 echo json_encode($result);                
             }
@@ -211,17 +234,18 @@ class CtrUniversal extends CI_Controller {
                 $costo     = $this->input->post("costo");
                 $cantidad  = $this->input->post("cantidad");
                 $descuento = $this->input->post("descuento");
-                $importe   = $costo * $cantidad; # MULTIPLICAMOS EL COSTO POR LA CANTIDAD PARA OBTENER EL IMPORTE
-                $importe   = $importe * 1.16;
+                $importe   = $costo; # MULTIPLICAMOS EL COSTO POR LA CANTIDAD PARA OBTENER EL IMPORTE
+                $importe   = $importe;
                 $descuento = $importe * ( $descuento / 100 ); # CONVERTIMOS EL PORCENTAJE EN PESOS
 
                 if ($descuento <= $importe) 
                 {
-                    $total   = $importe - $descuento;
+                    // $total   = $importe - $descuento;
+                    $total   = $importe;
 
                     $data = array(
                         'cantidad_venta' => $cantidad,
-                        'importe'        => $total / 1.16,
+                        'importe'        => $costo,
                         'descuento'      => $descuento,
                     );
                     $this->Modelo_timbrado->up_articuloTimbrado($id,$data);
@@ -379,6 +403,7 @@ class CtrUniversal extends CI_Controller {
         $dato["clientes"]  = $this->Modelo_cliente->obtener_cliente($id_cliente);
         $dato["articulos"] = $this->Modelo_articulos->get_articuloFacturado($id);   
         $data = array(
+            "global"      => "active",
             "doctos"      => "active",
             "title"       => "INFORMACION DE DOCTO",
             "subtitle"    => "Archivo",

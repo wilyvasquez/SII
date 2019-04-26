@@ -89,9 +89,11 @@ $route['cotizacion']      	   = 'CtrCotizacion';
 $route['dcotizacion']      	   = 'CtrReportes/reporte';
 $route['chistorial']      	   = 'CtrCotizacion/historial_cotizacion';
 $route['rdfacturas/(:num)']	   = 'CtrReportes/reporte_inventario/$1';
+$route['compras']	   		   = 'CtrInventario/compras';
 
 $route['cortes']			   = 'CtrCortes/cortes';
 $route['corteCaja/(:any)']     = 'CtrReportes/corte_caja/$1';
+$route['spdf/(:any)']		   = 'CtrReportes/show_pdf/$1';
 
 $route['session']              = 'CtrLogin/verificar';
 $route['cerrar']               = 'CtrLogin/logout_ci';

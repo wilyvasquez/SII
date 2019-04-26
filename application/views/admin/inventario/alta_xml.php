@@ -28,7 +28,10 @@
       </form>
     </div>
   </div>
-  <div class="col-md-8">
+  <div class="col-md-8" id="xmlAlta">
     <?= $tabla_xml ?>
   </div>
+</div>
+<div>
+  <?= $modal_i ?>
 </div>

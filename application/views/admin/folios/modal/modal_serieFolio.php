@@ -9,22 +9,22 @@
       <form role="form" id="updateSerie">
         <div class="modal-body">
           <div class="box-body">
-	      	<div class="form-group">
-	        	<label for="mserie">Serie</label>
-	        	<input type="text" class="form-control" name="mserie" id="mserie" placeholder="Serie" required>
-	        	<input type="hidden" class="form-control" name="ids" id="ids"  required>
-	      	</div>
-          	<div class="form-group ">
-            	<label for="mtcomprobante">Tipo Comprobante</label>
-            	<input type="text" class="form-control" name="mtcomprobante" id="mtcomprobante" placeholder="Tipo comprobante" required>
-          	</div>
-            <div class="row">
-		      <div class="form-group col-md-6">
-	            <label for="mfinicial">Folio Inicial</label>
-	            <input type="number" class="form-control" name="mfinicial" id="mfinicial" placeholder="Folio Inicial" required>
+  	      	<div class="form-group">
+  	        	<label for="mserie">SERIE :</label>
+  	        	<input type="text" class="form-control" name="mserie" id="mserie" placeholder="Serie" required>
+  	        	<input type="hidden" class="form-control" name="ids" id="ids"  required>
+  	      	</div>
+            	<div class="form-group ">
+              	<label for="mtcomprobante">TIPO COMPROBANTE :</label>
+              	<input type="text" class="form-control" name="mtcomprobante" id="mtcomprobante" placeholder="Tipo comprobante" required>
+            	</div>
+              <div class="row">
+  		      <div class="form-group col-md-6">
+  	            <label for="mfinicial">FOLIO INICIAL :</label>
+  	            <input type="number" class="form-control" name="mfinicial" id="mfinicial" placeholder="Folio Inicial" required>
 	          </div>
               <div class="form-group col-md-6">
-                <label for="mfsiguiente">Folio Siguiente</label>
+                <label for="mfsiguiente">FOLIO SIGUIENTE :</label>
                 <input type="number" class="form-control" name="mfsiguiente" id="mfsiguiente" placeholder="Folio Siguiente" required>
               </div>
             </div>

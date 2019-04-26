@@ -101,8 +101,6 @@ class Modelo_inventario extends CI_Model
 							p.costo like '%".$search."%' OR 
 							p.codigo_sat like '%".$search."%') AND
 							p.ref_dfacturacion = 0 ";
-		}else{
-			$srch = "WHERE p.ref_dfacturacion = '0'";
 		}
 
 		$qnr = "SELECT count(1) cant FROM articulo p ".$srch;
@@ -164,7 +162,7 @@ class Modelo_inventario extends CI_Model
 		$qnr = $qnr->row();
 		$qnr = $qnr->cant;
 
-		$q = "SELECT p.id_dfacturacion, p.proveedor, p.factura, p.alta_dfacturacion FROM datos_facturacion p ".$srch." limit $start, $length";
+		$q = "SELECT p.id_dfacturacion, p.proveedor, p.factura, p.pdf, p.alta_dfacturacion FROM datos_facturacion p ".$srch." limit $start, $length";
 		$r = $this->db->query($q);
 
 		$retornar = array(

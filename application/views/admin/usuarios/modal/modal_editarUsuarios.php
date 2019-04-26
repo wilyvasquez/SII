@@ -11,32 +11,32 @@
           <div class="box-body">
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="mnombre" style="font-weight: normal;">Nombre</label>
+                <label for="mnombre">NOMBRE :</label>
                 <input type="text" class="form-control" id="mnombre" name="mnombre">
                 <input type="hidden" id="ids" name="ids">
               </div>
               <div class="form-group col-md-6">
-                <label for="mtelefono" style="font-weight: normal;">Telefono</label>
+                <label for="mtelefono">TELEFONO :</label>
                 <input type="text" class="form-control" id="mtelefono" name="mtelefono">
               </div>
             </div>
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="mcorreo" style="font-weight: normal;">Correo</label>
+                <label for="mcorreo">CORREO :</label>
                 <input type="text" class="form-control" id="mcorreo" name="mcorreo">
               </div>
               <div class="form-group col-md-6">
-                <label for="mdireccion" style="font-weight: normal;">Direccion</label>
+                <label for="mdireccion">DIRECCION :</label>
                 <input type="text" class="form-control" id="mdireccion" name="mdireccion">
               </div>
             </div>
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="msucursal" style="font-weight: normal;">Sucursal</label>
+                <label for="msucursal">SUCURSAL :</label>
                 <input type="text" class="form-control" id="msucursal" name="msucursal">
               </div>
               <div class="form-group col-md-6">
-                <label for="mestatus" style="font-weight: normal;">Estatus</label>
+                <label for="mestatus">STATUS :</label>
                 <input type="text" class="form-control" id="mestatus" name="mestatus">
               </div>
             </div>

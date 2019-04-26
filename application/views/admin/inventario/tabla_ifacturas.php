@@ -7,7 +7,7 @@
           <th>PROVEEDOR</th>
           <th>FACTURA</th>
           <th>FECHA</th>
-          <th>ACCION</th>
+          <th style="width: 100px">ACCION</th>
         </tr>
       </thead>
       <tbody></tbody>

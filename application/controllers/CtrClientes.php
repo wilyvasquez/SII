@@ -234,10 +234,4 @@ class CtrClientes extends CI_Controller {
 			}
 		}		
     }
-
-    public function prueba_correo()
-    {
-    	$pass = "Administrador";
-    	echo md5($pass);
-    }
 }

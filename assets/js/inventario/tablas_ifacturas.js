@@ -33,7 +33,7 @@ $(function () {
         {data: 'alta_dfacturacion'},
         {"orderable": true,
           render:function(data, type, row){
-            return '<a href="rdfacturas/'+row.id_dfacturacion+'" target="_blank" class="btn btn-block btn-primary btn-xs">Descargar</a>'
+            return '<a href="'+baseurl+'spdf/'+row.pdf+'" target="_blank" class="btn btn-block btn-primary btn-xs">Descargar</a>'
           }
         }
       ],

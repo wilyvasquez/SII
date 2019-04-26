@@ -16,8 +16,10 @@ class CtrReportes extends CI_Controller {
         $this->load->model('Modelo_timbrado');
         $this->load->model('Modelo_articulos');
         $this->permisos->redireccion();
-        
+        $this->load->library('html2pdf');
         $this->load->helper('date');
+
+        $this->facturas = 'assets/pdf/comprobantes/';
         date_default_timezone_set('America/Monterrey');
     }
 
@@ -225,7 +227,14 @@ class CtrReportes extends CI_Controller {
 		$this->pdf->Cell(18, 5,"TOTAL", 0 , 1,'',true);
 		$this->pdf->SetXY(175, $j+18);
 		$this->pdf->Cell(5, 4,"$ ". number_format($total,2), 0 , 1);
-	    $this->pdf->Output("Cotizacion.pdf", 'I');
+
+		// $ruta_destino = $this->facturas;
+		$hoy          = date("dmyhis");
+		$pdfFilePath  = "inv_".$hoy.".pdf";
+
+		// $this->pdf->Output($ruta_destino.$pdfFilePath, "F");
+	 //    $this->pdf->Output($pdfFilePath, 'F');
+	    $this->pdf->Output($pdfFilePath, 'I');
 	}
 
 	public function corte_caja($fechas)
@@ -280,7 +289,7 @@ class CtrReportes extends CI_Controller {
 		$this->pdf->Cell(26, 6,"Monto",0, 1);
 
 		$fecha        = $fechas;
-		$motocicletas = $this->Modelo_timbrado->refaccionesFacturadas($fecha);
+		$motocicletas = $this->Modelo_timbrado->facturasEmitidas($fecha);
 		$total = $credito = $caja = $cajaC = $motos = $motocicleta = $accesorios = $acces = $refacciones = $refacc = 0;
 		$j = 82;
 		if (!empty($motocicletas)) {
@@ -290,7 +299,7 @@ class CtrReportes extends CI_Controller {
 				$this->pdf->SetXY(58, $j);
 				$this->pdf->Cell(26, 6,substr($moto->cliente, 0, 50),0, 1);
 				$this->pdf->SetXY(128, $j);
-				$this->pdf->Cell(26, 6,$moto->tipo,0, 1);	
+				$this->pdf->Cell(26, 6,"",0, 1);	
 				$this->pdf->SetXY(155, $j);
 				$this->pdf->Cell(26, 6,$moto->forma_pago,0, 1);
 				$this->pdf->SetFont('Arial','',7.5);
@@ -365,4 +374,36 @@ class CtrReportes extends CI_Controller {
 		// $this->pdf->Cell(26, 6,"Motocicletas: $ ".number_format($motocicleta + $motos,2),0, 1);
 	    $this->pdf->Output("Cortes.pdf", 'I');
 	}
+
+	/*public function pdf_inventario()
+    {    
+        $data = [];
+
+		$hoy = date("dmyhis");
+
+		$html         = $this->load->view('admin/reportes/reporte_inventario',null,true);
+		$pdfFilePath  = "inv_".$hoy.".pdf";
+		$ruta_destino = $this->facturas;
+ 
+        //cargamos la libreria mPDF
+        $this->load->library('M_pdf');
+        $mpdf = new mPDF('c', 'A4'); 
+ 		$mpdf->WriteHTML($html);
+		$mpdf->Output($ruta_destino.$pdfFilePath, "F");
+		$mpdf->Output($ruta_destino.$pdfFilePath, "I"); 
+    }*/
+
+    public function show_pdf($nombre)
+    {
+        if(is_dir("./assets/pdf/comprobantes"))
+        {
+            $filename = $nombre; 
+            $route = base_url("assets/pdf/comprobantes/".$nombre); 
+            if(file_exists("./assets/pdf/comprobantes/".$filename))
+            {
+                header('Content-type: application/pdf'); 
+                readfile($route);
+            }
+        }
+    }
 }

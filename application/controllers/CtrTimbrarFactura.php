@@ -125,31 +125,39 @@ class CtrTimbrarFactura extends CI_Controller {
                 $d['Conceptos'][$i]['Unidad']           = $articulo->unidad; # Unidad de Medida
                 $d['Conceptos'][$i]['Descripcion']      = $articulo->descripcion_preventa; #maximo 1000 caracteres
                 $d['Conceptos'][$i]['ValorUnitario']    = round($articulo->importe / $cantidad,2); #costo de 1 articulo
-                $d['Conceptos'][$i]['Importe']          = round($articulo->importe + $articulo->descuento,2); # costo del total de todos los articulos
+                $d['Conceptos'][$i]['Importe']          = round($articulo->importe,2); # costo del total de todos los articulos
                 $d['Conceptos'][$i]['Descuento']        = round($articulo->descuento,2); # no se permiten valores negativos
-                $base      = round($articulo->importe - $articulo->descuento,2); #precio del articulo sin IVA menos descuento
+                $base      = round($articulo->importe,2); #precio del articulo sin IVA
+                $base2     = round($articulo->importe - $articulo->descuento,2); #precio del articulo sin IVA menos descuento
+                // $base      = round($articulo->importe - $articulo->descuento,2); #precio del articulo sin IVA menos descuento
                 $importe   = round($base * 0.16,2); # IVA de un articulo 
-                $subtotal  = round($subtotal + $base,2); # suma de todos los articulos sin IVA, menos su descuento
+                $importe2  = round($base2 * 0.16,2); # IVA de un articulo con descuento
+                // $subtotal  = round($subtotal + $base,2); # suma de todos los articulos sin IVA, menos su descuento
                 $descuento = round($descuento + $articulo->descuento,2); # suma total del descuento
-                $timporte  = round($timporte + $importe,2); # suma total de los IVA de los articulos
+
+                $subtotal  = round($subtotal + $base,2); # suma de todos los articulos sin IVA
+                $timporte  = round($timporte + $importe2,2); # suma total de los IVA de los articulos
 
                 # concepto 1 -> impuestos
-                $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Base']        = round($base,2);
+                $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Base']        = round($articulo->importe - $articulo->descuento,2);
                 $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Impuesto']    = '002'; # 001=ISR, 002=IVA, 003=IEPS
                 $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['TipoFactor']  = 'Tasa';
                 $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['TasaOCuota']  = '0.160000'; # IVA
-                $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Importe']     = round($importe,2);
+                $d['Conceptos'][$i]['Impuestos']['Traslados'][0]['Importe']     = round($importe2,2);
 
                 $i++;
             } 
         }
 
-        $total           = round(($subtotal + $timporte),2); # suma del total de articulos mas el total de IVA
-        $d['SubTotal']   = round($subtotal + $descuento,2); 
-        $d['Descuento']  = round($descuento,2); # o bien: null
+		$total     = round(($subtotal + $timporte) - $descuento,2); # suma de los articulos mas el total de IVA menos descuento
+		$subtotal  = round($subtotal,2); # suma de articulos mas IVA
+		$descuento = round($descuento,2);
+
+        $d['SubTotal']   = $subtotal; 
+        $d['Descuento']  = $descuento; # o bien: null
         $d['Moneda']     = 'MXN';
         $d['TipoCambio'] = "1";
-        $d['Total']      = round($total,2); 
+        $d['Total']      = $total; 
 
         # Impuestos
         #$d['Impuestos']['TotalImpuestosRetenidos'] 	= 0.000000;
