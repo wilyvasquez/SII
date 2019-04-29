@@ -6,6 +6,7 @@ class CtrClientes extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
@@ -25,13 +26,14 @@ class CtrClientes extends CI_Controller {
 		$data['clientes']  = $this->Modelo_cliente->get_clientes();
 		$data['ucfdis']    = $this->Modelo_sat->get_usoCfdi();
 		$data = array(
-			"cliente"   => "active",
-			"title"     => "Cliente",
-			"subtitle"  => "Alta de Cliente",
-			"contenido" => "admin/cliente/cliente",
-			"menu"      => $pmenu,
-			"tabla"     => $this->load->view('admin/cliente/tabla-cliente',$data,true),
-			"archivosJS"=> $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS
+			"cliente"     => "active",
+			"title"       => "Cliente",
+			"subtitle"    => "Alta de Cliente",
+			"contenido"   => "admin/cliente/cliente",
+			"menu"        => $pmenu,
+			"tcreditos"   => $this->facturapi->consultarCreditos(),
+			"tabla"       => $this->load->view('admin/cliente/tabla-cliente',$data,true),
+			"archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS
 		);
 		$this->load->view('universal/plantilla',$data);
 	}
@@ -43,14 +45,15 @@ class CtrClientes extends CI_Controller {
 		$datos['ifacturas'] = $this->Modelo_cliente->obtener_facturas($id);
 
 		$data = array(
-			'cliente'   => "active",
-			'title'     => "Cliente",
-			'subtitle'  => "Datos del cliente", 
-			'contenido' => "admin/cliente/perfil-cliente", 
-			'menu'      => $pmenu,
-			'facturas'  => $this->load->view('admin/cliente/facturas_cliente',$datos,true),
-			'ucliente'  => $this->load->view('admin/cliente/update-cliente',$datos,true),
-			'archivosJS'=> $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS
+			'cliente'     => "active",
+			'title'       => "Cliente",
+			'subtitle'    => "Datos del cliente", 
+			'contenido'   => "admin/cliente/perfil-cliente", 
+			'menu'        => $pmenu,
+			"tcreditos"   => $this->facturapi->consultarCreditos(),
+			'facturas'    => $this->load->view('admin/cliente/facturas_cliente',$datos,true),
+			'ucliente'    => $this->load->view('admin/cliente/update-cliente',$datos,true),
+			'archivosJS'  => $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS
 		);
 		$this->load->view('universal/plantilla',$data);
 	}

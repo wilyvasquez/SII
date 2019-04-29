@@ -12,7 +12,7 @@
           <th>TOTAL FACTURA</th>
           <th>SERIE Y FOLIO</th>
           <th>TIPO</th>
-          <th>NOTA CREDITO</th>
+          <!-- <th>NOTA CREDITO</th> -->
           <th>ACCION</th>
         </tr>
       </thead>
@@ -39,13 +39,6 @@
           <td>
             <span class="label label-<?= $color ?>"><?= $tipo ?></span>
           </td>
-          <?php if ($uuid->tipo_comprobante == "I") { ?>
-            <td>
-              <a href="<?= base_url() ?>gcredito/<?= $uuid->id_factura ?>" class="btn btn-default btn-xs">Nota Credito</a>
-            </td>
-          <?php }else{ ?>
-            <td></td>
-          <?php } ?>
           <td>
             <a href="<?= base_url() ?>dfactura/<?= $uuid->id_factura ?>" class="btn btn-primary btn-xs">Docto</a>
           </td>

@@ -6,6 +6,7 @@ class CtrUsuarios extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Permisos');
         $this->load->library('Not_found');
@@ -29,6 +30,7 @@ class CtrUsuarios extends CI_Controller {
     		"subtitle"  => "Alta de usuarios",
     		"contenido" => "admin/usuarios/usuarios",
     		"menu"      => $pmenu,
+            "tcreditos" => $this->facturapi->consultarCreditos(),
             "archivosJS"=> $this->load->view('admin/usuarios/archivos/archivoJS',null,true) # ARCHIVOS JS UTILIZADOS
         );
         $data["usuarios"] = $this->Modelo_usuarios->get_usuarios();

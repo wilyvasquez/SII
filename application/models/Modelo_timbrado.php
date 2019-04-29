@@ -406,4 +406,26 @@ class Modelo_timbrado extends CI_Model
 			return false;
 		}
 	}
+
+	function datos_CanceladoCFDI($data)
+	{
+		$this->db->insert('cancelar_cfdi', $data);
+		if ($this->db->affected_rows() === 1) {
+            $id = $this->db->insert_id();
+            return $id;
+        }else {
+            return false;
+        }
+	}
+
+	function get_acuseCancelacion($uuid)
+	{
+		$query = $this->db->query("SELECT * FROM cancelar_cfdi WHERE folio = '$uuid' ");
+
+		if ($query->num_rows() > 0) {
+			return true;
+		}else{ 
+			return false;
+		}
+	}
 }

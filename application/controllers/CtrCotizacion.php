@@ -6,6 +6,7 @@ class CtrCotizacion extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Permisos');
         $this->load->library('Not_found');
@@ -31,6 +32,7 @@ class CtrCotizacion extends CI_Controller {
 			"subtitle"    => "Agregar Articulos",
 			"contenido"   => "admin/cotizacion/cotizacion",
 			"menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
 			"archivosJS"  => $this->load->view('admin/cotizacion/archivos/archivosJS',null,true), # ARCHIVOS JS UTILIZADOS
 			"tabla"       => $this->load->view('admin/cotizacion/tabla_cotizacion',null,true),
             "ctabla"      => $this->load->view('admin/cotizacion/tabla_cproductos',$datos,true),
@@ -131,6 +133,7 @@ class CtrCotizacion extends CI_Controller {
             "subtitle"    => "Datos Cotizaciones",
             "contenido"   => "admin/cotizacion/tabla_historial",
             "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             "archivosJS"  => $this->load->view('admin/cotizacion/archivos/archivosJS',null,true), # ARCHIVOS JS UTILIZADOS
             "datos"       => $this->Modelo_cotizacion->obtener_cotizaciones()
         );

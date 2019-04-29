@@ -6,6 +6,7 @@ class CtrNotaCredito extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
@@ -32,6 +33,7 @@ class CtrNotaCredito extends CI_Controller {
             'subtitle'    => "Crear Nota Credito",
             'contenido'   => "admin/ncredito/nota_credito",
             'menu'        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             'clientes'    => $this->Modelo_cliente->get_clientes(), # OBTENER TODOS LOS CLIENTES
             'fpagos'      => $this->Modelo_sat->get_formaPagos(),   # OBTENER FORMAS DE PAGO
             'mpagos'      => $this->Modelo_sat->get_metodoPagos(),  # OBTENER METODOS DE PAGO
@@ -120,6 +122,7 @@ class CtrNotaCredito extends CI_Controller {
             'subtitle'    => "Timbrar Nota Credito",
             'contenido'   => "admin/tncredito/tncredito",
             'menu'        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             'articulo'    => $this->load->view('admin/tfactura/agregar-articulo',$data,true), # VISTA DE AGREGAR ARTICULO
             'tarticulos'  => $this->load->view('admin/tfactura/tabla-articulos',$data,true),  # VISTA TABLA ARTICULOS
             'tuuid'       => $this->load->view('admin/tncredito/tabla_uuid',$data,true),      # VISTA DE TABLA UUID

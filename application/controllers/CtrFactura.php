@@ -5,6 +5,7 @@ class CtrFactura extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
+		$this->load->library('Facturapi');
 		$this->load->library('Funciones');
 		$this->load->library('Permisos');
 		$this->load->library('Not_found');
@@ -35,6 +36,7 @@ class CtrFactura extends CI_Controller {
 			"subtitle"    => "Alta de folios",
 			"contenido"   => "admin/folios/folios_series",
 			"menu"        => $pmenu,
+			"tcreditos"   => $this->facturapi->consultarCreditos(),
 			"tabla"       => $this->load->view('admin/folios/tabla-folios',$datos,true),
 			"archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
 			"mSerieFolio" => $this->load->view('admin/folios/modal/modal_serieFolio',null,true)  # MODAL ACTUALIZAR SERIE FOLIO
@@ -51,14 +53,15 @@ class CtrFactura extends CI_Controller {
 			'ucfdis' => $this->Modelo_sat->get_usoCfdi()
 		);
 		$data = array(
-			'title'      => 'Factura',
-			'timbrado'   => 'active',
-			'factura'    => 'active',
-			'subtitle'   => 'Crear Factura',
-			'contenido'  => 'admin/factura/factura', 
-			'menu'       => $pmenu, # MENU DE AMDIN
-			'mcliente'   => $this->load->view('admin/factura/modal/modal-cliente',$cfdi,true), # MODAL CLIENTE REGISTRO PRE FACTURA
-			'archivosJS' => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
+			'title'       => 'Factura',
+			'timbrado'    => 'active',
+			'factura'     => 'active',
+			'subtitle'    => 'Crear Factura',
+			'contenido'   => 'admin/factura/factura', 
+			'menu'        => $pmenu, # MENU DE AMDIN
+			"tcreditos"   => $this->facturapi->consultarCreditos(),
+			'mcliente'    => $this->load->view('admin/factura/modal/modal-cliente',$cfdi,true), # MODAL CLIENTE REGISTRO PRE FACTURA
+			'archivosJS'  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
 		);
 		$datos = array(
 			'title'      => 'Factura',
@@ -78,13 +81,14 @@ class CtrFactura extends CI_Controller {
 	{
 		$pmenu = $this->permisos->menu();
 		$data = array(
-			'title'      => 'Factura',
-			'proceso'    => 'active',
-			'subtitle'   => 'Facturas en proceso',
-			'contenido'  => 'admin/factura/proceso/facturas_proceso', 
-			'menu'       => $pmenu, # MENU DE AMDIN
-			'archivosJS' => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
-			'prefactura' => $this->Modelo_timbrado->get_facturasProceso()
+			'title'       => 'Factura',
+			'proceso'     => 'active',
+			'subtitle'    => 'Facturas en proceso',
+			'contenido'   => 'admin/factura/proceso/facturas_proceso', 
+			'menu'        => $pmenu, # MENU DE AMDIN
+			"tcreditos"   => $this->facturapi->consultarCreditos(),
+			'archivosJS'  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+			'prefactura'  => $this->Modelo_timbrado->get_facturasProceso()
 		);
 		# PLANTILLA DE LAS VISTAS
 		$this->load->view('universal/plantilla',$data);
@@ -95,15 +99,16 @@ class CtrFactura extends CI_Controller {
 		$pmenu = $this->permisos->menu();
 		$data["permiso"]	 = $this->funciones->permisos();
 		$data = array(
-			'title'      => 'Factura',
-			'proceso'    => 'active',
-			'subtitle'   => 'Factura en proceso',
-			'contenido'  => 'admin/factura/proceso/proceso', 
-			'menu'       => $pmenu, # MENU DE AMDIN
-			'archivosJS' => $this->load->view('admin/tfactura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
-			'prefactura' => $this->Modelo_timbrado->get_facturasProceso(),
-			'tarticulos' => $this->Modelo_articulos->get_articulo($id),
-			'marticulo'  => $this->load->view('admin/tfactura/modal/modal-editar-articulo',$data,true) # MODALES
+			'title'       => 'Factura',
+			'proceso'     => 'active',
+			'subtitle'    => 'Factura en proceso',
+			'contenido'   => 'admin/factura/proceso/proceso', 
+			'menu'        => $pmenu, # MENU DE AMDIN
+			"tcreditos"   => $this->facturapi->consultarCreditos(),
+			'archivosJS'  => $this->load->view('admin/tfactura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+			'prefactura'  => $this->Modelo_timbrado->get_facturasProceso(),
+			'tarticulos'  => $this->Modelo_articulos->get_articulo($id),
+			'marticulo'   => $this->load->view('admin/tfactura/modal/modal-editar-articulo',$data,true) # MODALES
 		);
 		$data["id"]         = $id;
 		$data['icliente']   = $this->Modelo_cliente->datos_cliente($id);
@@ -195,6 +200,7 @@ class CtrFactura extends CI_Controller {
 			'subtitle'    => "Timbrar Factura",
 			'contenido'   => "admin/tfactura/tfactura",
 			'menu'        => $pmenu,
+			"tcreditos"   => $this->facturapi->consultarCreditos(),
 			'articulo'    => $this->load->view('admin/tfactura/agregar-articulo',$data,true), # VISTA DE AGREGAR ARTICULO
 			'tarticulos'  => $this->load->view('admin/tfactura/tabla-articulos',$data,true),  # VISTA TABLA ARTICULOS
 			'precios'     => $this->load->view('admin/tfactura/precios',$data,true),		  # VISTA TABLA DE PRECIOS

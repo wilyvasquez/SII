@@ -9,7 +9,10 @@
       </div>
       <div class="pull-left info">
         <p> <?= $this->session->userdata('nombre')  ?></p>
-        <a href="#"><i class="fa fa-circle text-success"></i>  <?= strtoupper($this->session->userdata('permiso'))  ?></a>
+        <a href="#"><i class="fa fa-circle text-success"></i>  
+          <?= strtoupper($this->session->userdata('permiso'))  ?>
+          (<?= number_format($tcreditos) ?>)
+        </a>
       </div>
     </div>
     <!-- search form -->

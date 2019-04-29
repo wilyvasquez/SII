@@ -8,25 +8,12 @@
           <span class="username"><a href="<?= base_url() ?>pcliente/<?= $clientes->id_cliente ?>"><?= $clientes->cliente ?>.</a></span>
           <span class="description">RFC - <?= $clientes->rfc ?> - <?= $clientes->alta_cliente ?> </span>          
         </div>
-        <!-- /.user-block -->
-        <!-- <div class="box-tools">
-          <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">
-            <i class="fa fa-circle-o"></i></button>
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-          </button>
-          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div> -->
-        <!-- /.box-tools -->
       </div>
       <!-- /.box-header -->
       <div class="box-body">
         <!-- <img class="img-responsive pad" src="<?= base_url()?>assets/img/user2-160x160.jpg" alt="Photo"> -->
         <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3814.716022221122!2d-96.71798493515014!3d17.037593946192544!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xa521aaa112a6a138!2sSuzuki+Atrum+Motors+de+Mexico!5e0!3m2!1ses!2smx!4v1552504486201" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
 
-       <!--  <p>I took this photo this morning. What do you guys think?</p>
-        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-        <span class="pull-right text-muted">127 likes - 3 comments</span> -->
       </div>
       <!-- /.box-body -->
       <div class="box-footer box-comments">
@@ -92,7 +79,8 @@
         <!-- <a href="<?= base_url() ?>xml/<?= $dato->uuid ?>" target="blank" class="link-black text-sm" style="margin-left: 10px"><i class="fa fa-file-code-o margin-r-5"></i> XML</a> -->
         <a href="<?= $dato->xml ?>" target="blank" class="link-black text-sm" style="margin-left: 10px"><i class="fa fa-file-code-o margin-r-5"></i> XML</a>
         <ul>
-          <li><?= $dato->uso_cfdi ?></li>
+          <li>Uso CFDI: <?= $dato->uso_cfdi ?></li>
+          <li>Folio y Serie: <?= $dato->serie."-".$dato->folio ?></li>
         </ul>
       </div>
       <div class="box-body">
@@ -134,8 +122,20 @@
         <!-- /.box-comment -->
         <?php } } ?>
       </div>
+      <div class="box-footer">
+        <?php 
+          $series = $dato->serie.$dato->folio;
+          if ($cancelacion == 1) { ?>
+            <div class="alert alert-danger" role="alert">Documento CFDI Cancelado</div>
+          <?php }else{ ?>
+          <button class="btn btn-warning pull-right" onclick="selCancelarCFDI('<?= $dato->uuid ?>','<?= $series ?>','<?= $id ?>')" data-toggle="modal" data-target=".mCancelarCFDI" id="btn_cancelarCFDI">Cancelar</button>
+        <?php } ?>
+      </div>
     </div>
     <!-- /.box -->
   </div>
   <!-- /.col -->
+</div>
+<div>
+  <?= $modal ?>
 </div>

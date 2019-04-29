@@ -62,7 +62,7 @@ class Facturapi {
 			$response = $cli->request('POST', $endpoint, [
 					'headers' => $headers,
 					'form_params' => [
-						'jsoncfdi' => json_encode($d)
+					'jsoncfdi' => json_encode($d)
 					]
 				]
 			);
@@ -189,6 +189,48 @@ class Facturapi {
     	} catch (Exception $e) {
     		throw new Exception( $e->getMessage() . "<br><small>ExceptionREST_Client (Correo)</small>" , 1);
     	}
+    }
+
+    public function consultarCreditos() 
+    {
+    	try {
+    		$cli = $this->CI->client;
+			# preparamos las credenciales
+			$headers = [
+				'Accept' 		=> 'application/json',
+				'api-usuario' 	=> $this->CI->api_usuario,
+				'api-password' 	=> $this->CI->api_password
+			];
+
+			$response = $cli->request('POST', 'cfdi/creditos', 
+				['headers' => $headers]
+			);
+
+			# hacemos la petición y enviamos los parametros
+			$code 			= $response->getStatusCode(); # 200
+			$reason 		= $response->getReasonPhrase(); # OK
+			$json_response 	= json_decode($response->getBody()); # obtenemos la respuesta de cancelacion
+
+			# si la respuesta es exitosa
+			if ( $code == 200 ) {
+				
+				$creditos_disponibles = $json_response->creditos;
+
+				if ( $creditos_disponibles < 100000 ) {
+					return $creditos_disponibles;
+					// echo "<script>";
+					// echo "alert('ALERTA!! Tus timbres están por agotarse!! '); ";
+					// echo "</script>";
+				}
+				
+			} else {
+				# imprimimos la respuesta (JSON)
+				echo $response->raw_body;
+			}
+
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
     }
 
 }

@@ -6,6 +6,7 @@ class CtrUniversal extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
@@ -307,16 +308,17 @@ class CtrUniversal extends CI_Controller {
         if (!empty($total)) { $datos["total"]    = $total->num_rows(); }
 
         $data = array(
-            "home"          => "active",
-            "title"         => "Dashboard",
-            "subtitle"      => "Estadisticas",
-            "contenido"     => "admin/home/home",
-            "menu"          => $pmenu,
-            "info"          => $this->load->view('admin/home/informacion',$datos,true),
-            "grafica"       => $this->load->view('admin/home/grafica_estadisticas',null,true),
-            "pastel"        => $this->load->view('admin/home/grafica_pastel',null,true),
-            "tareas"        => $this->load->view('admin/home/tareas',null,true),
-            "archivosJS"    => $this->load->view('admin/home/archivos/archivosJS',null,true),
+            "home"       => "active",
+            "title"      => "Dashboard",
+            "subtitle"   => "Estadisticas",
+            "contenido"  => "admin/home/home",
+            "menu"       => $pmenu,
+            "tcreditos"  => $this->facturapi->consultarCreditos(),
+            "info"       => $this->load->view('admin/home/informacion',$datos,true),
+            "grafica"    => $this->load->view('admin/home/grafica_estadisticas',null,true),
+            "pastel"     => $this->load->view('admin/home/grafica_pastel',null,true),
+            "tareas"     => $this->load->view('admin/home/tareas',null,true),
+            "archivosJS" => $this->load->view('admin/home/archivos/archivosJS',null,true)
         );
 
         $this->load->view('universal/plantilla',$data);
@@ -327,11 +329,12 @@ class CtrUniversal extends CI_Controller {
     {
         $pmenu = $this->permisos->menu();
         $data = array(
-            "title"     => "404 Error Pagina",
-            "subtitle"  => "Error",
-            "contenido" => "universal/not_found",
-            "menu"      => $pmenu,
-            "archivosJS"=> $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
+            "title"       => "404 Error Pagina",
+            "subtitle"    => "Error",
+            "contenido"   => "universal/not_found",
+            "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
         );
         $this->load->view('universal/plantilla',$data);
     }
@@ -366,12 +369,13 @@ class CtrUniversal extends CI_Controller {
         $pmenu          = $this->permisos->menu();
         $datos["docto"] = $this->Modelo_cliente->get_allFacturas();
         $data = array(
-            "global"      => "active",
-            "doctos"      => "active",
+            "timbrado"    => "active",
+            "fcancelar"   => "active",
             "title"       => "Documentos Timbrado",
             "subtitle"    => "Timbrado",
             "contenido"   => "admin/timbrado/timbrado",
             "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             "tabla"       => $this->load->view('admin/timbrado/tabla_timbrado',$datos,true),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
         );
@@ -383,12 +387,13 @@ class CtrUniversal extends CI_Controller {
         $pmenu          = $this->permisos->menu();
         $datos['ifacturas'] = $this->Modelo_cliente->global_facturas();
         $data = array(
-            "global"      => "active",
-            "gfacturas"   => "active",
+            "tfacturas"   => "active",
+            "fsalida"     => "active",
             "title"       => "Documentos Timbrado",
             "subtitle"    => "Timbrado",
             "contenido"   => "admin/global/gfacturas_relacion",
             "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             "tabla"       => $this->load->view('admin/timbrado/tabla_timbrado',$datos,true),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
         );
@@ -397,20 +402,34 @@ class CtrUniversal extends CI_Controller {
 
     public function datos_factura($id)
     {   
-        $pmenu             = $this->permisos->menu();
+        $pmenu             = $this->permisos->menu();               
+
         $dato["dato"]      = $this->Modelo_timbrado->search_factura($id);
         $id_cliente        = $dato["dato"]->ref_cliente;
+        $uuid              = $dato["dato"]->uuid;
+
         $dato["clientes"]  = $this->Modelo_cliente->obtener_cliente($id_cliente);
         $dato["articulos"] = $this->Modelo_articulos->get_articuloFacturado($id);   
         $data = array(
-            "global"      => "active",
-            "doctos"      => "active",
+            "timbrado"    => "active",
+            "fcancelar"   => "active",
             "title"       => "INFORMACION DE DOCTO",
             "subtitle"    => "Archivo",
             "contenido"   => "admin/timbrado/datos_factura",
             "menu"        => $pmenu,
-            "datos"       => $this->load->view('admin/timbrado/datos_factura',$dato,true)
+            "id"          => $id,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
+            "cancelacion" => $this->validar_cancelacion($uuid),
+            "datos"       => $this->load->view('admin/timbrado/datos_factura',$dato,true),
+            "modal"       => $this->load->view('admin/timbrado/modal/modal_cancelarCFDi',null,true),
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
         );
         $this->load->view('universal/plantilla',$data);
+    }
+
+    function validar_cancelacion($uuid)
+    {
+        $peticion = $this->Modelo_timbrado->get_acuseCancelacion($uuid);
+        return $peticion;
     }
 }

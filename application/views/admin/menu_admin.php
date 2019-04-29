@@ -18,7 +18,7 @@
       <li class="<?php if(!empty($factura)){ echo $factura; } ?>"><a href="<?= base_url() ?>prefactura"><i class="fa fa-circle-o"></i> Factura</a></li>
       <li class="<?php if(!empty($ncredito)){ echo $ncredito; } ?>"><a href="<?= base_url() ?>prencredito"><i class="fa fa-circle-o"></i> Nota de credito</a></li>
       <li class="<?php if(!empty($rpagos)){ echo $rpagos; } ?>"><a href="<?= base_url() ?>prepagos"><i class="fa fa-circle-o"></i> Recibo de pago</a></li>
-      <li class="<?php if(!empty($rpagos)){ echo $rpagos; } ?>"><a href="#"><i class="fa fa-circle-o"></i> Cancelar Facturas</a></li>
+      <li class="<?php if(!empty($fcancelar)){ echo $fcancelar; } ?>"><a href="<?= base_url() ?>timbrado"><i class="fa fa-circle-o"></i> Cancelar Facturas</a></li>
     </ul>
   </li>
   <li class="<?php if(!empty($proceso)){ echo $proceso; } ?>">
@@ -101,13 +101,13 @@
       </span>
     </a>
     <ul class="treeview-menu">
-      <li class="<?php if(!empty($fsalida)){ echo $fsalida; } ?>"><a href="#"><i class="fa fa-circle-o"></i> Facturas Salida</a></li>
+      <li class="<?php if(!empty($fsalida)){ echo $fsalida; } ?>"><a href="<?= base_url() ?>gtimbrado"><i class="fa fa-circle-o"></i> Facturas Salida</a></li>
       <li class="<?php if(!empty($fentrada)){ echo $fentrada; } ?>"><a href="#"><i class="fa fa-circle-o"></i> Facturas Entrada</a></li>
       <li class="<?php if(!empty($idfactura)){ echo $idfactura; } ?>"><a href="<?= base_url() ?>ifacturas"><i class="fa fa-circle-o"></i> Facturas Inventario</a></li>
     </ul>
   </li>
 
-  <li class="treeview <?php if(!empty($global)){ echo $global; } ?>">
+  <!-- <li class="treeview <?php if(!empty($global)){ echo $global; } ?>">
     <a href="#">
       <i class="fa fa-globe"></i> <span>Global</span>
       <span class="pull-right-container">
@@ -118,7 +118,7 @@
       <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>"><a href="<?= base_url() ?>timbrado"><i class="fa fa-circle-o"></i> Doctos Timbrado</a></li>
       <li class="<?php if(!empty($gfacturas)){ echo $gfacturas; } ?>"><a href="<?= base_url() ?>gtimbrado"><i class="fa fa-circle-o"></i> Relacion Facturas</a></li>
     </ul>
-  </li>
+  </li> -->
 
   <!-- <li class="<?php if(!empty($doctos)){ echo $doctos; } ?>">
     <a href="<?= base_url() ?>timbrado">

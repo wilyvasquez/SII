@@ -6,6 +6,7 @@ class CtrInventario extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
@@ -25,23 +26,24 @@ class CtrInventario extends CI_Controller {
         $pmenu = $this->permisos->menu();
         $data = array(
             "rinventario" => "active",
-            "inventario" => "active",
-            "title"      => "Articulos",
-            "subtitle"   => "Alta de inventario",
-            "contenido"  => "admin/inventario/inventario",
-            "menu"       => $pmenu,
-            "modal_f"    => $this->load->view('admin/inventario/modal/modal-fabricante',null,true), # AGREGAR NUEVO FABRICANTE
-            "modal_l"    => $this->load->view('admin/inventario/modal/modal-linea',null,true), # AGREGAR NUEVA LINEA
-            "modal_m"    => $this->load->view('admin/inventario/modal/modal-marca',null,true), # AGREGAR NUNEVA MARCA
-            "modal_i"    => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
-            "modal_c"    => $this->load->view('admin/inventario/modal/modal_cerrar_inventario',null,true), # AGREGAR NUNEVA MARCA
-            "archivosJS" => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
-            "clave"      => $this->Modelo_sat->get_claveSat(),
-            "articulos"  => $this->Modelo_articulos->get_articulos(),
-            "marcas"     => $this->Modelo_inventario->get_marca(),
-            "lineas"     => $this->Modelo_inventario->get_linea(),
-            "fabricantes"=> $this->Modelo_inventario->get_fabricante(),
-            "tabla"      => $this->load->view('admin/inventario/tabla_inventario',null,true),
+            "inventario"  => "active",
+            "title"       => "Articulos",
+            "subtitle"    => "Alta de inventario",
+            "contenido"   => "admin/inventario/inventario",
+            "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
+            "modal_f"     => $this->load->view('admin/inventario/modal/modal-fabricante',null,true), # AGREGAR NUEVO FABRICANTE
+            "modal_l"     => $this->load->view('admin/inventario/modal/modal-linea',null,true), # AGREGAR NUEVA LINEA
+            "modal_m"     => $this->load->view('admin/inventario/modal/modal-marca',null,true), # AGREGAR NUNEVA MARCA
+            "modal_i"     => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
+            "modal_c"     => $this->load->view('admin/inventario/modal/modal_cerrar_inventario',null,true), # AGREGAR NUNEVA MARCA
+            "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
+            "clave"       => $this->Modelo_sat->get_claveSat(),
+            "articulos"   => $this->Modelo_articulos->get_articulos(),
+            "marcas"      => $this->Modelo_inventario->get_marca(),
+            "lineas"      => $this->Modelo_inventario->get_linea(),
+            "fabricantes" => $this->Modelo_inventario->get_fabricante(),
+            "tabla"       => $this->load->view('admin/inventario/tabla_inventario',null,true),
         );
         $this->load->view('universal/plantilla',$data);
     }
@@ -57,6 +59,7 @@ class CtrInventario extends CI_Controller {
             "contenido"   => "admin/inventario/tablaInventario",
             "modal_i"     => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
             "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             // "articulos"   => $this->Modelo_articulos->get_articulos(),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
         );
@@ -73,6 +76,7 @@ class CtrInventario extends CI_Controller {
             "subtitle"    => "Facturas Inventario",
             "contenido"   => "admin/inventario/tabla_ifacturas",
             "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             "articulos"   => $this->Modelo_articulos->get_articulos(),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
         );
@@ -292,6 +296,7 @@ class CtrInventario extends CI_Controller {
             "subtitle"    => "Alta de inventario",
             "contenido"   => "admin/inventario/compras/compras",
             "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
             "acompras"    => $this->Modelo_articulos->get_compras(),
             "articulos"   => $this->Modelo_articulos->get_articulos(),
@@ -474,6 +479,7 @@ class CtrInventario extends CI_Controller {
             "subtitle"    => "Facturas Inventario",
             "contenido"   => "admin/inventario/alta_xml",
             "menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
             "modal_i"     => $this->load->view('admin/inventario/modal/modal-inventario',null,true), # AGREGAR NUNEVA MARCA
             "modal_c"     => $this->load->view('admin/inventario/modal/modal_cerrar_inventario',null,true), # AGREGAR NUNEVA MARCA
             "tabla_xml"   => $this->load->view('admin/inventario/tabla_subidaXML',null,true), # AGREGAR NUNEVA MARCA

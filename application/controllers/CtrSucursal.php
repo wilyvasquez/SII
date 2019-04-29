@@ -6,6 +6,7 @@ class CtrSucursal extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
@@ -27,6 +28,7 @@ class CtrSucursal extends CI_Controller {
             "subtitle"   => "Alta de sucursal",
             "contenido"  => "admin/sucursal/sucursal",
             "menu"       => $pmenu,
+            "tcreditos"  => $this->facturapi->consultarCreditos(),
             "modal_s"    => $this->load->view('admin/sucursal/modal/modal-sucursal',null,true), # AGREGAR NUNEVA MARCA
             "sucursales" => $this->Modelo_sucursal->get_sucursal(),
             "archivosJS" => $this->load->view('admin/factura/archivos/archivosJS',null,true) # ARCHIVOS JS UTILIZADOS

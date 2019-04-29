@@ -268,3 +268,40 @@ $(function(){
     });
   });
 });
+
+/**
+ * 
+ */
+$(function(){
+  $("#cancelarCFDI").on("submit", function(e){
+    e.preventDefault();
+    var formData = new FormData(document.getElementById("cancelarCFDI"));
+    $.ajax({
+      url: baseurl+"CtrTimbrarCancelarCFDI/cancelarCFDI",
+      type: "post",
+      dataType: "html",
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      beforeSend: function(){
+        $("#ntf-cancelar").html("Cancelando CFDI, espere...");
+      }
+    })
+    .done(function(res){
+      // var json = $.parseJSON(res);
+      // $("#mensaje").html(json.descarga);
+      // $("#xmlAlta").html(json.tabla);
+      $('#btn-aceptar').attr("disabled", true);
+      $('#btn_cancelarCFDI').attr("disabled", true);
+      $("#ntf-cancelar").html(res);
+    });
+  });
+});
+
+selCancelarCFDI =  function(uuid,serie,id){
+  console.log(serie);
+  $('#uuid').val(uuid);
+  $('#serie').val(serie);
+  $('#ids').val(id);
+}

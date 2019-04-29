@@ -6,6 +6,7 @@ class CtrRecibosPago extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
@@ -28,7 +29,8 @@ class CtrRecibosPago extends CI_Controller {
             'title'       => "Recibo de pagos",
             'subtitle'    => "Crear Recibo pago",
             'contenido'   => "admin/rpagos/recibo_pagos",
-            'menu'        => $pmenu,            
+            'menu'        => $pmenu,        
+            "tcreditos"   => $this->facturapi->consultarCreditos(),    
             'mcliente'    => $this->load->view('admin/factura/modal/modal-cliente',null,true), # MODAL REGISTRAR CLIENTE NUEVO CLIENTE
             'clientes'    => $this->Modelo_cliente->get_clientes(), # OBTENER TODOS LOS CLIENTES
             'fpagos'      => $this->Modelo_sat->get_formaPagos(),   # OBTENER FORMAS DE PAGO
@@ -96,17 +98,18 @@ class CtrRecibosPago extends CI_Controller {
         $data["precios"]    = $this->funciones->precios($id);
 
         $data = array(
-            'timbrado'   => "active",
-            'rpagos'     => "active",
-            'title'      => "Recibo de pagos",
-            'subtitle'   => "Timbrar Recibo pago",
-            'contenido'  => "admin/trpagos/trpagos",
-            'menu'       => $pmenu,
-            'articulo'   => $this->load->view('admin/trpagos/agregar_docto',$data,true),
-            'tarticulos' => $this->load->view('admin/tfactura/tabla-articulos',$data,true),
-            'tdoctos'    => $this->load->view('admin/trpagos/tabla_doctos',$data,true),
-            'precios'    => $this->load->view('admin/trpagos/timbrar_rpagos',$data,true),
-            'meuuid'     => $this->load->view('admin/trpagos/modal/eliminar_uuidRpagos',$data,true)
+            'timbrado'    => "active",
+            'rpagos'      => "active",
+            'title'       => "Recibo de pagos",
+            'subtitle'    => "Timbrar Recibo pago",
+            'contenido'   => "admin/trpagos/trpagos",
+            'menu'        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
+            'articulo'    => $this->load->view('admin/trpagos/agregar_docto',$data,true),
+            'tarticulos'  => $this->load->view('admin/tfactura/tabla-articulos',$data,true),
+            'tdoctos'     => $this->load->view('admin/trpagos/tabla_doctos',$data,true),
+            'precios'     => $this->load->view('admin/trpagos/timbrar_rpagos',$data,true),
+            'meuuid'      => $this->load->view('admin/trpagos/modal/eliminar_uuidRpagos',$data,true)
         );        
         # ARCHIVOS JS
         $data["archivosJS"] = $this->load->view('admin/trpagos/archivos/archivosJS',null,true);

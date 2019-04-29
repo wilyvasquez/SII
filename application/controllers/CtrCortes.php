@@ -6,6 +6,7 @@ class CtrCortes extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('Facturapi');
         $this->load->library('Funciones');
         $this->load->library('Not_found');
         $this->load->library('Permisos');
@@ -29,6 +30,7 @@ class CtrCortes extends CI_Controller {
 			"subtitle"    => "Reporte de caja",
 			"contenido"   => "admin/cortes/cortes",
 			"menu"        => $pmenu,
+            "tcreditos"   => $this->facturapi->consultarCreditos(),
 			"tabla"       => $this->load->view('admin/folios/tabla-folios',$datos,true),
 			"archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true),  # ARCHIVOS JS UTILIZADOS
 			"mSerieFolio" => $this->load->view('admin/folios/modal/modal_serieFolio',null,true)  # MODAL ACTUALIZAR SERIE FOLIO

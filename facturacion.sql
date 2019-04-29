@@ -1,3 +1,19 @@
+CREATE TABLE cancelar_cfdi
+(
+    id_cancelar int not null AUTO_INCREMENT,
+    codigo int,
+    acuse text,
+    fecha varchar(25),
+    folio text,
+    codigoEstatus text,
+    esCancelable text,
+    estado varchar(30),
+    unidad varchar(30),
+    estatusCancelacion varchar(30),
+    ref_cfdi int,
+    PRIMARY KEY (id_cancelar)
+);
+
 CREATE TABLE tabla_compras
 (
     id_tcompras int not null AUTO_INCREMENT,
