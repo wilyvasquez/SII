@@ -34,7 +34,7 @@ class Funciones {
 			$descuento = $descuento;
 			$total     = ($importe + $iva) - $descuento;
       	}
-      	 return array($subtotal,$iva,$descuento,$total);
+      	return array($subtotal,$iva,$descuento,$total);
     }
 
     function resultado($peticion,$url,$msg,$num)
@@ -100,6 +100,7 @@ class Funciones {
             'condicion_pago'   => $factura->condicion_pago,
             'metodo_pago'      => $factura->metodo_pago,
             'forma_pago'       => $factura->forma_pago,
+            'status_factura'   => "ACTIVO",
             'ref_cliente'      => $factura->ref_cliente
         );
         $id = $CI->Modelo_articulos->insertarDatosTimbrado($datos);
@@ -217,6 +218,41 @@ class Funciones {
         }
 
         return $permiso;
+    }
+
+    function tipo_comprobante($tipo)
+    {
+        if ($tipo == "I") {
+            $tipo  = "INGRESO";
+            $color = "success";
+        }if ($tipo == "E") {
+            $tipo  = "EGRESO";
+            $color = "warning";
+        }if ($tipo == "P") {
+            $tipo  = "COMPROBANTE";
+            $color = "primary";
+        }
+        return array($tipo,$color);
+    }
+
+    function tipo_comprobante2($tipo,$status)
+    {
+        if ($tipo == "I") {
+            $tipo  = "INGRESO";
+            $color = "#29B019";
+        }if ($tipo == "E") {
+            $tipo  = "EGRESO";
+            $color = "#BB3C3C";
+        }if ($tipo == "P") {
+            $tipo  = "COMPROBANTE";
+            $color = "#3CACBB";
+        }
+        if ($status == "ACTIVO") {
+            $scolor = "#29B019";
+        }if ($status == "CANCELADO") {
+            $scolor = "#D5452B";
+        }
+        return array($tipo,$color,$scolor);
     }
 
 }

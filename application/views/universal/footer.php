@@ -18,6 +18,8 @@
 <script src="<?= base_url() ?>bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?= base_url() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- PACE -->
+<script src="<?= base_url() ?>bower_components/PACE/pace.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url() ?>bower_components/select2/dist/js/select2.full.min.js"></script>
 <!-- InputMask -->
@@ -33,7 +35,6 @@
 <script src="<?= base_url() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>bower_components/admin-lte/dist/js/adminlte.min.js"></script>
-
 <script type="text/javascript">
   var baseurl = "<?php echo base_url(); ?>";
 </script>

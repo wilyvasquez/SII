@@ -389,7 +389,7 @@ class CtrUniversal extends CI_Controller {
         $data = array(
             "tfacturas"   => "active",
             "fsalida"     => "active",
-            "title"       => "Documentos Timbrado",
+            "title"       => "Timbrado CFDI",
             "subtitle"    => "Timbrado",
             "contenido"   => "admin/global/gfacturas_relacion",
             "menu"        => $pmenu,
@@ -413,7 +413,7 @@ class CtrUniversal extends CI_Controller {
         $data = array(
             "timbrado"    => "active",
             "fcancelar"   => "active",
-            "title"       => "INFORMACION DE DOCTO",
+            "title"       => "INFO DE CFDI",
             "subtitle"    => "Archivo",
             "contenido"   => "admin/timbrado/datos_factura",
             "menu"        => $pmenu,
@@ -421,7 +421,7 @@ class CtrUniversal extends CI_Controller {
             "tcreditos"   => $this->facturapi->consultarCreditos(),
             "cancelacion" => $this->validar_cancelacion($uuid),
             "datos"       => $this->load->view('admin/timbrado/datos_factura',$dato,true),
-            "modal"       => $this->load->view('admin/timbrado/modal/modal_cancelarCFDi',null,true),
+            "modal"       => $this->load->view('admin/timbrado/modal/modal_cancelarCFDI',null,true),
             "archivosJS"  => $this->load->view('admin/factura/archivos/archivosJS',null,true)  # ARCHIVOS JS UTILIZADOS
         );
         $this->load->view('universal/plantilla',$data);

@@ -47,14 +47,18 @@ class CtrTimbrarCancelarCFDI extends CI_Controller {
 						'ref_cfdi'           => $id, 
 					);
 					$peticion = $this->Modelo_timbrado->datos_CanceladoCFDI($data);
+					$dato = array(
+						'status_factura' => "CANCELADO" 
+					);
+					$this->Modelo_timbrado->up_statusFactura($id,$dato);
 
 					$mi_acuse = base64_decode($cancelar->acuse);
 					echo "<pre>";
 			  		print_r($cancelar);
 			  		echo "</pre>";
-			  		echo "<pre>";
-			  		print_r($mi_acuse);
-			  		echo "</pre>";
+			  		// echo "<pre>";
+			  		// print_r($mi_acuse);
+			  		// echo "</pre>";
 
 					if($peticion){
 						echo '<div class="alert alert-success" role="alert">Cancelado con Exito</div>';

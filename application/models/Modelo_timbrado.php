@@ -90,6 +90,18 @@ class Modelo_timbrado extends CI_Model
         }
 	}
 
+	function up_statusFactura($id,$data)
+	{
+		// $this->db->where('id_apreventa', $id);
+		// $this->db->update('articulo_preventa',$data); 
+		$this->db->set($data)->where("id_factura", $id)->update("factura");
+		if ($this->db->trans_status() === true) {
+            return true;
+        }else{
+            return null;
+        }
+	}
+
 	/*function update_pre_venta($id,$data)
 	{
 		$this->db->set($data)->where("id_preventa", $id)->update("pre_venta");

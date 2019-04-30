@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="<?= base_url() ?>bower_components/select2/dist/css/select2.min.css">
   <!-- AdminLTE Skins -->
   <link rel="stylesheet" href="<?= base_url() ?>bower_components/admin-lte/dist/css/skins/_all-skins.min.css">
+  <!-- Pace style -->
+  <link rel="stylesheet" href="<?= base_url() ?>bower_components/admin-lte/plugins/pace/pace.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url() ?>bower_components/admin-lte/dist/css/AdminLTE.min.css">
   <!-- alertify -->

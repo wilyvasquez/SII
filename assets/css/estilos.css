@@ -14,3 +14,15 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 input[type=number] { -moz-appearance:textfield; }
+
+.sizeFont{
+	font-size: 9px;
+	margin-left: 4px
+}
+.sizeF{
+	font-size: 15px
+}
+.sizeFo{
+	font-size: 15px;
+	margin-left: 25px
+}
